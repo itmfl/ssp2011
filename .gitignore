@@ -1,0 +1,10 @@
+oldtran
+oldtranBST
+auto
+*.aux
+*.log
+*.pdf
+*.out
+*.bbl
+*.blg
+*.brf
