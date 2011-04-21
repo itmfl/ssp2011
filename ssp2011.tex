@@ -194,6 +194,71 @@ following two approximations.
     $\Sigma_1$. 
   \end{enumerate}
 \end{definition}
+\section{Change-point detection}
+\subsection{Graphs Invariants}
+In this paper we consider the problem of detecting chatter anomalies
+in time series of graphs using attributed invariants. The particular
+invariants of interests are the size, max degree, scan, and number of
+triangles. Specifically, we consider linear attribute fusion with
+parameter $\lambda \in \mathbb{R}^{K}_{\geq 0}$ via
+\begin{gather}
+  \label{eq:6}
+  \mathrm{size}_{\lambda}(G(t)) = \sum_{k=1}^{K} \lambda_k \sum_{u,v}
+  \mathbf{1}\{ \phi(uv,t) = k \} \\
+  \Delta_{\lambda}(G(t)) = \max_{v \in V} \, \sum_{k = 1}^{K} \lambda_k
+  \sum_{u \in N(v)}{\mathbf{1}\{\phi(uv,t) = k\}} \\
+  \mathrm{scan}_{\lambda}(G(t)) = \max_{v \in V} \, \sum_{k = 1}^{K}
+  \lambda_k \sum_{u,w \in N(v)} \mathbf{1}\{\phi(uw,t) = k\} \\
+  \label{eq:3}
+  \tau_\lambda(G(t)) = \sum_{k=1}^{K} \lambda_k \sum_{(u,v,w) \in
+    \binom{V}{3}} h_k(u,v,w)
+\end{gather}
+where $h_k(u,v,w)$ is the indicator function that the argument, a set
+of three vertices, forms a triangle (3-clique) of type $k$. A triangle
+is of type $k$ provided that all edges in the triangle have attribute
+$k$. \\ \\
+\noindent
+Let $J_{\lambda}(t)$ be a statistic of the form as in Eq.~\eqref{eq:6}) through
+Eq.~\eqref{eq:3}. We define the normalization $\bar{J}^{m}_\lambda(t)$
+of $J_{\lambda}$ based on recent past as
+\begin{equation}
+  \label{eq:4}
+ \bar{J}^{m}_{\lambda}(t) = \frac{1}{m}\sum_{s = 1}^{m} J_{\lambda}(t - s) 
+\end{equation}
+where $m \in \mathbb{N}$ specified the width of the running-average
+window. The main object of our interests are then the normalized fusion
+statistic $T_{\lambda}^{m}(t)$ as defined by
+\begin{equation}
+  \label{eq:7}
+ T_{\lambda}^{m}(t) = % \begin{cases}
+   % J_{\lambda}(t) - J_{\lambda}(t - 1) & \text{if $m = 1$} \\
+   \frac{J_{\lambda}(t) -
+     \bar{J}_{\lambda}^{m}(t)}{\sqrt{\tfrac{1}{m-1}
+       \sum_{s=1}^{m}(J_{\lambda}(t - s) - \bar{J}_{\lambda}^{m}(t))^2}}
+%   & \text{if $m \geq 2$}
+ %  \end{cases}
+\end{equation}
+for $m \geq 2$. 
+\begin{theorem}
+  \label{thm:1}
+  Let $\lambda^{*}$ be the eigenvector corresponding to the largest
+  eigenvalue of $ \mathbf{A}^{-1/2} \mathbf{B} \mathbf{A}^{-1/2}$,
+  i.e., 
+ \begin{equation}
+   \label{eq:9}
+  \lambda^{*} = \argmax_{\lambda \colon \| \lambda \| = 1}
+  \lambda^{T} \mathbf{A}^{-1/2} \mathbf{B} \mathbf{A}^{-1/2}
+  \lambda.
+ \end{equation}
+ We then have
+ \begin{gather}
+   \label{eq:8}
+ \argmax_{\lambda \in \mathcal{B}}
+ \mu_{\lambda} \, \cap \, \{\lambda^{*}, - \lambda^{*}\} \not = \emptyset \\
+ \argmin_{\lambda \in \mathcal{B}} \mu_{\lambda} \, \cap \, \{\lambda^{*}, -
+ \lambda^{*}\} \not = \emptyset.
+ \end{gather}
+\end{theorem}
 \bibliography{ssp2011}
 \end{document}
 
