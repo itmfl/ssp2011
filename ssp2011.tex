@@ -12,7 +12,7 @@
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
 \usepackage[colorlinks=true,pagebackref,linkcolor=magenta]{hyperref}
-\usepackage[colon,sort&compress]{natbib}
+%\usepackage[colon,sort&compress]{natbib}
 %\numberwithin{equation}{section}
 \renewcommand\arraystretch{1.2}
 \let\underbrace\LaTeXunderbrace
@@ -205,40 +205,76 @@ parameter $\lambda \in \mathbb{R}^{K}_{\geq 0}$ via
   \label{eq:6}
   \mathrm{size}_{\lambda}(G(t)) = \sum_{k=1}^{K} \lambda_k \sum_{u,v}
   \mathbf{1}\{ \phi(uv,t) = k \} \\
+  \tau_\lambda(G(t)) = \sum_{k=1}^{K} \lambda_k \!\! \sum_{(u,v,w) \in
+    \binom{V}{3}} h_k(u,v,w) \\
   \Delta_{\lambda}(G(t)) = \max_{v \in V} \, \sum_{k = 1}^{K} \lambda_k
   \sum_{u \in N(v)}{\mathbf{1}\{\phi(uv,t) = k\}} \\
-  \mathrm{scan}_{\lambda}(G(t)) = \max_{v \in V} \, \sum_{k = 1}^{K}
-  \lambda_k \sum_{u,w \in N(v)} \mathbf{1}\{\phi(uw,t) = k\} \\
   \label{eq:3}
-  \tau_\lambda(G(t)) = \sum_{k=1}^{K} \lambda_k \sum_{(u,v,w) \in
-    \binom{V}{3}} h_k(u,v,w)
-\end{gather}
+  \Psi_{\lambda}(G(t)) = \max_{v \in V} \sum_{k = 1}^{K}
+  \lambda_k \!\!\sum_{u,w \in N(v)}\!\!\! \mathbf{1}\{\phi(uw,t) = k\} 
+  \end{gather}
 where $h_k(u,v,w)$ is the indicator function that the argument, a set
-of three vertices, forms a triangle (3-clique) of type $k$. A triangle
+of three vertices, forms a triangle of type $k$. A triangle
 is of type $k$ provided that all edges in the triangle have attribute
 $k$. \\ \\
 \noindent
-Let $J_{\lambda}(t)$ be a statistic of the form as in Eq.~\eqref{eq:6}) through
-Eq.~\eqref{eq:3}. We define the normalization $\bar{J}^{m}_\lambda(t)$
+Let $J_{\lambda}(t)$ be a statistic of the form as in Eq.~\eqref{eq:6} through
+Eq.~\eqref{eq:3}. We define the normalization $\bar{J}^{l}_\lambda(t)$
 of $J_{\lambda}$ based on recent past as
 \begin{equation}
   \label{eq:4}
- \bar{J}^{m}_{\lambda}(t) = \frac{1}{m}\sum_{s = 1}^{m} J_{\lambda}(t - s) 
+ \bar{J}^{l}_{\lambda}(t) = \frac{1}{l}\sum_{s = 1}^{l} J_{\lambda}(t - s) 
 \end{equation}
-where $m \in \mathbb{N}$ specified the width of the running-average
+where $l \in \mathbb{N}$ specified the width of the running-average
 window. The main object of our interests are then the normalized fusion
-statistic $T_{\lambda}^{m}(t)$ as defined by
+statistic $T_{\lambda}^{l}(t)$ as defined by
 \begin{equation}
   \label{eq:7}
- T_{\lambda}^{m}(t) = % \begin{cases}
+ T_{\lambda}^{l}(t) = % \begin{cases}
    % J_{\lambda}(t) - J_{\lambda}(t - 1) & \text{if $m = 1$} \\
    \frac{J_{\lambda}(t) -
-     \bar{J}_{\lambda}^{m}(t)}{\sqrt{\tfrac{1}{m-1}
-       \sum_{s=1}^{m}(J_{\lambda}(t - s) - \bar{J}_{\lambda}^{m}(t))^2}}
+     \bar{J}_{\lambda}^{l}(t)}{\sqrt{\tfrac{1}{l-1}
+       \sum_{s=1}^{l}(J_{\lambda}(t - s) - \bar{J}_{\lambda}^{l}(t))^2}}
 %   & \text{if $m \geq 2$}
  %  \end{cases}
 \end{equation}
-for $m \geq 2$. 
+for $l \geq 2$. 
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=8cm]{graphics/Fig4-SSP2011.pdf}
+  \caption{Temporal standardization: when testing for change at time $t$, the recent past (graphs $G(t - l), \dots, G(t-1)$ is used to standardize the invariants}
+  \label{fig:temporal}
+\end{figure}
+It was shown in
+\cite{lee:_laten_proces_model_time_attrib_random_graph} that when
+$J_\lambda(t) = \mathrm{size}_{\lambda}(t)$, the normalized fusion
+statistic $T_{\lambda}^{l}(t)$ follows a $t$-distribution with $l - 1$
+degrees of freedom in the limit. Specifically, we have the following
+results
+\begin{lemma}
+  \label{lem:1}
+  Let $t \in \{l+1, \dots, t^{*}\}$ and $\lambda \in
+  \mathbb{R}^{K}$. Define the vector $\zeta$ and the matrix $\xi$ by
+  \begin{gather*}
+    \zeta = \tbinom{m}{2}(\pi_{11} - \pi_{00}) + (n-m)m(\pi_{01} -
+    \pi_{00}) \\
+    \xi = (1+1/l)\tbinom{n}{2} \eta_{00} +
+          \tbinom{m}{2}(\eta_{11} - \eta_{00}) + (n-m)m(\eta_{01} -
+          \eta_{00})
+  \end{gather*}
+As $n \rightarrow \infty$, the random variable
+  $\psi^{l}_{\lambda}(t)$ converges weakly to the Student
+  $t$-distribution with $l-1$ degrees of freedom and non-centrality
+  parameter $\mu_{\lambda}$, where
+  \begin{equation}
+    \label{eq:10}
+    \mu_{\lambda} = \begin{cases}
+      \frac{\langle \lambda, \zeta \rangle}{\sqrt{\langle \lambda, \xi \lambda \rangle}} & \text{if $t = t^{*}$} \\
+      0 & \text{otherwise}
+    \end{cases}
+  \end{equation}
+\end{lemma}
+
 \begin{theorem}
   \label{thm:1}
   Let $\lambda^{*}$ be the eigenvector corresponding to the largest
@@ -253,9 +289,9 @@ for $m \geq 2$.
  We then have
  \begin{gather}
    \label{eq:8}
- \argmax_{\lambda \in \mathcal{B}}
+ \argmax_{ \|\lambda\| = 1}
  \mu_{\lambda} \, \cap \, \{\lambda^{*}, - \lambda^{*}\} \not = \emptyset \\
- \argmin_{\lambda \in \mathcal{B}} \mu_{\lambda} \, \cap \, \{\lambda^{*}, -
+ \argmin_{ \| \lambda \| = 1} \mu_{\lambda} \, \cap \, \{\lambda^{*}, -
  \lambda^{*}\} \not = \emptyset.
  \end{gather}
 \end{theorem}
