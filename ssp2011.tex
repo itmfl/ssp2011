@@ -195,15 +195,35 @@ following two approximations.
   \end{enumerate}
 \end{definition}
 \section{Change-point detection}
-\subsection{Graphs Invariants}
-In this paper we consider the problem of detecting chatter anomalies
-in time series of graphs using attributed invariants. The particular
-invariants of interests are the size, max degree, scan, and number of
-triangles. Specifically, we consider linear attribute fusion with
-parameter $\lambda \in \mathbb{R}^{K}_{\geq 0}$ via
+Let $\mathscr{V}$ be a random dot process model with change parameters
+$(t^{*}, m, \pi_0, \pi_1, \mathbf{Q}_0, \mathbf{Q}_1)$. The
+change-parameters encapsulate a notion of chatter anomalies, i.e., a
+subset of vertices of $\mathscr{V}$ with altered communication
+behaviour in an otherwise stationary setting as depicted in Fig.~\ref{fig:notional_change_point}. 
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=8cm]{graphics/Fig1-SSP2011.pdf}
+  \caption{Notional depiction of the problem of change-point detection in a time-series of graphs}
+  \label{fig:notional_change_point}
+\end{figure}
+\\ \noindent
+We are interested in
+the problem of testing, for a $t \in \mathbb{N}$, the hypotheses that
+$t$ is the change-point of $\mathscr{V}$, namely
+\begin{gather*}
+  \mathscr{H}_0 \colon t^{*} > t \\
+  \mathscr{H}_A \colon t^{*} = t
+\end{gather*}
+%\subsection{Graphs Invariants}
+%In this paper we consider the problem of detecting chatter anomalies
+This will be done using the notion of fusion of attributed graph
+invariants. The particular invariants of interests are the size
+$\mathcal{E}$, number of triangles $\tau_{\lambda}$, scan $\Psi$, and
+max degree $\Delta$. Specifically, we consider linear attribute
+fusion with parameter $\lambda \in \mathbb{R}^{K}$ via
 \begin{gather}
   \label{eq:6}
-  \mathrm{size}_{\lambda}(G(t)) = \sum_{k=1}^{K} \lambda_k \sum_{u,v}
+  \mathcal{E}_{\lambda}(G(t)) = \sum_{k=1}^{K} \lambda_k \sum_{u,v}
   \mathbf{1}\{ \phi(uv,t) = k \} \\
   \tau_\lambda(G(t)) = \sum_{k=1}^{K} \lambda_k \!\! \sum_{(u,v,w) \in
     \binom{V}{3}} h_k(u,v,w) \\
@@ -226,8 +246,8 @@ of $J_{\lambda}$ based on recent past as
  \bar{J}^{l}_{\lambda}(t) = \frac{1}{l}\sum_{s = 1}^{l} J_{\lambda}(t - s) 
 \end{equation}
 where $l \in \mathbb{N}$ specified the width of the running-average
-window. The main object of our interests are then the normalized fusion
-statistic $T_{\lambda}^{l}(t)$ as defined by
+window. Our main interests is in the normalized fusion
+statistic $T_{\lambda}^{l}(t)$ as depicted in Fig.~\ref{fig:temporal}, namely
 \begin{equation}
   \label{eq:7}
  T_{\lambda}^{l}(t) = % \begin{cases}
@@ -242,13 +262,14 @@ for $l \geq 2$.
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=8cm]{graphics/Fig4-SSP2011.pdf}
-  \caption{Temporal standardization: when testing for change at time $t$, the recent past (graphs $G(t - l), \dots, G(t-1)$ is used to standardize the invariants}
+  \caption{Temporal standardization: when testing for change at time $t$, the recent past (graphs $G(t - l), \dots, G(t-1))$ is used to standardize the invariants}
   \label{fig:temporal}
 \end{figure}
+\subsection{Power estimates for $\mathcal{E}_\lambda(t)$}
 It was shown in
-\cite{lee:_laten_proces_model_time_attrib_random_graph} that when
-$J_\lambda(t) = \mathrm{size}_{\lambda}(t)$, the normalized fusion
-statistic $T_{\lambda}^{l}(t)$ follows a $t$-distribution with $l - 1$
+\cite{lee:_laten_proces_model_time_attrib_random_graph} that for the
+case where $J_\lambda(t)$ is $\mathcal{E}_{\lambda}(t)$, $T_{\lambda}^{l}(t)$ 
+follows a $t$-distribution with $l - 1$
 degrees of freedom in the limit. Specifically, we have the following
 results
 \begin{lemma}
@@ -258,11 +279,21 @@ results
   \begin{gather*}
     \zeta = \tbinom{m}{2}(\pi_{11} - \pi_{00}) + (n-m)m(\pi_{01} -
     \pi_{00}) \\
-    \xi = (1+1/l)\tbinom{n}{2} \eta_{00} +
+    \xi = \tfrac{l+1}{l}\tbinom{n}{2} \eta_{00} +
           \tbinom{m}{2}(\eta_{11} - \eta_{00}) + (n-m)m(\eta_{01} -
           \eta_{00})
   \end{gather*}
-As $n \rightarrow \infty$, the random variable
+  Define the random variable $\psi^{l}_{\lambda}(t)$ by
+  \begin{equation}
+    \label{eq:10}
+    \psi^{l}_{\lambda}(t) = \begin{cases}
+      \sqrt{\frac{\langle \lambda, \tbinom{n}{2} \eta_{00}
+            \lambda \rangle}{\langle \lambda, \xi
+            \lambda \rangle}} T_{\lambda}^{l}(t) & \text{if $t = t^{*}$} \\
+      \sqrt{\frac{l}{l + 1}} T_{\lambda}^{l}(t)& \text{if $t < t^{*}$}
+      \end{cases}
+  \end{equation}
+As $n \rightarrow \infty$,
   $\psi^{l}_{\lambda}(t)$ converges weakly to the Student
   $t$-distribution with $l-1$ degrees of freedom and non-centrality
   parameter $\mu_{\lambda}$, where
@@ -270,23 +301,29 @@ As $n \rightarrow \infty$, the random variable
     \label{eq:10}
     \mu_{\lambda} = \begin{cases}
       \frac{\langle \lambda, \zeta \rangle}{\sqrt{\langle \lambda, \xi \lambda \rangle}} & \text{if $t = t^{*}$} \\
-      0 & \text{otherwise}
+      0 & \text{if $t < t^{*}$}
     \end{cases}
   \end{equation}
 \end{lemma}
-
+We are interested in finding the $\lambda$ that will maximize the
+power of the test. The power approximation is determined by various
+factors but the dominating factor is likely to be
+$\mu_{\lambda}$. Theorem \ref{thm:1} extends a result in
+\cite{lee:_laten_proces_model_time_attrib_random_graph} for $K = 2$ to the case
+where $K \geq 2$. 
 \begin{theorem}
   \label{thm:1}
-  Let $\lambda^{*}$ be the eigenvector corresponding to the largest
-  eigenvalue of $ \mathbf{A}^{-1/2} \mathbf{B} \mathbf{A}^{-1/2}$,
-  i.e., 
+  Let $\zeta$ and $\xi$ be as defined in Lemma \ref{lem:1}.  Suppose
+  that $\xi$ is also positive definite. Let $\nu^{*}$ be the
+  normalized eigenvector corresponding to the largest eigenvalue of $ \xi^{-1/2}
+  \zeta \zeta^{T} \xi^{-1/2}$, i.e.,
  \begin{equation}
    \label{eq:9}
-  \lambda^{*} = \argmax_{\lambda \colon \| \lambda \| = 1}
-  \lambda^{T} \mathbf{A}^{-1/2} \mathbf{B} \mathbf{A}^{-1/2}
-  \lambda.
+  \nu^{*} = \argmax_{\nu \colon \| \nu \| = 1}
+  \nu^{T} \xi^{-1/2} \zeta \zeta^{T} \xi^{-1/2}
+  \nu.
  \end{equation}
- We then have
+ Then $\lambda^{*} = \tfrac{\xi^{-1/2} \nu^{*}}{\|\xi^{-1/2} \nu^{*} \|}$ satisfies
  \begin{gather}
    \label{eq:8}
  \argmax_{ \|\lambda\| = 1}
@@ -295,6 +332,74 @@ As $n \rightarrow \infty$, the random variable
  \lambda^{*}\} \not = \emptyset.
  \end{gather}
 \end{theorem}
+\subsection{Power estimates for $\Delta_{\lambda}(t)$}
+The analysis of the power estimates for $\Delta_{\lambda}(t)$ depends
+on some preliminary results which we now state. We denote by
+$\mathcal{G}(\alpha, \beta)$ the Gumbel distribution with location
+parameter $\alpha$ and scale parameter $\beta$.  
+\begin{proposition}
+  \label{prop:3}
+  Let $a_n$ and $b_n$ be constants given by
+  \begin{align*}
+    a_n &= (2 \log{n})^{1/2}\Bigl(1 - \frac{\log{\log{n}}}{4 \log{n}} -
+    \frac{\log{2\pi^{1/2}}}{2 \log{n}} \Bigr) \\ 
+    b_n &= (2 \log{n})^{-1/2}
+  \end{align*}
+  Then as $n \rightarrow \infty$ and $m = \Omega( \sqrt{n \log{n}})$,
+  we have
+  \begin{equation}
+    \label{eq:6}
+    \Delta_{\lambda}(t) \rightsquigarrow \begin{cases}
+      \mathcal{G}(a_n \sigma_1 + \mu_1, b_n \sigma_1 ) & \text{for $t < t^{*}$.} \\
+     \mathcal{G}(a_n \sigma_2 + \mu_2, b_n \sigma_2) &
+     \text{for $t = t^{*}$.}
+     \end{cases}
+  \end{equation}
+  where
+  \begin{align*}
+    \mu_1 &= (n-1)\langle x, \pi_{00} \rangle \\
+    \sigma_1 &= \sqrt{(n-1)\langle x, \eta_{00} x \rangle} \\
+    \mu_2 &= \,\, (m - 1) \langle x, \pi_{11} \rangle + (n-
+    m)\langle x, \pi_{01} \rangle
+    \\ \sigma_2 &= \sqrt{ (m - 1) \langle x, (\eta_{11} x \rangle + (n -
+      m) \left<x, \eta_{01} x\right>}
+    \end{align*}
+\end{proposition}
+\begin{lemma}
+  \label{lem:2}
+  Let $t \in \{l+1, \dots, t^{*}\}$ and $\lambda \in
+  \mathbb{R}^{K}$. For sufficiently large $n$ and sufficiently large
+  $l$, the variable $T_{\lambda}^{l}(t)$ has approximately a Gumbel
+  distribution with location $\rho_{\lambda}$ and scale $\varsigma_{l}$ where
+\begin{equation}
+  \label{eq:8}
+  \rho_{\lambda} = \begin{cases}
+    \frac{ (a_n + b_n \gamma)(\sigma_2 - \sigma_1) + (\mu_2 -
+    \mu_1)}{\tfrac{\pi}{\sqrt{6}}\sqrt{(1 + 1/m)\sigma_1^2 +
+      (\sigma_2^2 - \sigma_1^2)}} & \text{if $t = t_1$} \\ 
+  0 & \text{if $t < t_1$}
+  \end{cases}
+\end{equation}
+$\gamma \approx 0.57721$ is the Euler-Mascheroni constant, and
+\end{lemma}
+\appendices
+\section{Proofs of some stated results}
+\begin{proof}[Theorem \ref{thm:1}]
+  The maximizer of $\mu_\lambda$ also maximizes
+  \begin{equation*}
+    \mu_{\lambda}^{2} = \frac{\lambda^{T} \zeta \zeta^{T}
+      \lambda}{\lambda^{T} \xi \lambda}
+  \end{equation*}
+  Because $\xi$ is positive definite, there exist a positive definite matrix
+  $\xi^{1/2}$ such that $\xi^{1/2} \xi^{1/2} = \xi$. Letting $\nu = \xi^{1/2}
+  \lambda$, the above expression can be rewritten as
+  \begin{equation*}
+    \mu_{\lambda}^{2} = \frac{\nu^{T} \xi^{-1/2} \zeta \zeta^{T}
+      \xi^{-1/2} \nu}{ \nu^{T} \nu}
+  \end{equation*}
+  The claim then follows directly from the Rayleigh-Ritz theorem for
+  Hermitean matrices.
+\end{proof}
 \bibliography{ssp2011}
 \end{document}
 
