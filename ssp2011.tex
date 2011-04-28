@@ -262,7 +262,9 @@ for $l \geq 2$.
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=8cm]{graphics/Fig4-SSP2011.pdf}
-  \caption{Temporal standardization: when testing for change at time $t$, the recent past (graphs $G(t - l), \dots, G(t-1))$ is used to standardize the invariants}
+  \caption{Temporal standardization: when testing for change at time
+    $t$, the recent past (graphs $G(t - l), \dots, G(t-1))$ is used to
+    standardize the invariants}
   \label{fig:temporal}
 \end{figure}
 \subsection{Power estimates for $\mathcal{E}_\lambda(t)$}
@@ -339,7 +341,7 @@ $\mathcal{G}(\alpha, \beta)$ the Gumbel distribution with location
 parameter $\alpha$ and scale parameter $\beta$.  
 \begin{proposition}
   \label{prop:3}
-  Let $a_n$ and $b_n$ be constants given by
+  Let $a_n$ and $b_n$ be functions of $n$ given by
   \begin{align*}
     a_n &= (2 \log{n})^{1/2}\Bigl(1 - \frac{\log{\log{n}}}{4 \log{n}} -
     \frac{\log{2\pi^{1/2}}}{2 \log{n}} \Bigr) \\ 
@@ -351,37 +353,58 @@ parameter $\alpha$ and scale parameter $\beta$.
     \label{eq:6}
     \Delta_{\lambda}(t) \rightsquigarrow \begin{cases}
       \mathcal{G}(a_n \sigma_1 + \mu_1, b_n \sigma_1 ) & \text{for $t < t^{*}$.} \\
-     \mathcal{G}(a_n \sigma_2 + \mu_2, b_n \sigma_2) &
+     \mathcal{G}(a_m \sigma_2 + \mu_2, b_m \sigma_2) &
      \text{for $t = t^{*}$.}
      \end{cases}
   \end{equation}
   where
   \begin{align*}
-    \mu_1 &= (n-1)\langle x, \pi_{00} \rangle \\
-    \sigma_1 &= \sqrt{(n-1)\langle x, \eta_{00} x \rangle} \\
+    \mu_1 &= (n-1)\langle \lambda, \pi_{00} \rangle \\
+    \sigma_1 &= \sqrt{(n-1)\langle \lambda, \eta_{00} \lambda \rangle} \\
     \mu_2 &= \,\, (m - 1) \langle x, \pi_{11} \rangle + (n-
-    m)\langle x, \pi_{01} \rangle
-    \\ \sigma_2 &= \sqrt{ (m - 1) \langle x, (\eta_{11} x \rangle + (n -
-      m) \left<x, \eta_{01} x\right>}
+    m)\langle \lambda, \pi_{01} \rangle
+    \\ \sigma_2 &= \sqrt{ (m - 1) \langle \lambda, \eta_{11} \lambda \rangle + (n -
+      m) \langle \lambda, \eta_{01} \lambda \rangle}
     \end{align*}
 \end{proposition}
 \begin{lemma}
   \label{lem:2}
   Let $t \in \{l+1, \dots, t^{*}\}$ and $\lambda \in
   \mathbb{R}^{K}$. For sufficiently large $n$ and sufficiently large
-  $l$, the variable $T_{\lambda}^{l}(t)$ has approximately a Gumbel
-  distribution with location $\rho_{\lambda}$ and scale $\varsigma_{l}$ where
-\begin{equation}
+  $l$, the variable $T_{\lambda}^{l}(t)$ has approximately a
+  $\mathcal{G}(\rho_{\lambda}, \varsigma_{\lambda})$ distribution with
+\begin{align}
   \label{eq:8}
-  \rho_{\lambda} = \begin{cases}
-    \frac{ (a_n + b_n \gamma)(\sigma_2 - \sigma_1) + (\mu_2 -
-    \mu_1)}{\tfrac{\pi}{\sqrt{6}}\sqrt{(1 + 1/m)\sigma_1^2 +
-      (\sigma_2^2 - \sigma_1^2)}} & \text{if $t = t_1$} \\ 
-  0 & \text{if $t < t_1$}
-  \end{cases}
-\end{equation}
-$\gamma \approx 0.57721$ is the Euler-Mascheroni constant, and
+  \rho_{\lambda} &= \begin{cases}
+    \frac{\sqrt{\pi}}{6} \frac{\mu_2 - \mu_1 + a_m\sigma_2 - (a_n + b_n
+      \gamma)\sigma_1}{b_n \sigma_1} & \text{if $t =
+        t^{*}$} \\
+      - \frac{ \sqrt{\pi}}{6} \gamma & \text{if $t < t^{*}$}
+  \end{cases}\\
+  \varsigma_{\lambda} &= \begin{cases}
+    \frac{\sqrt{\pi} b_m \sigma_2}{6 b_n \sigma_1} & \text{if $t =
+      t^{*}$} \\
+    \frac{\sqrt{\pi}}{6} & \text{if $t < t^{*}$}
+    \end{cases}
+\end{align}
+$\gamma \approx 0.57721$ is the Euler-Mascheroni constant.
 \end{lemma}
+We are interested in finding the $\lambda$ that will maximize the
+power of the test using $\Delta_{\lambda}$. The power approximation is
+once again determined by various factors, but the dominating factor is
+likely to be $\tfrac{\rho_\lambda}{\varsigma_\lambda}$. For sufficiently large $n$
+and $m$, we also have
+\begin{equation*}
+  \begin{split}
+  \frac{\rho_\lambda}{\varsigma_\lambda} &= (1 + o(1)) \frac{\mu_2 - \mu_1}{b_m
+    \sigma_ 2} \\ &= \frac{\langle \lambda, (m-1)\pi_{11} + (n-m)\pi_{01} -
+    (n-1) \pi_{00} \rangle}{\sqrt{\langle \lambda, ((m-1) \eta_{11} +
+    (n-m)\eta_{01}) \lambda \rangle}}
+  \end{split}
+\end{equation*}
+We can thus find the maximum and minimum of
+$\tfrac{\rho_{\lambda}}{\varsigma_{\lambda}}$ by solving an 
+eigenvalue problem as in Theorem~\ref{thm:1}. 
 \appendices
 \section{Proofs of some stated results}
 \begin{proof}[Theorem \ref{thm:1}]
@@ -400,6 +423,17 @@ $\gamma \approx 0.57721$ is the Euler-Mascheroni constant, and
   The claim then follows directly from the Rayleigh-Ritz theorem for
   Hermitean matrices.
 \end{proof}
+\begin{proof}[Proposition~\ref{prop:3}]
+  Let $d_{\lambda}(v;t)$ be the (fused) degree of vertex $v$ at time
+  $t$, i.e.,
+  \begin{equation*}
+    d_{\lambda}(v;t) = \sum_{k = 1}^{K} \lambda_k \sum_{u \in N(v)}
+    \mathbf{1}\{ \phi(uv,t) = k \}
+  \end{equation*}
+  By applying the multivariate normal approximation to the
+  multinomial, 
+\end{proof}
+
 \bibliography{ssp2011}
 \end{document}
 
