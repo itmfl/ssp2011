@@ -410,45 +410,167 @@ eigenvalue problem as in Theorem~\ref{thm:1}.
 The limiting distribution for the scan statistics for unattributed
 random graphs was considered in
 \cite{rukhin:_limit_distr_graph_scan_statis}. This subsection is
-concerned with the extension of the results in
+concerned with adpating the results in
 \cite{rukhin:_limit_distr_graph_scan_statis} to attributed random
-graphs. We state here some the relevant results. Sketches of the
-proofs of these results will be provided in
-\S~\ref{sec:proofs-some-stated}. \\ \\
+graphs. We state here only the relevant results. The proofs are
+delegated to the appendices. \\ \\
 \noindent
-Let $\psi_{\lambda}(v;t)$ be the (fused) locality statistics for
-vertex $v$ at time $t$, i.e.,
+The limiting distribution for $\Psi_{\lambda}(t)$ is Gumbel for both
+the case where $t < t^{*}$ and for $t = t^{*}$. To aid the exposition,
+we first introduce some notations. Let $\lambda^{(2)}$ be the
+element-wise square of $\lambda$. Define $C_{00}$, $C_{01}$, $C_{11}$
+and $p_{00}$, $p_{01}$, $p_{11}$ to be
+\begin{gather}
+  \label{eq:19}
+  C_{00} = \tfrac{\langle \lambda^{(2)}, \pi_{00} \rangle}{\langle \lambda,
+    \pi_{00}\rangle}; \quad p_{00} = \tfrac{(\langle \lambda, \pi_{00}
+    \rangle)^{2}}{\langle \lambda^{(2)},\, \pi_{00} \rangle} \\
+C_{11} = \tfrac{\langle \lambda^{(2)}, \pi_{11} \rangle}{\langle \lambda,
+    \pi_{11}\rangle}; \quad p_{11} = \tfrac{(\langle \lambda, \pi_{11}
+    \rangle)^{2}}{\langle \lambda^{(2)},\, \pi_{11} \rangle} \\
+C_{10} = \tfrac{\langle \lambda^{(2)}, \pi_{11} \rangle}{\langle \lambda,
+    \pi_{10}\rangle}; \quad p_{10} = \tfrac{(\langle \lambda, \pi_{10}
+    \rangle)^{2}}{\langle \lambda^{(2)},\, \pi_{10} \rangle} 
+\end{gather}
+Also let $z_n$ be defined, for any $n \in \mathbb{N}$, by
 \begin{equation}
-  \label{eq:11}
-  \psi_{\lambda}(v;t) = \sum_{k=1}^{K} \lambda_k \sum_{uw \in N(v)}
-  \mathbb{I}\{\phi(uw,t) = k\}.
+  \label{eq:20}
+   z_n = \sqrt{2
+      \log{n}}\Bigl(1 - \frac{\log{\log{n}} + \log{4 \pi}}{4
+      \log{n}}\Bigr)
 \end{equation}
-We consider first the case where $t < t^{*}$. Then, conditional on
-$|N(v)| = l$, we have
-\begin{equation*}
-  \psi_{\lambda}(v;t) = \sum_{k=1}^{K}{\lambda_k (y_k + z_k)}
-\end{equation*}
-where $(y_1, \dots, y_K)$ and $(z_1, \dots, z_K)$ are distributed as
+\begin{theorem}
+  \label{thm:2}
+  Let $\Psi_{\lambda}(t)$ be the scan statistic for $t < t^{*}$. Let
+  $N_{0}$, $a_n$, and $b_n$ be defined by
+\begin{align*}
+   \mu_0 &= (n-1) \langle 1, \pi_{00} \rangle \\
+   \sigma_0 &= \sqrt{(n-1) (\langle 1, \pi_{00} \rangle - \langle
+     1, \pi_{00} \rangle^2)} \\ 
+    N_{0} &= \mu_0 + z_n \sigma_0 \\
+    a_n &= N_{0} \frac{\langle \lambda, \pi_{00} \rangle}{\langle
+      1, \pi_{00} \rangle} + C_{00}p_{00}\tbinom{N_{0}}{2} \\ 
+   b_n &= (1 - \tfrac{C_{00}p_{00}}{2} + C_{00}p_{00} N_{0}) \frac{\sigma_0}{\sqrt{2 \log
+     n}}
+\end{align*}
+Then we have
+\begin{equation}
+  \frac{\Psi_{\lambda}(t) - a_{n}}{b_n} \rightsquigarrow
+  \mathcal{G}(0, 1)
+\end{equation}
+\end{theorem}%
+We now move to the limiting distribution for $\Psi_{\lambda}(t^{*})$. 
+Let us define $E$ and $F$ by
 \begin{gather*}
-  (y_1,y_2,\dots,y_K) \sim \textrm{multinomial}\Bigl(
-  \tbinom{l}{2}, \pi_{00}\Bigr) \\ (z_1, z_2, \dots, z_K) \sim
-  \textrm{multinomial}\Bigl(l, \frac{\pi_{00}}{\langle \pi_{00},
-    1\rangle}\Bigr). 
-\end{gather*}
-Therefore, for sufficiently large $l$, by the multivariate central
-limit theorem, we have
-\begin{equation*}
-  \Bigl(\psi_\lambda(v;t) \, \lvert \, |N(v)| = l \Bigr) \sim
-  \mathcal{N}\Bigl(\tbinom{l}{2} \langle \lambda, \pi_{00} \rangle,
-  \tbinom{l}{2} \langle \lambda, \eta_{00} \lambda \rangle \Bigr)
-\end{equation*} 
-Let $\lambda^{(2)}$ be the vector whose entries are element-wise
-square of $\lambda$. Then it can be checked that 
-\begin{equation*}
- \langle \lambda,
-\eta_{00} \lambda \rangle = \langle \lambda^{(2)}, \pi_{00} \rangle -
-  (\langle \lambda, \pi_{00} \rangle)^2
-\end{equation*}
+ %  B \sim \mathrm{Bin}(m, \langle 1, \pi_{00} \rangle); \quad C \sim \mathrm{Bin}(n-m-1,
+ % \langle 1, \pi_{01} \rangle) \\
+  E \sim \mathrm{Bin}(m-1, \langle \pi_{11}, 1 \rangle) \\ F \sim \mathrm{Bin}(n-m,
+  \langle \pi_{01}, 1 \rangle)
+\end{gather*}%
+For any random variable $X$, we let $\mu_X$ and $\sigma_X^{2}$ denote
+the mean and variance of $X$. If $X$ and $Y$ are independent random
+variables, we let $\mu_{X + Y}$ and $\sigma_{X + Y}^2$ denote the mean
+and variance of the convolution $X + Y$. \\
+\noindent Let $N_{\kappa}$ be the quantity defined by
+\begin{equation}
+  \label{eq:18}
+  N_{\kappa} = \mu_{E + F} + z_m \sigma_{E + F}
+\end{equation}
+\begin{theorem}
+  \label{thm:3}
+  Let $a_{n,m}$ and $b_{n,m}$ be given by
+  \begin{gather}
+    \label{eq:28}
+    \begin{split}
+    a_{n,m} &=%  N_{\kappa} \frac{\langle x, \pi_{01} \rangle}{\langle
+ %      1, \pi_{01} \rangle} \\
+ % & +
+    C_{00} p_{00} \Bigl(\tbinom{N_\kappa}{2} - \tbinom{\mu_E}{2} - \mu_E
+    \mu_F\Bigr) \\ 
+     & + C_{11} p_{11} \tbinom{\mu_E}{2} + C_{01} p_{01} \mu_E \mu_F 
+    \end{split} \\
+    b_{n,m} = (1 - \tfrac{C_{00} p_{00}}{2} + C_{00} p_{00}
+    N_\kappa)\frac{\sigma_{E + F}}{\sqrt{2 \log{n_1}}}
+  \end{gather}
+  If $m = \Omega(\sqrt{n \log n})$, then
+  \begin{equation}
+    \label{eq:29}
+    \frac{\Psi_{\lambda}(t^{*}) - a_{n,m}}{b_{n,m}}  \rightsquigarrow \mathcal{G}(0,1)  \end{equation}
+\end{theorem}
+\appendices
+\section{Proofs of some stated results}
+\label{sec:proofs-some-stated}
+\begin{proof}[Theorem \ref{thm:1}]
+  The maximizer of $\mu_\lambda$ also maximizes
+  \begin{equation*}
+    \mu_{\lambda}^{2} = \frac{\lambda^{T} \zeta \zeta^{T}
+      \lambda}{\lambda^{T} \xi \lambda}
+  \end{equation*}
+  Because $\xi$ is positive definite, there exist a positive definite matrix
+  $\xi^{1/2}$ such that $\xi^{1/2} \xi^{1/2} = \xi$. Letting $\nu = \xi^{1/2}
+  \lambda$, the above expression can be rewritten as
+  \begin{equation*}
+    \mu_{\lambda}^{2} = \frac{\nu^{T} \xi^{-1/2} \zeta \zeta^{T}
+      \xi^{-1/2} \nu}{ \nu^{T} \nu}
+  \end{equation*}
+  The claim then follows directly from the Rayleigh-Ritz theorem for
+  Hermitean matrices.
+\end{proof}
+\begin{proof}[Proposition~\ref{prop:3}]
+  Let $d_{\lambda}(v;t)$ be the (fused) degree of vertex $v$ at time
+  $t$, i.e.,
+  \begin{equation*}
+    d_{\lambda}(v;t) = \sum_{k = 1}^{K} \lambda_k \sum_{w \in N(v)}
+    \mathbb{I}\{ \phi(vw,t) = k \}
+  \end{equation*}
+  Let $\Gamma^{(k)}(v;t) = |\{w \colon \mathbb{I}\{\phi(wv,t) =
+  k\}|$. The vector $\bm{\Gamma}(v;t) = (\Gamma^{(1)}(v;t), \dots,
+  \Gamma^{(K)}(v;t))$ for $t < t^{*}$ is distributed as a multinomial
+  with $n-1$ trials and probability vector $\pi_0$. By the multivariate
+  normal approximation to the multinomial, we have
+  \begin{equation*}
+    \bm{\Gamma}(v;t) \approx \mathcal{N}((n-1)\pi_0,
+    (n-1)(\mathrm{diag}(\pi_0) - \pi_0 \pi_0^{T}))
+  \end{equation*}
+  Now, $d_{\lambda}(v;t) = \langle \lambda, \bm{\Gamma}(v;t) \rangle$
+  and thus, for sufficiently large $n$ we have
+  \begin{equation*}
+    d_{\lambda}(v;t) = (1 + o_P(1)) \mathcal{N}((n-1) \langle \lambda, \pi_0
+    \rangle, (n-1) \langle \lambda, \eta_{00} \lambda \rangle)
+  \end{equation*}
+  where $\eta_{00} = \mathrm{diag}(\pi_0) - \pi_0 \pi_0^{T}$ and
+  $o_P(1)$ denotes a random variables that converges to $0$ in
+  probability. We can thus take $\Delta_{\lambda}(t)$ for $t < t^{*}$
+  as the maximum of a sequence of {\em dependent} Gaussian random
+  variables. By an argument analogous to the argument for the maximum
+  degree of an Erd\"{o}s-Renyi random graph in \cite[\S
+  III.1]{bollobas85:_random_graph} we can show that the dependency
+  among the $d_{\lambda}(v,t)$ can be safely
+  ignored. $\Delta_{\lambda}(t)$ can thus be taken as the maximum of
+  {\em independent} $\mathcal{N}((n-1) \langle \lambda,
+  \pi_0 \rangle, (n-1) \langle \lambda, \eta_{00} \lambda
+  \rangle)$. The resulting distribution is a Gumbel \cite[\S
+  2.3]{galambos87:_asymp_theor_extrem_order_statis} and we obtain
+  Eq.~\eqref{eq:14} for $t < t^{*}$. The case when $t = t^{*}$ can be
+  derive in a similar manner, see e.g,
+  \cite{rukhin:_limit_distr_graph_scan_statis}.
+\end{proof}
+\begin{proof}[Lemma~\ref{lem:2}]
+  Let $ X \sim \mathcal{G}(\alpha, \beta)$. We consider the
+  normalization $\tfrac{X - \mu}{\sigma}$. We have
+  \begin{equation*}
+    \begin{split}
+    \mathbb{P}[ \frac{X - \mu}{\sigma} \leq z]  &= \mathbb{P}[X \leq z
+    \sigma + \mu] 
+    = e^{-e^{-(z \sigma + \mu - \alpha)/\beta}} \\
+      &= e^{- e^{-(z - (\alpha - \mu)/\sigma)/(\beta/\sigma)}}
+    \end{split}
+  \end{equation*}
+  Thus, $\tfrac{X - \mu}{\sigma} \sim \mathcal{G}(\tfrac{\alpha -
+    \mu}{\sigma}, \tfrac{\beta}{\sigma})$. Because the sample
+  mean and the sample variance are consistent estimators, the claims
+  follow after an application of Slutsky's theorem.
+\end{proof}
 Suppose that $\eta_{00}$ is positive definite. We then have the
 following result
 \begin{proposition}
@@ -457,39 +579,12 @@ following result
     \lambda, \pi_{00}\rangle}$ and $p = \tfrac{(\langle \lambda, \pi_{00}
     \rangle)^{2}}{\langle x^{(2)} \pi_{00} \rangle}$. Then $p < 1$,
   and for sufficiently large $l$ we have
-\begin{equation}
-  \label{eq:17}
- \Bigl(\psi_\lambda(v;t) \,\lvert\,\, |N(v)| = l \Bigr) \sim C *  
- \mathrm{Bin}\Bigl(\tbinom{l}{2}, p\Bigr)
-\end{equation} 
 \end{proposition}
 Proposition~\ref{prop:1} states that the locality
 statistics for the attributed random graphs model under consideration
 can be approximated by the locality statistics for an
 Erd\"{o}s-Renyi graph with edge probability $p$. By a result in
 \cite{rukhin:_limit_distr_graph_scan_statis}, we have
-\begin{theorem}
-  \label{thm:2}
-  Let $\Psi_{\lambda}(t)$ be the (fused) scan statistic. Let
-  $N_{0}$, $a_n$, and $b_n$ be defined by
-\begin{align*}
-   \mu_0 &= (n-1) \langle \pi_{00}, 1 \rangle \\
- \sigma_0 &= \sqrt{(n-1) (\langle \pi_{00}, 1 \rangle - \langle
-   \pi_{00}, 1 \rangle^2)} \\ 
- z_n &= \sqrt{2
-      \log{n}}\Bigl(1 - \frac{\log{\log{n}} + \log{4 \pi}}{4
-      \log{n}}\Bigr) \\
-    N_{0} &= \mu_0 + z_n \sigma_0 \\
-   a_n &= N_{0} \frac{\langle \lambda, \pi_{00} \rangle}{\langle 1,
-     \pi_{00} \rangle} + p\tbinom{N_{0}}{2} \\ 
-   b_n &= (1 - \tfrac{p}{2} + p N_{0}) \frac{\sigma_0}{\sqrt{2 \log
-     n}}
-\end{align*}
-Then we have
-\begin{equation}
-  \Psi_{\lambda}(t) \rightsquigarrow \mathcal{G}(C a_n, C b_n)
-\end{equation}
-\end{theorem}
 We now move to the case where $t = t^{*}$. Let $d_{\zeta}(v;t)$ be
 the number of neighbors of $v$ that lies in $[m]$ (the egg) and
 $d_{\xi}(v;t)$ be the number of neighbors of $v$ that lies in $[n]
@@ -569,121 +664,48 @@ Proposition~\ref{prop:2} state that the locality statistics
 for the attributed random graphs model under consideration at time $t
 = t^{*}$ can be approximated by the locality
 statistics for an unattributed kidney and egg random graph model
-$\kappa(n,n_1,p_1,p_2,p_3)$. Let us define $B$, $C$, $E$ and $F$ by
-\begin{gather*}
-  B \sim \mathrm{Bin}(m, \langle 1, \pi_{00} \rangle); \quad C \sim \mathrm{Bin}(n-m-1,
- \langle 1, \pi_{01} \rangle) \\
-  E \sim \mathrm{Bin}(m-1, \langle 1, \pi_{11} \rangle); \quad F \sim \mathrm{Bin}(n-m,
-  \langle 1, \pi_{01} \rangle)
-\end{gather*}
-For any random variable $X$, we let $\mu_X$ and $\sigma_X^{2}$ denote
-the mean and variance of $X$. If $X$ and $Y$ are independent random
-variables, we let $\mu_{X + Y}$ and $\sigma_{X + Y}^2$ denote the mean
-and variance of the convolution $X + Y$. \\
-\noindent Let $N_{\kappa}$ be the quantity defined by
+\begin{proof}[Theorem~\ref{thm:2}]
+Let $\psi_{\lambda}(v;t)$ be the (fused) locality statistics for
+vertex $v$ at time $t$, i.e.,
 \begin{equation}
-  \label{eq:18}
-  N_{\kappa} = \mu_{E + F} + z_m \sigma_{E + F}
+  \label{eq:11}
+  \psi_{\lambda}(v;t) = \sum_{k=1}^{K} \lambda_k \sum_{uw \in N(v)}
+  \mathbb{I}\{\phi(uw,t) = k\}.
 \end{equation}
-where $z_m$ is
+The following statements are made conditional on $|N(v)| = l$. First
+of all, we have
 \begin{equation*}
-  z_m = \sqrt{2 \log m}\Bigl(1 - \frac{\log{\log{m}} + \log{4
-      \pi}}{\log{m}}\Bigr)
+  \psi_{\lambda}(v;t) = \sum_{k=1}^{K}{\lambda_k (y_k + z_k)}
 \end{equation*}
-The following result is adapted from \cite{rukhin:_limit_distr_graph_scan_statis}
-\begin{theorem}
-  \label{thm:3}
-  Let $a_{n,m}$ and $b_{n,m}$ be given by
-  \begin{gather}
-    \label{eq:28}
-    \begin{split}
-    a_{n,m} &= N_{\kappa} \frac{\langle x, \pi_{01} \rangle}{\langle 1, \pi_{01} \rangle} \\ &+ C_1 p_1 \binom{N_\kappa}{2} + (C_2 p_2 -
-    C_1 p_1)\binom{\mu_E}{2} \\ &+ (C_3 p_3 - C_1 p_1)\mu_E \mu_F 
-    \end{split} \\
-    b_{n,m} = (1 - \tfrac{C_1 p_1}{2} + C_1 p_1
-    N_\kappa)\frac{\sigma_{E + F}}{\sqrt{2 \log{n_1}}}
-  \end{gather}
-  If $m = \Omega(\sqrt{n \log n})$, then
-  \begin{equation}
-    \label{eq:29}
-    \Psi_{\lambda}(t^{*}) \rightsquigarrow \mathcal{G}(a_{n,m}, b_{n,m})
-  \end{equation}
-\end{theorem}
-\appendices
-\section{Proofs of some stated results}
-\label{sec:proofs-some-stated}
-\begin{proof}[Theorem \ref{thm:1}]
-  The maximizer of $\mu_\lambda$ also maximizes
-  \begin{equation*}
-    \mu_{\lambda}^{2} = \frac{\lambda^{T} \zeta \zeta^{T}
-      \lambda}{\lambda^{T} \xi \lambda}
-  \end{equation*}
-  Because $\xi$ is positive definite, there exist a positive definite matrix
-  $\xi^{1/2}$ such that $\xi^{1/2} \xi^{1/2} = \xi$. Letting $\nu = \xi^{1/2}
-  \lambda$, the above expression can be rewritten as
-  \begin{equation*}
-    \mu_{\lambda}^{2} = \frac{\nu^{T} \xi^{-1/2} \zeta \zeta^{T}
-      \xi^{-1/2} \nu}{ \nu^{T} \nu}
-  \end{equation*}
-  The claim then follows directly from the Rayleigh-Ritz theorem for
-  Hermitean matrices.
-\end{proof}
-\begin{proof}[Proposition~\ref{prop:3}]
-  Let $d_{\lambda}(v;t)$ be the (fused) degree of vertex $v$ at time
-  $t$, i.e.,
-  \begin{equation*}
-    d_{\lambda}(v;t) = \sum_{k = 1}^{K} \lambda_k \sum_{w \in N(v)}
-    \mathbb{I}\{ \phi(vw,t) = k \}
-  \end{equation*}
-  Let $\Gamma^{(k)}(v;t) = |\{w \colon \mathbb{I}\{\phi(wv,t) =
-  k\}|$. The vector $\bm{\Gamma}(v;t) = (\Gamma^{(1)}(v;t), \dots,
-  \Gamma^{(K)}(v;t))$ for $t < t^{*}$ is distributed as a multinomial
-  with $n-1$ trials and probability vector $\pi_0$. The following
-  statements are made in the limit as $n \rightarrow \infty$ for fixed
-  $K$. By the multivariate
-  central limit theorem, we have
-  \begin{equation*}
-    \bm{\Gamma}(v;t) \sim \mathcal{N}((n-1)\pi_0,
-    (n-1)(\mathrm{diag}(\pi_0) - \pi_0 \pi_0^{T}))
-  \end{equation*}
-  Now, $d_{\lambda}(v;t) = \langle \lambda, \bm{\Gamma}(v;t) \rangle$
-  and therefore
-  \begin{equation}
-    \label{eq:12}
-    d_{\lambda}(v;t) \sim \mathcal{N}((n-1) \langle \lambda, \pi_0
-    \rangle, (n-1) \langle \lambda, \eta_{00} \lambda \rangle)
-  \end{equation}
-  where $\eta_{00} = \mathrm{diag}(\pi_0) - \pi_0
-  \pi_0^{T}$. $\Delta_{\lambda}(t)$ for $t < t^{*}$ is thus the
-  maximum of a sequence of {\em dependent} Gaussian random
-  variables. By an argument analogous to the argument for the maximum
-  degree of an Erd\"{o}s-Renyi random graph in \cite[\S
-  III.1]{bollobas85:_random_graph} we can show that the dependency
-  among the $d_{\lambda}(v,t)$ can be safely
-  ignored. $\Delta_{\lambda}(t)$ is then equivalent to the maximum of
-  a sequence of {\em independent} $\mathcal{N}((n-1) \langle \lambda,
-  \pi_0 \rangle, (n-1) \langle \lambda, \eta_{00} \lambda
-  \rangle)$. The resulting distribution is a Gumbel \cite[\S
-  2.3]{galambos87:_asymp_theor_extrem_order_statis} and we obtain 
-  Eq.~\eqref{eq:14} for $t < t^{*}$. The case when $t = t^{*}$ can be
-  derive in a similar manner, see e.g,
-  \cite{rukhin:_limit_distr_graph_scan_statis}.
-\end{proof}
-\begin{proof}[Lemma~\ref{lem:2}]
-  Let $ X \sim \mathcal{G}(\alpha, \beta)$. We consider the
-  normalization $\tfrac{X - \mu}{\sigma}$. We have
-  \begin{equation*}
-    \begin{split}
-    \mathbb{P}[ \frac{X - \mu}{\sigma} \leq z]  &= \mathbb{P}[X \leq z
-    \sigma + \mu] 
-    = e^{-e^{-(z \sigma + \mu - \alpha)/\beta}} \\
-      &= e^{- e^{-(z - (\alpha - \mu)/\sigma)/(\beta/\sigma)}}
-    \end{split}
-  \end{equation*}
-  Thus, $\tfrac{X - \mu}{\sigma} \sim \mathcal{G}(\tfrac{\alpha -
-    \mu}{\sigma}, \tfrac{\beta}{\sigma})$. Because the sample
-  mean and the sample variance are consistent estimators, the claims
-  follow after an application of Slutsky's theorem.
+where $(y_1, \dots, y_K)$ and $(z_1, \dots, z_K)$ are distributed as
+\begin{gather*}
+  (y_1,y_2,\dots,y_K) \sim \textrm{multinomial}\Bigl(
+  \tbinom{l}{2}, \pi_{00}\Bigr) \\ (z_1, z_2, \dots, z_K) \sim
+  \textrm{multinomial}\Bigl(l, \frac{\pi_{00}}{\langle \pi_{00},
+    1\rangle}\Bigr). 
+\end{gather*}
+For large $l$, by the multivariate normal
+approximation to the multinomial we have
+\begin{equation*}
+  \begin{split}
+  \psi_\lambda(v;t) & = (1 + o_{P}(1)) \mathcal{N}\Bigl(\tbinom{l}{2} \langle \lambda, \pi_{00} \rangle,
+  \tbinom{l}{2} \langle \lambda, \eta_{00} \lambda \rangle \Bigr) \\ 
+  &= (1 + o_{P}(1)) C_{00} \mathcal{N}(\tbinom{l}{2} p_{00}, \tbinom{l}{2} p_{00}
+  (1 - p_{00}))
+  \end{split}
+\end{equation*} 
+Now $p_{00} \leq 1$ with strict inequality whenever $\eta_{00}$ is
+positive definite. We thus have, for sufficiently large $l$,
+\begin{equation}
+  \label{eq:17}
+ \psi_\lambda(v;t) = (1 + o_P(1)) C_{00} *  
+ \mathrm{Bin}\Bigl(\tbinom{l}{2}, p_{00}\Bigr)
+\end{equation} 
+Eq.~\eqref{eq:17} states that the locality statistics for the
+attributed random graphs model under considation with $t < t^{*}$ can
+be approximated by the locality statistics for an Erd\"{o}s-Renyi
+graph with edge probability $p_{00}$. The claim then follows from
+\cite[Theorem 1.1]{rukhin:_limit_distr_graph_scan_statis}.
 \end{proof}
 \bibliography{ssp2011}
 \end{document}
