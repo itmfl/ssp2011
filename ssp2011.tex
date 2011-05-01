@@ -526,34 +526,54 @@ and variance of the convolution $X + Y$. \\
   Let $\Gamma^{(k)}(v;t) = |\{w \colon \mathbb{I}\{\phi(wv,t) =
   k\}|$. The vector $\bm{\Gamma}(v;t) = (\Gamma^{(1)}(v;t), \dots,
   \Gamma^{(K)}(v;t))$ for $t < t^{*}$ is distributed as a multinomial
-  with $n-1$ trials and probability vector $\pi_0$. By the multivariate
-  normal approximation to the multinomial, we have
+  with $n-1$ trials and probability vector $\pi_{00}$. The folllowing
+  statements are made under the assumption that $n \rightarrow \infty$
+  for fixed $K$. By the multivariate central limit theorem, we have
   \begin{equation*}
-    \bm{\Gamma}(v;t) \approx \mathcal{N}((n-1)\pi_0,
-    (n-1)(\mathrm{diag}(\pi_0) - \pi_0 \pi_0^{T}))
+    \frac{\bm{\Gamma}(v;t) - (n-1) \pi_{00}}{\sqrt{n-1}}
+    \rightsquigarrow \mathcal{N}(0, (\mathrm{diag}(\pi_{00}) -
+    \pi_{00} \pi_{00}^{T}))
   \end{equation*}
-  Now, $d_{\lambda}(v;t) = \langle \lambda, \bm{\Gamma}(v;t) \rangle$
-  and thus, for sufficiently large $n$ we have
+  Now $d_{\lambda}(v;t) = \langle \lambda, \bm{\Gamma}(v;t) \rangle$
+  and we have
   \begin{equation*}
-    d_{\lambda}(v;t) = (1 + o_P(1)) \mathcal{N}((n-1) \langle \lambda, \pi_0
-    \rangle, (n-1) \langle \lambda, \eta_{00} \lambda \rangle)
+    \frac{d_{\lambda}(v;t) - (n-1) \langle \lambda, \pi_{00}
+      \rangle}{\sqrt{n-1}} \rightsquigarrow \mathcal{N}(0, \langle \lambda, \eta_{00} \lambda \rangle)
   \end{equation*}
-  where $\eta_{00} = \mathrm{diag}(\pi_0) - \pi_0 \pi_0^{T}$ and
-  $o_P(1)$ denotes a random variables that converges to $0$ in
-  probability. We can thus take $\Delta_{\lambda}(t)$ for $t < t^{*}$
-  as the maximum of a sequence of {\em dependent} Gaussian random
-  variables. By an argument analogous to the argument for the maximum
-  degree of an Erd\"{o}s-Renyi random graph in \cite[\S
+  Therefore, $\tfrac{d_{\lambda}(v;t) - (n-1) \langle \lambda,
+    \pi_{00} \rangle}{\sqrt{(n-1) \langle \lambda, \eta_{00} \lambda
+      \rangle}} \rightsquigarrow N(0,1)$. We can thus consider the
+  degree sequence of $G(t)$ for $t < t^{*}$ as a sequence of {\em
+    dependent} Gaussian random variables. By an argument analogous to
+  the argument for Erd\"{o}s-Renyi random graphs in \cite[\S
   III.1]{bollobas85:_random_graph} we can show that the dependency
-  among the $d_{\lambda}(v,t)$ can be safely
-  ignored. $\Delta_{\lambda}(t)$ can thus be taken as the maximum of
-  {\em independent} $\mathcal{N}((n-1) \langle \lambda,
-  \pi_0 \rangle, (n-1) \langle \lambda, \eta_{00} \lambda
-  \rangle)$. The resulting distribution is a Gumbel \cite[\S
-  2.3]{galambos87:_asymp_theor_extrem_order_statis} and we obtain
-  Eq.~\eqref{eq:14} for $t < t^{*}$. The case when $t = t^{*}$ can be
-  derive in a similar manner, see e.g,
-  \cite{rukhin:_limit_distr_graph_scan_statis}.
+  among the $d_{\lambda}(v,t)$ can be ignored. Let us define
+  $\xi_s$ for $s \in \mathbb{R}$ as the number of vertices $v$ such
+  that $\tfrac{d_\lambda(v;t) - (n-1) \langle \lambda, \pi_{00}
+    \rangle}{\sqrt{(n-1) \langle \lambda, \eta_{00} \lambda \rangle}}
+  \geq s$. Note that $\xi_s \leq k$ only if there are at most $k$
+  vertices with $\tfrac{d_{\lambda}(v;t) - (n-1) \langle \lambda,
+    \pi_{00} \rangle}{\sqrt{(n-1) \langle \lambda, \eta_{00} \lambda
+      \rangle}} \geq s$. Thus, $\tfrac{\Delta_{\lambda}(v;t) - (n-1)
+    \langle \lambda, \pi_{00} \rangle}{\sqrt{(n-1) \langle \lambda,
+      \eta_{00} \lambda \rangle}} < s$ only if $\xi_s = 0$. Because
+  the sample maximum of Gaussian random variables converges weakly to
+  a Gumbel \cite[\S 2.3]{galambos87:_asymp_theor_extrem_order_statis},
+  by taking $n \rightarrow \infty$ followed by $s \rightarrow \infty$,
+  we can show that $\tfrac{\Delta_{\lambda}(v;t) - (n-1) \langle \lambda,
+  \pi_{00} \rangle}{\sqrt{(n-1) \langle \lambda, \eta_{00} \lambda
+    \rangle}} \rightsquigarrow \mathcal{G}(a_n, b_n)$. We thus obtain
+Eq.~\eqref{eq:14} for $t < t^{*}$. The case when $t = t^{*}$ can be
+derive in a similar manner. We first apply Lemma 3.1 in
+\cite{rukhin:_limit_distr_graph_scan_statis} to show that if $m =
+\Omega(\sqrt{n \log{n}})$, then $\Delta_{\lambda}(v;t^{*}) \rightsquigarrow
+\max_{v \in [m]}{d_{\lambda}(v;t^{*})}$.  
+We then show, again by the multivariate
+central limit theorem that for $v \in [m]$, $\tfrac{d_{\lambda}(v;t^{*}) -
+  \mu_2}{\sigma_2} \rightsquigarrow N(0,1)$. It then follows that
+$\max_{v \in [m]} \tfrac{d_{\lambda}(v;t^{*}) -
+  \mu_2}{\sigma_2} \rightsquigarrow \mathcal{G}(a_m,b_m)$ and we obtain
+Eq.~\eqref{eq:14} for $t = t^{*}$.  
 \end{proof}
 \begin{proof}[Lemma~\ref{lem:2}]
   Let $ X \sim \mathcal{G}(\alpha, \beta)$. We consider the
@@ -571,141 +591,96 @@ and variance of the convolution $X + Y$. \\
   mean and the sample variance are consistent estimators, the claims
   follow after an application of Slutsky's theorem.
 \end{proof}
-Suppose that $\eta_{00}$ is positive definite. We then have the
-following result
-\begin{proposition}
-  \label{prop:1}
-  Let $C = \tfrac{\langle \lambda^{(2)}, \pi_{00} \rangle}{\langle
-    \lambda, \pi_{00}\rangle}$ and $p = \tfrac{(\langle \lambda, \pi_{00}
-    \rangle)^{2}}{\langle x^{(2)} \pi_{00} \rangle}$. Then $p < 1$,
-  and for sufficiently large $l$ we have
-\end{proposition}
-Proposition~\ref{prop:1} states that the locality
-statistics for the attributed random graphs model under consideration
-can be approximated by the locality statistics for an
-Erd\"{o}s-Renyi graph with edge probability $p$. By a result in
-\cite{rukhin:_limit_distr_graph_scan_statis}, we have
-We now move to the case where $t = t^{*}$. Let $d_{\zeta}(v;t)$ be
-the number of neighbors of $v$ that lies in $[m]$ (the egg) and
-$d_{\xi}(v;t)$ be the number of neighbors of $v$ that lies in $[n]
-\setminus [m]$ (the kidney). Conditional on $d_{\zeta}(v;t^{*}) =
-l_{\zeta}$, $d_{\xi}(v;t^{*}) = l_{\xi}$, we have
-\begin{equation}
-  \psi_{\lambda}(v;t^{*}) = \sum_{k=1}^{K} \lambda_k ( y^{(\zeta)}_k + y^{(\xi)}_k +
-  y^{(\omega)}_k + z^{(\zeta)}_k + z^{(\xi)}_k)
-\end{equation}
-where $(y^{(\zeta)}_1, \dots, y^{(\zeta)}_m)$, $(y^{(\xi)}_1,\dots,
- y^{(\xi)}_m)$, $(y^{(\omega)}_1, \dots, y^{(\omega)}_m)$ are
- distributed as
-\begin{gather*}
-(y^{(\zeta)}_1,\dots,y^{(\zeta)}_m) \sim \textrm{multinomial}\Bigl(
-\tbinom{l_\zeta}{2}, \pi_{11}\Bigr) \\ 
-(y^{(\xi)}_1,\dots,y^{(\xi)}_m) \sim \textrm{multinomial}\Bigl(
-\tbinom{l_\xi}{2}, \pi_{00}\Bigr) \\
-(y^{(\omega)}_1,\dots,y^{(\omega)}_m) \sim \textrm{multinomial}\Bigl(
-l_\zeta l_\xi, \pi_{10}\Bigr)
-\end{gather*}
-and $(z^{(\zeta)}_1, \dots, z^{(\zeta)}_m)$, $(z^{(\xi)}_1, \dots,
-z^{(\xi)}_m)$ are distributed as
-\begin{gather*}
-(z^{(\zeta)}_1, \dots, z^{(\zeta)}_m) \sim
-\begin{cases}
-\textrm{multinomial}\Bigl(l_\zeta, \frac{\pi_{11}}{\langle \pi_{11},
-  1\rangle}\Bigr) & \text{if $v \in [m]$} \\
-\textrm{multinomial}\Bigl(l_\zeta, \frac{\pi_{10}}{\langle \pi_{10}, 1
-  \rangle} \Bigr) & \text{if $v \not\in [m]$}
-\end{cases} \\
-(z^{(\xi)}_1, \dots, z^{(\xi)}_m) \sim
-\begin{cases}
-\textrm{multinomial}\Bigl(l_\xi, \frac{\pi_{10}}{\langle \pi_{10},
-  1\rangle}\Bigr) & \text{if $v \in [m]$} \\
-\textrm{multinomial}\Bigl(l_\zeta, \frac{\pi_{00}}{\langle \pi_{00}, 1
-  \rangle} \Bigr) & \text{if $v \notin [m]$}
-\end{cases} 
-\end{gather*}
-Thus, for sufficiently large $l_{\zeta}$ and $l_{\xi}$, we have
-\begin{equation}
-  \begin{split}
- \psi_{\lambda}(v;t^{*}) & \sim  \mathcal{N}\Bigl(\tbinom{l_\zeta}{2}
- \langle \lambda, \pi_{11} \rangle,
-  \tbinom{l_\zeta}{2} \langle x, \eta_{11} \lambda \rangle \Bigr) \\ &+ 
-  \mathcal{N}\Bigl(\tbinom{l_\xi}{2} \langle \lambda, \pi_{00} \rangle,
-  \tbinom{l_\xi}{2} \langle \lambda, \eta_{00} \lambda \rangle \Bigr) \\ &+ 
-  \mathcal{N}\Bigl(l_\zeta l_\xi \langle \lambda, \pi_{10} \rangle,
-  l_\zeta l_\xi \langle \lambda, \eta_{10} \lambda \rangle \Bigr)
-\end{split}
-\end{equation}
-\begin{proposition}
-  \label{prop:2}
-  Let $C_1, C_2, C_3$ and $p_1$, $p_2$, $p_3$ be 
-  \begin{gather*}
-C_1 = \tfrac{\langle \lambda^{(2)}, \pi_{00} \rangle}{\langle \lambda,
-    \pi_{00}\rangle}; \quad p_1 = \tfrac{(\langle \lambda, \pi_{00}
-    \rangle)^{2}}{\langle \lambda^{(2)} \pi_{00} \rangle} \\
-C_2 = \tfrac{\langle \lambda^{(2)}, \pi_{11} \rangle}{\langle \lambda,
-    \pi_{11}\rangle}; \quad p_2 = \tfrac{(\langle \lambda, \pi_{11}
-    \rangle)^{2}}{\langle \lambda^{(2)} \pi_{11} \rangle} \\
-C_3 = \tfrac{\langle \lambda^{(2)}, \pi_{11} \rangle}{\langle \lambda,
-    \pi_{10}\rangle}; \quad p_1 = \tfrac{(\langle \lambda, \pi_{10}
-    \rangle)^{2}}{\langle \lambda^{(2)} \pi_{10} \rangle} 
-\end{gather*}
-  Then $p_1$, $p_2$, and $p_3$ are all at most $1$. Furthermore, for
-  sufficiently large $l_\zeta$ and $l_\xi$ we have
-\begin{equation*}
-  \begin{split}
- \psi_{\lambda}(v;t_1) &\sim C_1 *  
- \mathrm{Bin}\Bigl(\tbinom{l_\zeta}{2}, p_1\Bigr) + C_2 *  
- \mathrm{Bin}\Bigl(\tbinom{l_\xi}{2}, p_2\Bigr) \\ &+ C_3 *
- \mathrm{Bin}\Bigl(l_\zeta l_\xi, p_3\Bigr)
- \end{split}
-\end{equation*} 
-\end{proposition}
-Proposition~\ref{prop:2} state that the locality statistics
-for the attributed random graphs model under consideration at time $t
-= t^{*}$ can be approximated by the locality
-statistics for an unattributed kidney and egg random graph model
 \begin{proof}[Theorem~\ref{thm:2}]
-Let $\psi_{\lambda}(v;t)$ be the (fused) locality statistics for
-vertex $v$ at time $t$, i.e.,
+Let $\phi_{\lambda}(v;t) = \psi_{\lambda}(v;t) - d_{\lambda}(v;t)$ be
+the (fused) locality statistics for
+vertex $v$ at time $t$ not including the (fused) degree of $v$, i.e.,
 \begin{equation}
   \label{eq:11}
-  \psi_{\lambda}(v;t) = \sum_{k=1}^{K} \lambda_k \sum_{uw \in N(v)}
+  \phi_{\lambda}(v;t) = \sum_{k=1}^{K} \lambda_k \sum_{\substack{uw
+      \in N(v) \\ u,w \not = v}}
   \mathbb{I}\{\phi(uw,t) = k\}.
 \end{equation}
 The following statements are made conditional on $|N(v)| = l$. First
 of all, we have
 \begin{equation*}
-  \psi_{\lambda}(v;t) = \sum_{k=1}^{K}{\lambda_k (y_k + z_k)}
+  \phi_{\lambda}(v;t) = \sum_{k=1}^{K}{\lambda_k z_k}
 \end{equation*}
-where $(y_1, \dots, y_K)$ and $(z_1, \dots, z_K)$ are distributed as
+where the $(z_1, \dots, z_K)$ are distributed as
 \begin{gather*}
-  (y_1,y_2,\dots,y_K) \sim \textrm{multinomial}\Bigl(
-  \tbinom{l}{2}, \pi_{00}\Bigr) \\ (z_1, z_2, \dots, z_K) \sim
-  \textrm{multinomial}\Bigl(l, \frac{\pi_{00}}{\langle \pi_{00},
-    1\rangle}\Bigr). 
+  (z_1,z_2,\dots,z_K) \sim \textrm{multinomial}\Bigl(
+  \tbinom{l}{2}, \pi_{00}\Bigr) 
 \end{gather*}
-For large $l$, by the multivariate normal
-approximation to the multinomial we have
+By the multivariate CLT, we have
 \begin{equation*}
-  \begin{split}
-  \psi_\lambda(v;t) & = (1 + o_{P}(1)) \mathcal{N}\Bigl(\tbinom{l}{2} \langle \lambda, \pi_{00} \rangle,
-  \tbinom{l}{2} \langle \lambda, \eta_{00} \lambda \rangle \Bigr) \\ 
-  &= (1 + o_{P}(1)) C_{00} \mathcal{N}(\tbinom{l}{2} p_{00}, \tbinom{l}{2} p_{00}
-  (1 - p_{00}))
-  \end{split}
-\end{equation*} 
-Now $p_{00} \leq 1$ with strict inequality whenever $\eta_{00}$ is
-positive definite. We thus have, for sufficiently large $l$,
+  \frac{\phi_\lambda(v;t) - \tbinom{l}{2} \langle \lambda, \pi_{00}
+    \rangle}{\sqrt{\tbinom{l}{2} \langle \lambda, \eta_{00} \lambda \rangle}}
+ \rightsquigarrow \mathcal{N}(0,1) 
+\end{equation*}
+Let $Y_{l} = C_{00} \mathrm{Bin}(\tbinom{l}{2}, p_{00})$. Then $\mathbb{E}[Y_l] = \tbinom{l}{2} \langle \lambda, \pi_{00} \rangle$
+and $\mathrm{Var}[Y_l] = \tbinom{l}{2} \langle \lambda,
+\eta_{00} \lambda \rangle$ and by the CLT, we have
 \begin{equation}
-  \label{eq:17}
- \psi_\lambda(v;t) = (1 + o_P(1)) C_{00} *  
- \mathrm{Bin}\Bigl(\tbinom{l}{2}, p_{00}\Bigr)
-\end{equation} 
-Eq.~\eqref{eq:17} states that the locality statistics for the
-attributed random graphs model under considation with $t < t^{*}$ can
-be approximated by the locality statistics for an Erd\"{o}s-Renyi
-graph with edge probability $p_{00}$. The claim then follows from
-\cite[Theorem 1.1]{rukhin:_limit_distr_graph_scan_statis}.
+  \label{eq:12}
+  \frac{\psi_{\lambda}(v;t) - \tbinom{l}{2} \langle \lambda, \pi_{00}
+    \rangle}{\sqrt{\tbinom{l}{2} \langle \lambda, \eta_{00} \lambda
+      \rangle}} \rightsquigarrow \frac{Y_l - \tbinom{l}{2} \langle \lambda, \pi_{00} \rangle}{\sqrt{\tbinom{l}{2}
+    \langle \lambda, \eta_{00} \lambda \rangle}}
+\end{equation}
+Eq.~\eqref{eq:12} states that the locality statistics for our
+attributed random graphs model with $t < t^{*}$
+can be approximated by the locality statistics for an Erd\"{o}s-Renyi
+graph with edge probability $p_{00}$. Theorem~\ref{thm:2} then follows
+from Theorem~1.1 in \cite{rukhin:_limit_distr_graph_scan_statis}.
+\end{proof}
+\begin{proof}[Theorem~\ref{thm:3}]
+  Let $\phi_{\lambda}(v;t^{*}) = \psi_{\lambda}(v;t^{*}) -
+  d_{\lambda}(v;t^{*})$. Let $d_{\zeta}(v;t)$ be
+the number of neighbors of $v$ that lies in $[m]$ and
+$d_{\xi}(v;t)$ be the number of neighbors of $v$ that lies in $[n]
+\setminus [m]$. The following statements are made, conditional on $d_{\zeta}(v;t^{*}) =
+l_{\zeta}$ and $d_{\xi}(v;t^{*}) = l_{\xi}$. First of all, we have
+\begin{equation}
+  \phi_{\lambda}(v;t^{*}) = \sum_{k=1}^{K} \lambda_k ( y^{(\zeta)}_k +
+  y^{(\xi)}_k + y^{(\omega)}_k)
+\end{equation}
+where $(y^{(\zeta)}_1, \dots, y^{(\zeta)}_K)$, $(y^{(\xi)}_1,\dots,
+ y^{(\xi)}_K)$,  $(y^{(\omega)}_1, \dots, y^{(\omega)}_K)$ are
+ distributed as
+\begin{gather*}
+(y^{(\zeta)}_1,\dots,y^{(\zeta)}_K) \sim \textrm{multinomial}\Bigl(
+\tbinom{l_\zeta}{2}, \pi_{11}\Bigr) \\ 
+(y^{(\xi)}_1,\dots,y^{(\xi)}_K) \sim \textrm{multinomial}\Bigl(
+\tbinom{l_\xi}{2}, \pi_{00}\Bigr) \\
+(y^{(\omega)}_1,\dots,y^{(\omega)}_m) \sim \textrm{multinomial}\Bigl(
+l_\zeta l_\xi, \pi_{10}\Bigr)
+\end{gather*}
+Let $\rho$ and $\varsigma$ be defined as
+\begin{gather*}
+  \rho = \langle \lambda, \tbinom{l_{\zeta}}{2} \pi_{11} +
+  \tbinom{l_{\xi}}{2} \pi_{00} + l_{\zeta} l_{\xi} \pi_{10} \rangle \\
+  \varsigma = \langle \lambda, \Bigl(\tbinom{l_{\zeta}}{2} \eta_{11} +
+  \tbinom{l_{\xi}}{2} \eta_{00} + l_{\zeta} l_{\xi} \eta_{10}\Bigr) \lambda
+  \rangle
+\end{gather*}
+By the multivariate CLT, we have
+\begin{equation}
+  \label{eq:16}
+  \frac{\phi_{\lambda}(v;t^{*}) - \rho}{\varsigma} \rightsquigarrow
+  \mathcal{N}(0,1)
+\end{equation}
+Let $Y_{\zeta} \sim C_{11} \mathrm{Bin}\Bigl(\tbinom{l_{\zeta}}{2},
+p_{11}\Bigr)$, $Y_{\xi} \sim C_{00} \mathrm{Bin}\Bigl(\tbinom{l_\xi}{2},
+p_{00}\Bigr)$ and $Y_{\omega} \sim C_{10} \mathrm{Bin}\Bigl( l_{\zeta}
+l_{\xi}, p_{10} \Bigr)$. By the CLT, we have
+\begin{equation}
+  \label{eq:21}
+ \frac{\phi_{\lambda}(v;t^{*}) - \rho}{\varsigma} \rightsquigarrow
+ \frac{Y_{\zeta} + Y_{\xi} + Y_{\omega} - \rho}{\varsigma}
+\end{equation}
+Eq.~\eqref{eq:21} states that the locality statistics for our
+attributed random graphs model time $t = t^{*}$ can be approximated by
+the locality statistics for an unattributed kidney and egg model.
 \end{proof}
 \bibliography{ssp2011}
 \end{document}
