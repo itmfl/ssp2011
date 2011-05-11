@@ -344,8 +344,7 @@ parameter $\alpha$ and scale parameter $\beta$.
   \label{prop:3}
   Let $a_n$ and $b_n$ be functions of $n$ given by
   \begin{align*}
-    a_n &= (2 \log{n})^{1/2}\Bigl(1 - \frac{\log{\log{n}}}{4 \log{n}} -
-    \frac{\log{2\pi^{1/2}}}{2 \log{n}} \Bigr) \\ 
+    a_n &= (2 \log{n})^{1/2}\Bigl(1 - \frac{\log{\log{n}} + \log{4\pi}}{4 \log{n}} \Bigr) \\ 
     b_n &= (2 \log{n})^{-1/2}
   \end{align*}
   Then as $n \rightarrow \infty$ and $m = \Omega( \sqrt{n \log{n}})$,
@@ -524,53 +523,125 @@ and variance of the convolution $X + Y$. \\
     \mathbb{I}\{ \phi(vw,t) = k \}
   \end{equation*}
   Let $\Gamma^{(k)}(v;t) = |\{w \colon \mathbb{I}\{\phi(wv,t) =
-  k\}|$. The vector $\bm{\Gamma}(v;t) = (\Gamma^{(1)}(v;t), \dots,
-  \Gamma^{(K)}(v;t))$ for $t < t^{*}$ is distributed as a multinomial
-  with $n-1$ trials and probability vector $\pi_{00}$. The folllowing
-  statements are made under the assumption that $n \rightarrow \infty$
-  for fixed $K$. By the multivariate central limit theorem, we have
-  \begin{equation*}
-    \frac{\bm{\Gamma}(v;t) - (n-1) \pi_{00}}{\sqrt{n-1}}
-    \rightsquigarrow \mathcal{N}(0, (\mathrm{diag}(\pi_{00}) -
-    \pi_{00} \pi_{00}^{T}))
-  \end{equation*}
-  Now $d_{\lambda}(v;t) = \langle \lambda, \bm{\Gamma}(v;t) \rangle$
-  and we have
-  \begin{equation*}
+  k\}|$. The vector $\bm{\Gamma}(v;t) = (\Gamma^{(k)}(v;t))_{k=1}^{K}$
+  for $t < t^{*}$ is distributed as a multinomial with $n-1$ trials
+  and probability vector $\pi_{00}$. The following statements are
+  made as $n \rightarrow \infty$ for fixed
+  $K$. Now $d_{\lambda}(v;t) = \langle \lambda, \bm{\Gamma}(v;t)
+  \rangle$ and
+  thus, by the central limit theorem, we have
+  \begin{equation}
+    \label{eq:17}
     \frac{d_{\lambda}(v;t) - (n-1) \langle \lambda, \pi_{00}
-      \rangle}{\sqrt{n-1}} \rightsquigarrow \mathcal{N}(0, \langle \lambda, \eta_{00} \lambda \rangle)
-  \end{equation*}
-  Therefore, $\tfrac{d_{\lambda}(v;t) - (n-1) \langle \lambda,
-    \pi_{00} \rangle}{\sqrt{(n-1) \langle \lambda, \eta_{00} \lambda
-      \rangle}} \rightsquigarrow N(0,1)$. We can thus consider the
-  degree sequence of $G(t)$ for $t < t^{*}$ as a sequence of {\em
-    dependent} Gaussian random variables. By an argument analogous to
-  the argument for Erd\"{o}s-Renyi random graphs in \cite[\S
-  III.1]{bollobas85:_random_graph} we can show that the dependency
-  among the $d_{\lambda}(v,t)$ can be ignored. Let us define
-  $\xi_s$ for $s \in \mathbb{R}$ as the number of vertices $v$ such
-  that $\tfrac{d_\lambda(v;t) - (n-1) \langle \lambda, \pi_{00}
-    \rangle}{\sqrt{(n-1) \langle \lambda, \eta_{00} \lambda \rangle}}
-  \geq s$. Note that $\xi_s \leq k$ only if there are at most $k$
-  vertices with $\tfrac{d_{\lambda}(v;t) - (n-1) \langle \lambda,
-    \pi_{00} \rangle}{\sqrt{(n-1) \langle \lambda, \eta_{00} \lambda
-      \rangle}} \geq s$. Thus, $\tfrac{\Delta_{\lambda}(v;t) - (n-1)
-    \langle \lambda, \pi_{00} \rangle}{\sqrt{(n-1) \langle \lambda,
-      \eta_{00} \lambda \rangle}} < s$ only if $\xi_s = 0$. Because
-  the sample maximum of Gaussian random variables converges weakly to
-  a Gumbel \cite[\S 2.3]{galambos87:_asymp_theor_extrem_order_statis},
-  by taking $n \rightarrow \infty$ followed by $s \rightarrow \infty$,
-  we can show that $\tfrac{\Delta_{\lambda}(v;t) - (n-1) \langle \lambda,
-  \pi_{00} \rangle}{\sqrt{(n-1) \langle \lambda, \eta_{00} \lambda
-    \rangle}} \rightsquigarrow \mathcal{G}(a_n, b_n)$. We thus obtain
-Eq.~\eqref{eq:14} for $t < t^{*}$. The case when $t = t^{*}$ can be
-derive in a similar manner. We first apply Lemma 3.1 in
-\cite{rukhin:_limit_distr_graph_scan_statis} to show that if $m =
+      \rangle}{\sqrt{(n-1) \langle \lambda, \eta_{00} \lambda \rangle}}
+      \rightsquigarrow \mathcal{N}(0, 1)
+    \end{equation}
+    We can thus consider the degree sequence of $G(t)$ for $t < t^{*}$
+    as a sequence of {\em dependent} normally distributed random
+    variables. By an argument analogous to the argument for
+    Erd\"{o}s-Renyi random graphs in \cite[\S
+    III.1]{bollobas85:_random_graph} we can show that the dependency
+    among the $d_{\lambda}(v,t)$ can be ignored. $d_{\lambda}(v;t)$,
+    when normalized, can thus be considered as a sequence of
+    independent random variables from the standard normal in the
+    limit. It is widely known that the sample maximum of standard
+    normal random variables converges weakly to a Gumbel distribution
+    \cite[\S 2.3]{galambos87:_asymp_theor_extrem_order_statis}. It is,
+    however, not clear whether the convergence of
+    $\Delta_{\lambda}(t)$ to a Gumbel distribution continues to hold
+    under the composition of weak convergence as
+    outlined above. We avoid this problem by showing
+    directly that 
+    \begin{equation}
+      \label{eq:22}
+  \mathbb{P}\Bigl(\tfrac{\Delta_{\lambda}(t) - (n-1)
+        \langle \lambda, \pi_{00} \rangle}{\sqrt{(n-1) \langle
+          \lambda, \eta_{00} \lambda \rangle}} \leq a_n + b_n x\Big)
+      \rightarrow 
+      e^{-e^{-x}} 
+    \end{equation}
+    Let $\zeta_v = \tfrac{d_{\lambda}(v;t) - (n-1) \langle \lambda,
+      \pi_{00} \rangle}{\sqrt{(n-1) \langle \lambda, \eta_{00} \lambda
+        \rangle}}$ and $F_n(u) = \mathbb{P}(\zeta_v \leq u)$. If $n
+    \rightarrow \infty$ and $u = o(\sqrt{n})$, we have the
+    following large deviations result \cite[Theorem~2, \S
+    XVI.7]{feller71:_introd_probab_theor_its_applic}.
+    \begin{equation}
+      \label{eq:23}
+      \frac{1 - F_{n}(u)}{1 - \Phi(u)} = \exp\Bigl(u^2
+      h(\tfrac{u}{\sqrt{n}})\Bigr) \Bigl[1 + O(\tfrac{u}{\sqrt{n}}) \Bigr]
+    \end{equation}
+    where $h(z)$ is a power series defined by
+    \begin{equation*}
+      z^{2} h(z) = h_0 z^3 + h_1 z^4 + \dots
+    \end{equation*}
+    and the $h_i$ are constants. Letting $u_n = a_n + b_n x$ in
+    Eq.~\eqref{eq:23}, we have
+    \begin{equation}
+      \label{eq:24}
+     1 - F_n(u_n) = (1 - \Phi(u_n))(1 + C \tfrac{u_n^{3}}{\sqrt{n}} +
+     O(\tfrac{u_n^{4}}{n}))
+    \end{equation}
+    for some constant $C$. We therefore have
+    \begin{equation}
+      \label{eq:25}
+      \begin{split}
+      \mathbb{P}(\max_{v \in [n]} \zeta(v) \leq u_n) &= (F_n(u_n))^{n}
+      \\
+      &= \Bigl[\Phi(u_n) + \Phi(u_n) 
+      \tilde{O}(\tfrac{1}{\sqrt{n}})\Bigr]^{n} \\
+      &= \Bigl[\Phi(u_n) + \tilde{O}(\tfrac{1}{n^{3/2}})\Bigr]^{n} \\
+      &= (\Phi(u_n))^{n} + \tilde{O}(\tfrac{1}{n^{1/2}}) \\
+      & \rightarrow e^{-e^{-x}} 
+      \end{split}
+    \end{equation}
+    where $\tilde{O}$ denote that the powers of $u_n =
+    O(\log{n})$ are ignored. Eq.~\eqref{eq:22} is established and
+    we obtain the limiting Gumbel distribution for
+    $\Delta_{\lambda}(t)$ for $t < t^{*}$ in Eq.~\eqref{eq:14}.
+    % Now $n(1 - \Phi(u_n)) = \exp(-x)(1 + o(u_n^{-1 + \theta}))$ for
+    % some small $\theta > 0$. We thus have
+    % \begin{equation}
+    %   \label{eq:26}
+    %   \begin{split}
+    %   \mathbb{P}(\max_{v \in [n]} \zeta(v) \leq u_n) &= \Bigl[ \Phi(u_n) - C
+    %   u_n^{3}n^{-3/2} e^{-x}(1 + o(u_n^{-1 + \theta})) + O(u_n^{4}/n)
+    %   n^{-1} e^{-x} \Bigr]^{n} \\
+    %   &= (\Phi(u_n))^{n}\Bigl[1 - C u_n^{3}n^{-1/2} e^{-x}(n \Phi(u_n))^{-1} +
+    %   o(u_n^{-4 + \theta})n^{-2} e^{-x}\Bigr]^{n} \\
+    %   &= (\Phi(u_n))^{n} - C u_n^{3}n^{-1/2} e^{-x} (\Phi(u_n))^{n-1} +
+    %   o(u_n^{-4 + \theta}n^{-1/2}) e^{-x} \\
+    %   &= (1 + o(1)) \Phi(u_n)^{n}
+    %   \end{split}
+    % \end{equation}
+    % where the term $o(1)$ can be made to be independent of
+    % $x$. Furthermore, we can verify that $\Phi(u_n)^{n} \rightarrow
+    % e^{e^{-x}}$ and thus Eq.~\eqref{eq:22} is established. 
+ % Let us define
+ %  $\xi_s$ for $s \in \mathbb{R}$ as the number of vertices $v$ such
+ %  that $\tfrac{d_\lambda(v;t) - (n-1) \langle \lambda, \pi_{00}
+ %    \rangle}{\sqrt{(n-1) \langle \lambda, \eta_{00} \lambda \rangle}}
+ %  \geq s$. Note that $\xi_s \leq k$ only if there are at most $k$
+ %  vertices with $\tfrac{d_{\lambda}(v;t) - (n-1) \langle \lambda,
+ %    \pi_{00} \rangle}{\sqrt{(n-1) \langle \lambda, \eta_{00} \lambda
+ %      \rangle}} \geq s$. Thus, $\tfrac{\Delta_{\lambda}(v;t) - (n-1)
+ %    \langle \lambda, \pi_{00} \rangle}{\sqrt{(n-1) \langle \lambda,
+ %      \eta_{00} \lambda \rangle}} < s$ only if $\xi_s = 0$. Because
+ %  the sample maximum of Gaussian random variables converges weakly to
+ %  a Gumbel \cite[\S 2.3]{galambos87:_asymp_theor_extrem_order_statis},
+ %  by taking $n \rightarrow \infty$ followed by $s \rightarrow \infty$,
+ %  we can show that $\tfrac{\Delta_{\lambda}(v;t) - (n-1) \langle \lambda,
+ %  \pi_{00} \rangle}{\sqrt{(n-1) \langle \lambda, \eta_{00} \lambda
+ %    \rangle}} \rightsquigarrow \mathcal{G}(a_n, b_n)$. 
+The case when $t = t^{*}$ can be
+derive in a similar manner. We first show that if $m =
 \Omega(\sqrt{n \log{n}})$, then $\Delta_{\lambda}(v;t^{*}) \rightsquigarrow
-\max_{v \in [m]}{d_{\lambda}(v;t^{*})}$.  
-We then show, again by the multivariate
+\max_{v \in [m]}{d_{\lambda}(v;t^{*})}$ \cite[Lemma
+3.1]{rukhin:_limit_distr_graph_scan_statis}.  
+We then show, again by the 
 central limit theorem that for $v \in [m]$, $\tfrac{d_{\lambda}(v;t^{*}) -
-  \mu_2}{\sigma_2} \rightsquigarrow N(0,1)$. It then follows that
+  \mu_2}{\sigma_2} \rightsquigarrow N(0,1)$. It then follows, similar
+to our previous reasoning for the case where $t < t^{*}$, that
 $\max_{v \in [m]} \tfrac{d_{\lambda}(v;t^{*}) -
   \mu_2}{\sigma_2} \rightsquigarrow \mathcal{G}(a_m,b_m)$ and we obtain
 Eq.~\eqref{eq:14} for $t = t^{*}$.  
@@ -611,7 +682,7 @@ where the $(z_1, \dots, z_K)$ are distributed as
   (z_1,z_2,\dots,z_K) \sim \textrm{multinomial}\Bigl(
   \tbinom{l}{2}, \pi_{00}\Bigr) 
 \end{gather*}
-By the multivariate CLT, we have
+By the central limit theorem, we have
 \begin{equation*}
   \frac{\phi_\lambda(v;t) - \tbinom{l}{2} \langle \lambda, \pi_{00}
     \rangle}{\sqrt{\tbinom{l}{2} \langle \lambda, \eta_{00} \lambda \rangle}}
@@ -619,7 +690,7 @@ By the multivariate CLT, we have
 \end{equation*}
 Let $Y_{l} = C_{00} \mathrm{Bin}(\tbinom{l}{2}, p_{00})$. Then $\mathbb{E}[Y_l] = \tbinom{l}{2} \langle \lambda, \pi_{00} \rangle$
 and $\mathrm{Var}[Y_l] = \tbinom{l}{2} \langle \lambda,
-\eta_{00} \lambda \rangle$ and by the CLT, we have
+\eta_{00} \lambda \rangle$ and again by the central limit theorem, we have
 \begin{equation}
   \label{eq:12}
   \frac{\psi_{\lambda}(v;t) - \tbinom{l}{2} \langle \lambda, \pi_{00}
@@ -663,7 +734,7 @@ Let $\rho$ and $\varsigma$ be defined as
   \tbinom{l_{\xi}}{2} \eta_{00} + l_{\zeta} l_{\xi} \eta_{10}\Bigr) \lambda
   \rangle
 \end{gather*}
-By the multivariate CLT, we have
+By the central limit theorem, we have
 \begin{equation}
   \label{eq:16}
   \frac{\phi_{\lambda}(v;t^{*}) - \rho}{\varsigma} \rightsquigarrow
@@ -672,7 +743,7 @@ By the multivariate CLT, we have
 Let $Y_{\zeta} \sim C_{11} \mathrm{Bin}\Bigl(\tbinom{l_{\zeta}}{2},
 p_{11}\Bigr)$, $Y_{\xi} \sim C_{00} \mathrm{Bin}\Bigl(\tbinom{l_\xi}{2},
 p_{00}\Bigr)$ and $Y_{\omega} \sim C_{10} \mathrm{Bin}\Bigl( l_{\zeta}
-l_{\xi}, p_{10} \Bigr)$. By the CLT, we have
+l_{\xi}, p_{10} \Bigr)$. By the central limit theorem, we have
 \begin{equation}
   \label{eq:21}
  \frac{\phi_{\lambda}(v;t^{*}) - \rho}{\varsigma} \rightsquigarrow
@@ -680,7 +751,80 @@ l_{\xi}, p_{10} \Bigr)$. By the CLT, we have
 \end{equation}
 Eq.~\eqref{eq:21} states that the locality statistics for our
 attributed random graphs model time $t = t^{*}$ can be approximated by
-the locality statistics for an unattributed kidney and egg model.
+the locality statistics for an unattributed kidney and egg model. We
+thus define $Y(v) = Y_{\zeta}(v) + Y_{\xi}(v) + Y_{\omega}(v)$
+where $Y_{\zeta}(v) \sim C_{11}
+\mathrm{Bin}(\tbinom{d_{\zeta}(v;t)}{2}, p_{11})$ and $Y_{\xi},
+Y_{\omega}$ are defined accordingly. Let $G \sim \kappa(n,m,p_{11},
+p_{10}, p_{00})$ be an unattributed kidney-egg graph with the
+probability of egg-egg, egg-kidney, and kidney-kidney connections
+being $p_{11}$, $p_{10}$, and $p_{00}$, respectively. Let $M(v)$ and
+$W(v)$ denote the number of vertices adjacent to $v$ in $[m]$ and $[n]
+\setminus [m]$, respectively. $D(v) = M(v) + W(v)$ is then the degree
+of $v$ in $G$. We now show two
+inequalities relating the tail distribution of 
+$\Delta(G)$ and $\Upsilon(G) = \max_{v \in V(G)} Y(v)$.
+\begin{gather}
+  \label{eq:27}
+    \limsup \mathbb{P}( \Upsilon(G) \geq a_{n,m} ) \leq \lim
+   \mathbb{P}( \Delta(G) \geq N_\kappa) \\
+   \label{eq:30}
+  \liminf \mathbb{P}( \Upsilon(G) \geq a_{n,m} ) \geq \lim \mathbb{P}(
+  \Delta(G) \geq N_{\kappa})
+\end{gather}
+\begin{proof}[Eq.~\eqref{eq:27}]
+ Let $C^{*} = \max\{C_{11},
+C_{10}, C_{00}\}$ and $d_{n,m} = \sqrt{2 a_{n,m}/C^{*}}$. We first
+note that
+\begin{equation*}
+\Upsilon(G) \geq a_{n,m} \Rightarrow C^{*} \tbinom{D(v)}{2} \geq
+a_{n,m} \Rightarrow D(v) \geq d_{n,m} 
+\end{equation*}
+Let us define $h(v) = \mathbb{E}[Y(v)]$, i.e., 
+\begin{equation*}
+  \begin{split}
+  h(v) = C_{00}p_{00} \tbinom{D(v)}{2} &+ (C_{11} p_{11} - C_{00}
+  p_{00}) \tbinom{M(v)}{2} \\ &+ (C_{10} p_{10} - C_{00} p_{00}) M(v) W(v)
+  \end{split}
+\end{equation*}
+We then have
+  \begin{equation*}
+    \label{eq:31}
+    \begin{split}
+    \mathbb{P}(\Upsilon(G) \geq a_{n,m}) &= \mathbb{P}\Bigl( \bigcup_{v
+      \in V(G)} Y(v) \geq a_{n,m}\Bigr) \\
+    &= \mathbb{P}\Bigl( \bigcup_{v
+      \in V(G)} Y(v) \geq a_{n,m}, \, D(v) \geq d_{n,m} \Bigr) \\
+    &= P_1 + P_2
+    \end{split}
+  \end{equation*}
+  where 
+  \begin{align*}
+    \vartheta_n &= C_{00} \Bigl[ \tbinom{n}{2} p_{00} (1 -
+    p_{00})\Bigr]^{1/2} \log{n} \\
+    P_1 &= \mathbb{P}(\bigcup_{v \in V(G)} D(v) \geq d_{n,m}, h(v) \geq
+    a_{n,m} - \vartheta_n) \\
+    P_2 &= \mathbb{P}(\bigcup_{v \in V(G)} D(v) \geq d_{n,m},
+    Y(v) - h(v) \geq \vartheta_n)
+  \end{align*}
+  We now show that $P_2$ is negligible as $n \rightarrow \infty$. To
+  proceed, let $p_{e,f} = \mathbb{P}(M(v) = e, W(v) =
+f)$. $P_2$ can then be bounded as follows
+\begin{equation*}
+  \begin{split}
+    P_2 & \leq n \sum_{D(v) \geq
+        d_{n,m}}{\mathbb{P}\biggl( Y(v) - \mathbb{E}[Y(v)] \geq
+        \vartheta_n \biggr) p_{e,f}}
+  \\
+  &= n \sum_{D(v) \geq d_{n,m}}{\mathbb{P}\biggl(
+    \tfrac{Y(v) - \mathbb{E}[Y(v)]}{\sqrt{\mathrm{Var}[Y(v)]}} \geq
+    \tfrac{\vartheta_n}{\sqrt{\mathrm{Var}[Y(v)]}} \biggr) p_{e,f}} \\
+    &\leq n \sum_{D(v) \geq d_{n,m}} (1 + o(1)) \mathbb{P}(Z \geq \Theta(\log{n})) p_{e,f} \\
+    &= o(1)
+  \end{split}
+\end{equation*}
+
+\end{proof}
 \end{proof}
 \bibliography{ssp2011}
 \end{document}
