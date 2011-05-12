@@ -705,14 +705,15 @@ graph with edge probability $p_{00}$. Theorem~\ref{thm:2} then follows
 from Theorem~1.1 in \cite{rukhin:_limit_distr_graph_scan_statis}.
 \end{proof}
 \begin{proof}[Theorem~\ref{thm:3}]
-  Let $\phi_{\lambda}(v;t^{*}) = \psi_{\lambda}(v;t^{*}) -
-  d_{\lambda}(v;t^{*})$. Let $d_{\zeta}(v;t)$ be
-the number of neighbors of $v$ that lies in $[m]$ and
-$d_{\xi}(v;t)$ be the number of neighbors of $v$ that lies in $[n]
-\setminus [m]$. The following statements are made, conditional on $d_{\zeta}(v;t^{*}) =
-l_{\zeta}$ and $d_{\xi}(v;t^{*}) = l_{\xi}$. First of all, we have
+  For ease of exposition, we will drop the time index $t =
+  t^{*}$ from our notations and discussion. Let
+  $\phi_{\lambda}(v) = \psi_{\lambda}(v) - d_{\lambda}(v)$. Let
+  $M(v)$ be the number of neighbors of $v$ that lies in $[m]$ and
+  $W(v)$ be the number of neighbors of $v$ that lies in $[n]
+\setminus [m]$. The following statements are made, conditional on
+$M(v) = l_{\zeta}$ and $W(v) = l_{\xi}$. We have
 \begin{equation}
-  \phi_{\lambda}(v;t^{*}) = \sum_{k=1}^{K} \lambda_k ( y^{(\zeta)}_k +
+  \phi_{\lambda}(v) = \sum_{k=1}^{K} \lambda_k ( y^{(\zeta)}_k +
   y^{(\xi)}_k + y^{(\omega)}_k)
 \end{equation}
 where $(y^{(\zeta)}_1, \dots, y^{(\zeta)}_K)$, $(y^{(\xi)}_1,\dots,
@@ -734,33 +735,31 @@ Let $\rho$ and $\varsigma$ be defined as
   \tbinom{l_{\xi}}{2} \eta_{00} + l_{\zeta} l_{\xi} \eta_{10}\Bigr) \lambda
   \rangle
 \end{gather*}
-By the central limit theorem, we have
+By the central limit theorem, as $l_{\zeta} \rightarrow
+\infty$ and $l_{\xi} \rightarrow \infty$
 \begin{equation}
   \label{eq:16}
-  \frac{\phi_{\lambda}(v;t^{*}) - \rho}{\varsigma} \rightsquigarrow
+  \frac{\phi_{\lambda}(v) - \rho}{\varsigma} \rightsquigarrow
   \mathcal{N}(0,1)
 \end{equation}
 Let $Y_{\zeta} \sim C_{11} \mathrm{Bin}\Bigl(\tbinom{l_{\zeta}}{2},
 p_{11}\Bigr)$, $Y_{\xi} \sim C_{00} \mathrm{Bin}\Bigl(\tbinom{l_\xi}{2},
 p_{00}\Bigr)$ and $Y_{\omega} \sim C_{10} \mathrm{Bin}\Bigl( l_{\zeta}
-l_{\xi}, p_{10} \Bigr)$. By the central limit theorem, we have
+l_{\xi}, p_{10} \Bigr)$. We also set $Y = Y_{\zeta} + Y_{\xi} +
+Y_{\omega}$. By the central limit theorem, we have
 \begin{equation}
   \label{eq:21}
- \frac{\phi_{\lambda}(v;t^{*}) - \rho}{\varsigma} \rightsquigarrow
- \frac{Y_{\zeta} + Y_{\xi} + Y_{\omega} - \rho}{\varsigma}
+ \frac{\phi_{\lambda}(v) - \rho}{\varsigma} \rightsquigarrow
+ \frac{Y - \rho}{\varsigma}
 \end{equation}
-Eq.~\eqref{eq:21} states that the locality statistics for our
-attributed random graphs model time $t = t^{*}$ can be approximated by
-the locality statistics for an unattributed kidney and egg model. We
-thus define $Y(v) = Y_{\zeta}(v) + Y_{\xi}(v) + Y_{\omega}(v)$
-where $Y_{\zeta}(v) \sim C_{11}
-\mathrm{Bin}(\tbinom{d_{\zeta}(v;t)}{2}, p_{11})$ and $Y_{\xi},
-Y_{\omega}$ are defined accordingly. Let $G \sim \kappa(n,m,p_{11},
-p_{10}, p_{00})$ be an unattributed kidney-egg graph with the
+Eq.~\eqref{eq:21} states that the locality statistics
+$\phi_\lambda(v)$ for our
+attributed random graphs model at time $t = t^{*}$ can be approximated by
+the locality statistics $Y(v)$ for an unattributed kidney and egg
+model. Let $G$ be an instance of $\kappa(n,m,p_{11},
+p_{10}, p_{00})$, an unattributed kidney-egg graph with the
 probability of egg-egg, egg-kidney, and kidney-kidney connections
-being $p_{11}$, $p_{10}$, and $p_{00}$, respectively. Let $M(v)$ and
-$W(v)$ denote the number of vertices adjacent to $v$ in $[m]$ and $[n]
-\setminus [m]$, respectively. $D(v) = M(v) + W(v)$ is then the degree
+being $p_{11}$, $p_{10}$, and $p_{00}$, respectively. $D(v) = M(v) + W(v)$ is then the degree
 of $v$ in $G$. We now show two
 inequalities relating the tail distribution of 
 $\Delta(G)$ and $\Upsilon(G) = \max_{v \in V(G)} Y(v)$.
@@ -795,7 +794,7 @@ We then have
       \in V(G)} Y(v) \geq a_{n,m}\Bigr) \\
     &= \mathbb{P}\Bigl( \bigcup_{v
       \in V(G)} Y(v) \geq a_{n,m}, \, D(v) \geq d_{n,m} \Bigr) \\
-    &= P_1 + P_2
+    &\leq P_1 + P_2
     \end{split}
   \end{equation*}
   where 
@@ -823,8 +822,105 @@ f)$. $P_2$ can then be bounded as follows
     &= o(1)
   \end{split}
 \end{equation*}
-
+We now consider $P_1$. We note that $P_1 \leq R_1 + R_2$
+where
+\begin{align*}
+  R_1 &= \mathbb{P}\Bigl(\bigcup_{v \in [m]} D(v) \geq
+  d_{n,m}, h(v) \geq a_{n,m} - \vartheta_n \Bigr) \\  
+  R_2 &= \mathbb{P}\Bigl(\bigcup_{v \in [n] \setminus [m]} D(v) \geq
+  d_{n,m}, h(v) \geq a_{n,m} - \vartheta_n \Bigr)
+\end{align*}
+Let us define $g(v) = h(v) - C_{00}p_{00} \tbinom{D(v)}{2}$.
+$R_1$ is then bounded as follows
+\begin{equation}
+  \begin{split}
+    \label{eq:36}
+    R_1 &\leq \mathbb{P}\Bigl( \bigcup_{v \in [m]} h(v) \geq
+    a_{n,m} - \vartheta_{n} \Bigr) \\
+    % &\leq \mathbb{P}\Bigl( \bigcup_{v \in [n_1]}  C_{00} p_{00}
+    % \tbinom{D(v)}{2} \geq a_{n,m} - \vartheta_{n} - g(v) \Bigr) \\
+    &\leq \mathbb{P}\Bigl(\bigcup_{v \in [m]} D(v) \geq
+      \sqrt{\tfrac{2 (a_{n,m} - \vartheta_n -
+        g(v))}{C_{00} p_{00}}} \Bigr)
+  \end{split}
+\end{equation}
+We first consider the term $a_{n,m} - g(v)$. We have
+\begin{equation*}
+  \begin{split}
+  a_{n,m} - g(v) &= C_{00} p_{00} \tbinom{N_\kappa}{2} \\ &+ (C_{11}p_{11} -
+  C_{00} p_{00})(\tbinom{\mu_E}{2} - \tbinom{M(v)}{2})
+  \\ &+ (C_{10} p_{10} - C_{00} p_{00})(\mu_E\mu_F - M(v)W(v))
+  \end{split}
+\end{equation*}
+Let $\mathfrak{E}$ and $\mathfrak{F}$ be sets of vertices defined by
+\begin{align}
+\mathfrak{E} &=
+\{v \colon |M(v) - \mu_E| \leq \sigma_E \log{m}\} \\ \mathfrak{F} &=
+\{v \colon |W(v) - \mu_F| \leq \sigma_F \log{(n-m)}\}.
+\end{align}
+Then we have, for $v \in \mathfrak{E} \cap \mathfrak{F}$
+\begin{equation}
+  \label{eq:34}
+  \begin{split}
+  a_{n,m} - g(v) =  C_{00} p_{00} \tbinom{N_\kappa}{2} &+
+  \Theta(m^{3/2} \log{m}) \\ &+ 
+  \Theta(m \sqrt{n - m}) \\
+  \end{split}
+\end{equation}
+When $m = \Omega(\sqrt{n \log n})$, Eq.~\eqref{eq:34} gives
+\begin{equation}
+  \label{eq:35}
+  a_{n,m} - g(v) = N_{\kappa}^{2}\Bigl(\tfrac{C_{00}p_{00}}{2} + O(n^{-1/2 - a}
+  \log{n})\Bigr)
+\end{equation}
+for some $a > 0$. The set $\{v \in [m]\}$ can now be partitition into
+$\{v \in [m] \cap \mathfrak{E} \cap\mathfrak{F}\}$ and $\{v \in [m]
+\setminus (\mathfrak{E} \cap \mathfrak{F})\}$. We can show that
+$\mathbb{P}\{v \in [m] \setminus (\mathfrak{E} \cap \mathfrak{F})\} =
+o(n^{-1})$ by using a concentration inequality, e.g., Hoeffding's
+bound. We thus have
+\begin{equation}
+  \label{eq:37}
+  \begin{split}
+    R_1 &\leq \mathbb{P}\biggl( \bigcup_{\substack{v \in [m] \\ v
+        \in \mathfrak{E} \cap \mathfrak{F}}} D(v) \geq
+    N_{\kappa} \sqrt{1 + O(\tfrac{\log{n}}{n^{1/2+a}})} \Bigr) + o(n^{-1}) \\
+    & = \mathbb{P}\Bigl(\bigcup_{v \in [m]} D(v) \geq N_\kappa +
+    O(n^{1/2 - a} \log{n})\Bigr) + o(n^{-1}) \\
+    &= \mathbb{P}\Bigl(\Delta \geq \mu_{E+F} +
+    \sigma_{E+F}(z_m + O(\tfrac{\log{n}}{n^{a}}))\Bigr) + o(n^{-1}) \\ 
+    & \rightarrow \mathbb{P}(\Delta \geq N_{\kappa})
+    \end{split}
+\end{equation}
+The same argument can be applied to $R_2$ to show that
+\begin{equation}
+  \label{eq:38}
+  R_2 \leq \mathbb{P}\Bigl(\bigcup_{v \in [n] \setminus [m]} D(v) \geq
+  N_{\kappa}(1 + o(1))\Bigr) = o(1)
+\end{equation}
+Eq.~\eqref{eq:27} is therefore established.
 \end{proof}
+\begin{proof}[Eq.~\eqref{eq:28}]
+  We start by noting that
+  \begin{equation*}
+    \begin{split}
+      \mathbb{P}(\Upsilon(G) \geq a_{n,m}) &=
+      \mathbb{P}\Bigl(\bigcup_{v \in [n]}Y(v) \geq
+      a_{n,m}\Bigr) \\
+      & \geq \mathbb{P}\Bigl(\bigcup_{v \in [m]}Y(v) \geq
+      a_{n,m}, D(v) \geq N_\kappa \Bigr) \\
+      & \geq \mathbb{P}\Bigl(\bigcup_{v \in [m]} D(v) \geq
+      N_\kappa\Bigr) \\ &- \mathbb{P}\Bigl( \bigcup_{v
+        \in [m]} Y(v) < a_{n,m}, D(v) \geq N_\kappa\Bigr)
+    \end{split}
+  \end{equation*}
+  We first show $\mathbb{P}( \cup_{v
+        \in [m]} Y(v) < a_{n,m}, D(v) \geq N_\kappa) \rightarrow 0$ as
+      $n \rightarrow \infty$. Let $v \in [m]$ be arbitrary. It is then
+      sufficient to show that $m\mathbb{P}(Y(v) < a_{n,m}, D(v) \geq
+      N_{\kappa}) = o(1)$. 
+\end{proof}
+
 \end{proof}
 \bibliography{ssp2011}
 \end{document}
