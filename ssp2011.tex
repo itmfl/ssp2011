@@ -448,10 +448,13 @@ Also let $z_n$ be defined, for any $n \in \mathbb{N}$, by
    \sigma_0 &= \sqrt{(n-1) (\langle 1, \pi_{00} \rangle - \langle
      1, \pi_{00} \rangle^2)} \\ 
     N_{0} &= \mu_0 + z_n \sigma_0 \\
-    a_n &= N_{0} \frac{\langle \lambda, \pi_{00} \rangle}{\langle
-      1, \pi_{00} \rangle} + C_{00}p_{00}\tbinom{N_{0}}{2} \\ 
-   b_n &= (1 - \tfrac{C_{00}p_{00}}{2} + C_{00}p_{00} N_{0}) \frac{\sigma_0}{\sqrt{2 \log
+  %  a_n &= N_{0} \frac{\langle \lambda, \pi_{00} \rangle}{\langle
+  %    1, \pi_{00} \rangle} + C_{00}p_{00}\tbinom{N_{0}}{2} \\ 
+    a_n &=  C_{00}p_{00}\tbinom{N_{0}}{2} \\ 
+   b_n &= C_{00}p_{00} N_{0} \frac{\sigma_0}{\sqrt{2 \log
      n}}
+%   b_n &= (1 - \tfrac{C_{00}p_{00}}{2} + C_{00}p_{00} N_{0}) \frac{\sigma_0}{\sqrt{2 \log
+%     n}}
 \end{align*}
 Then we have
 \begin{equation}
@@ -482,15 +485,16 @@ and variance of the convolution $X + Y$. \\
   \begin{gather}
     \label{eq:28}
     \begin{split}
-    a_{n,m} &=%  N_{\kappa} \frac{\langle x, \pi_{01} \rangle}{\langle
+    a_{n,m} =%  N_{\kappa} \frac{\langle x, \pi_{01} \rangle}{\langle
  %      1, \pi_{01} \rangle} \\
- % & +
-    C_{00} p_{00} \Bigl(\tbinom{N_\kappa}{2} - \tbinom{\mu_E}{2} - \mu_E
-    \mu_F\Bigr) \\ 
-     & + C_{11} p_{11} \tbinom{\mu_E}{2} + C_{01} p_{01} \mu_E \mu_F 
+ % & + 
+C_{00} p_{00} \tbinom{N_\kappa}{2} &+ (C_{11}p_{11} - C_{10} p_{10})
+\tbinom{\mu_E}{2} \\ &+ (C_{01} p_{01} - C_{00} p_{00}) \mu_E \mu_F 
     \end{split} \\
-    b_{n,m} = (1 - \tfrac{C_{00} p_{00}}{2} + C_{00} p_{00}
-    N_\kappa)\frac{\sigma_{E + F}}{\sqrt{2 \log{n_1}}}
+    b_{n,m} = C_{00} p_{00} N_\kappa \frac{\sigma_{E + F}}{\sqrt{2
+        \log{m}}}
+    %b_{n,m} = (1 - \tfrac{C_{00} p_{00}}{2} + C_{00} p_{00}
+    %N_\kappa)\frac{\sigma_{E + F}}{\sqrt{2 \log{n_1}}}
   \end{gather}
   If $m = \Omega(\sqrt{n \log n})$, then
   \begin{equation}
@@ -648,7 +652,7 @@ Eq.~\eqref{eq:14} for $t = t^{*}$.
   normalization $\tfrac{X - \mu}{\sigma}$. We have
   \begin{equation*}
     \begin{split}
-    \mathbb{P}[ \frac{X - \mu}{\sigma} \leq z]  &= \mathbb{P}[X \leq z
+    \mathbb{P}\Bigl[ \tfrac{X - \mu}{\sigma} \leq z\Bigr]  &= \mathbb{P}[X \leq z
     \sigma + \mu] 
     = e^{-e^{-(z \sigma + \mu - \alpha)/\beta}} \\
       &= e^{- e^{-(z - (\alpha - \mu)/\sigma)/(\beta/\sigma)}}
@@ -656,8 +660,8 @@ Eq.~\eqref{eq:14} for $t = t^{*}$.
   \end{equation*}
   Thus, $\tfrac{X - \mu}{\sigma} \sim \mathcal{G}(\tfrac{\alpha -
     \mu}{\sigma}, \tfrac{\beta}{\sigma})$. Because the sample
-  mean and the sample variance are consistent estimators, the claims
-  follow after an application of Slutsky's theorem.
+  mean and the sample variance are consistent estimators, the claim
+  follows after an application of Slutsky's theorem.
 \end{proof}
 \begin{proof}[Theorem~\ref{thm:2}]
 Let $\phi_{\lambda}(v;t) = \psi_{\lambda}(v;t) - d_{\lambda}(v;t)$ be
@@ -749,15 +753,22 @@ Y_{\omega}$. By the central limit theorem, we have
  \frac{Y - \rho}{\varsigma}
 \end{equation}
 Eq.~\eqref{eq:21} states that the locality statistics
-$\phi_\lambda(v)$ for our
-attributed random graphs model at time $t = t^{*}$ can be approximated by
-the locality statistics $Y(v)$ for an unattributed kidney and egg
-model. Let $G$ be an instance of $\kappa(n,m,p_{11},
-p_{10}, p_{00})$, an unattributed kidney-egg graph with the
-probability of egg-egg, egg-kidney, and kidney-kidney connections
-being $p_{11}$, $p_{10}$, and $p_{00}$, respectively. $D(v) = M(v) + W(v)$ is then the degree
-of $v$ in $G$. We now show two
-inequalities relating the tail distribution of 
+$\phi_\lambda(v)$ for our attributed random graphs model at time $t =
+t^{*}$ can be approximated by the locality statistics $Y(v)$ for an
+unattributed kidney and egg model. The limiting distribution for the
+scan statistics in unattributed kidney-egg graphs had previously been
+considered in \cite{rukhin:_limit_distr_graph_scan_statis}. We have
+thus provided a sketch of the arguments from
+\cite{rukhin:_limit_distr_graph_scan_statis} below, along with some minor
+changes to handle the case where the probability of kidney-kidney and
+kidney-egg connections are different. \\ \\
+\noindent
+Let $G$ be an instance of
+$\kappa(n,m,p_{11}, p_{10}, p_{00})$, an unattributed kidney-egg graph
+with the probability of egg-egg, egg-kidney, and kidney-kidney
+connections being $p_{11}$, $p_{10}$, and $p_{00}$,
+respectively. $D(v) = M(v) + W(v)$ is then the degree of $v$ in
+$G$. We now show two inequalities relating the tail distribution of
 $\Delta(G)$ and $\Upsilon(G) = \max_{v \in V(G)} Y(v)$.
 \begin{gather}
   \label{eq:27}
@@ -840,7 +851,7 @@ $R_1$ is then bounded as follows
         g(v))}{C_{00} p_{00}}} \Bigr)
   \end{split}
 \end{equation}
-We first consider the term $a_{n,m} - g(v)$. We have
+We now consider the term $a_{n,m} - g(v)$. We have
 \begin{equation*}
   \begin{split}
   a_{n,m} - g(v) &= C_{00} p_{00} \tbinom{N_\kappa}{2} \\ &+ (C_{11}p_{11} -
@@ -869,11 +880,11 @@ When $m = \Omega(\sqrt{n \log n})$, Eq.~\eqref{eq:34} gives
   a_{n,m} - g(v) = N_{\kappa}^{2}\Bigl(\tfrac{C_{00}p_{00}}{2} + O(n^{-1/2 - a}
   \log{n})\Bigr)
 \end{equation}
-for some $a > 0$. The set $\{v \in [m]\}$ can now be partitition into
+for some $a > 0$. The set $\{v \in [m]\}$ can be partitition into
 $\{v \in [m] \cap (\mathfrak{E} \cap\mathfrak{F})\}$ and $\{v \in [m]
 \setminus (\mathfrak{E} \cap \mathfrak{F})\}$. We can show that
 $\mathbb{P}\{v \in [m] \setminus (\mathfrak{E} \cap \mathfrak{F})\} =
-o(n^{-1})$ by using a concentration inequality, e.g., Hoeffding's
+o(1)$ by using a concentration inequality, e.g., Hoeffding's
 bound. We thus have
 \begin{equation}
   \label{eq:37}
@@ -973,7 +984,7 @@ $S_3$, from the fact that $e + f \geq N_{\kappa} + \varphi(n)$, we have the boun
   which then implies
   \begin{equation}
     \label{eq:27}
-    p_{S_3} \leq \sum_{\{e,f\} \in S_3} \mathbb{P} \Bigl[Z \leq
+    m p_{S_3} \leq m \sum_{\{e,f\} \in S_3} \mathbb{P} \Bigl[Z \leq
     - O(n^{k/2(k+1)}\Bigr] p_{e,f} = o(1)
   \end{equation}
   Thus $\mathbb{P}(Y(v) < a_{n,m}, D(v) \geq
