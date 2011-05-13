@@ -1,6 +1,7 @@
 \documentclass[draftcls]{IEEEtran}
+\usepackage[utopia]{mathdesign}
 \usepackage{amsmath}
-\usepackage{amssymb}
+%\usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage{graphicx}
 \usepackage{subfigure}
@@ -563,41 +564,37 @@ and variance of the convolution $X + Y$. \\
     Let $\zeta_v = \tfrac{d_{\lambda}(v;t) - (n-1) \langle \lambda,
       \pi_{00} \rangle}{\sqrt{(n-1) \langle \lambda, \eta_{00} \lambda
         \rangle}}$ and $F_n(u) = \mathbb{P}(\zeta_v \leq u)$. If $n
-    \rightarrow \infty$ and $u = o(\sqrt{n})$, we have the
-    following large deviations result \cite[Theorem~2, \S
-    XVI.7]{feller71:_introd_probab_theor_its_applic}.
+    \rightarrow \infty$ and $u = O(\log{n})$, we have the
+    following moderate deviations result \cite[Theorem~2, \S
+    XVI.7]{feller71:_introd_probab_theor_its_applic,rubin65:_probab}.
     \begin{equation}
       \label{eq:23}
-      \frac{1 - F_{n}(u)}{1 - \Phi(u)} = \exp\Bigl(u^2
-      h(\tfrac{u}{\sqrt{n}})\Bigr) \Bigl[1 + O(\tfrac{u}{\sqrt{n}}) \Bigr]
+      \frac{1 - F_{n}(u)}{1 - \Phi(u)} = \Bigl[1 + (C\tfrac{u^{3}}{\sqrt{n}}) + O(\tfrac{u^{6}}{n}) \Bigr]
     \end{equation}
-    where $h(z)$ is a power series defined by
-    \begin{equation*}
-      z^{2} h(z) = h_0 z^3 + h_1 z^4 + \dots
-    \end{equation*}
-    and the $h_i$ are constants. Letting $u_n = a_n + b_n x$ in
+    for some constant $C$. Letting $u_n = a_n + b_n x$ in
     Eq.~\eqref{eq:23}, we have
-    \begin{equation}
-      \label{eq:24}
-     1 - F_n(u_n) = (1 - \Phi(u_n))(1 + C \tfrac{u_n^{3}}{\sqrt{n}} +
-     O(\tfrac{u_n^{4}}{n}))
-    \end{equation}
-    for some constant $C$. We therefore have
+    \begin{equation*}
+      \begin{split}
+     F_n(u_n) &= 1 - (1 - \Phi(u_n))(1 + C \tfrac{u_n^{3}}{\sqrt{n}} +
+     O(\tfrac{u_n^{6}}{n})) \\
+     &= \Phi(u_n) + (1 - \Phi(u_n))(C \tfrac{u_n^{3}}{\sqrt{n}} +
+     O(\tfrac{u_n^6}{n})) \\
+     &= \Phi(u_n) + O(\tfrac{1}{u_n n^{1- \delta}})(C \tfrac{u_n^{3}}{\sqrt{n}} +
+     O(\tfrac{u_n^6}{n})) \\
+     &= \Phi(u_n) + O(\tfrac{u_n^{5}}{n^{3/2 - \delta}})
+     \end{split}
+    \end{equation*}
+    for some sufficiently small $\delta > 0$. We therefore have
     \begin{equation}
       \label{eq:25}
       \begin{split}
-      \mathbb{P}(\max_{v \in [n]} \zeta(v) \leq u_n) &= (F_n(u_n))^{n}
-      \\
-      &= \Bigl[\Phi(u_n) + \Phi(u_n) 
-      \tilde{O}(\tfrac{1}{\sqrt{n}})\Bigr]^{n} \\
-      &= \Bigl[\Phi(u_n) + \tilde{O}(\tfrac{1}{n^{3/2}})\Bigr]^{n} \\
-      &= (\Phi(u_n))^{n} + \tilde{O}(\tfrac{1}{n^{1/2}}) \\
+      \mathbb{P}(\max_{v \in [n]} \zeta(v) \leq u_n) &= (F_n(u_n))^{n} \\
+      &= \Bigl[\Phi(u_n) + O(\tfrac{u_n^{5}}{n^{3/2 - \delta}})\Bigr]^{n} \\
+      &= (\Phi(u_n))^{n} + O(\tfrac{u_n^{5}}{n^{1/2 - \delta}}) \\
       & \rightarrow e^{-e^{-x}} 
       \end{split}
     \end{equation}
-    where $\tilde{O}$ denote that the powers of $u_n =
-    O(\log{n})$ are ignored. Eq.~\eqref{eq:22} is established and
-    we obtain the limiting Gumbel distribution for
+    Eq.~\eqref{eq:22} is established and we obtain the limiting Gumbel distribution for
     $\Delta_{\lambda}(t)$ for $t < t^{*}$ in Eq.~\eqref{eq:14}.
     % Now $n(1 - \Phi(u_n)) = \exp(-x)(1 + o(u_n^{-1 + \theta}))$ for
     % some small $\theta > 0$. We thus have
@@ -705,8 +702,7 @@ graph with edge probability $p_{00}$. Theorem~\ref{thm:2} then follows
 from Theorem~1.1 in \cite{rukhin:_limit_distr_graph_scan_statis}.
 \end{proof}
 \begin{proof}[Theorem~\ref{thm:3}]
-  For ease of exposition, we will drop the time index $t =
-  t^{*}$ from our notations and discussion. Let
+  For ease of exposition we drop the index $t^{*}$ from our discussion. Let
   $\phi_{\lambda}(v) = \psi_{\lambda}(v) - d_{\lambda}(v)$. Let
   $M(v)$ be the number of neighbors of $v$ that lies in $[m]$ and
   $W(v)$ be the number of neighbors of $v$ that lies in $[n]
@@ -765,10 +761,10 @@ inequalities relating the tail distribution of
 $\Delta(G)$ and $\Upsilon(G) = \max_{v \in V(G)} Y(v)$.
 \begin{gather}
   \label{eq:27}
-    \limsup \mathbb{P}( \Upsilon(G) \geq a_{n,m} ) \leq \lim
+    \limsup\,\, \mathbb{P}( \Upsilon(G) \geq a_{n,m} ) \leq \lim
    \mathbb{P}( \Delta(G) \geq N_\kappa) \\
    \label{eq:30}
-  \liminf \mathbb{P}( \Upsilon(G) \geq a_{n,m} ) \geq \lim \mathbb{P}(
+  \liminf\,\, \mathbb{P}( \Upsilon(G) \geq a_{n,m} ) \geq \lim \mathbb{P}(
   \Delta(G) \geq N_{\kappa})
 \end{gather}
 \begin{proof}[Eq.~\eqref{eq:27}]
@@ -811,15 +807,15 @@ We then have
 f)$. $P_2$ can then be bounded as follows
 \begin{equation*}
   \begin{split}
-    P_2 & \leq n \sum_{D(v) \geq
-        d_{n,m}}{\mathbb{P}\biggl( Y(v) - \mathbb{E}[Y(v)] \geq
-        \vartheta_n \biggr) p_{e,f}}
+    \frac{P_2}{n} & \leq \sum_{e + f \geq
+        d_{n,m}}{\mathbb{P}( Y(v) - h(v) \geq
+      \vartheta_{n}, M(v) = e, W(v) = f) p_{e,f}}
   \\
-  &= n \sum_{D(v) \geq d_{n,m}}{\mathbb{P}\biggl(
-    \tfrac{Y(v) - \mathbb{E}[Y(v)]}{\sqrt{\mathrm{Var}[Y(v)]}} \geq
-    \tfrac{\vartheta_n}{\sqrt{\mathrm{Var}[Y(v)]}} \biggr) p_{e,f}} \\
-    &\leq n \sum_{D(v) \geq d_{n,m}} (1 + o(1)) \mathbb{P}(Z \geq \Theta(\log{n})) p_{e,f} \\
-    &= o(1)
+  &=  \sum_{e + f \geq d_{n,m}}{\mathbb{P}(
+    \tfrac{Y(v) - h(v)}{\mathrm{Var}[Y(v)]^{1/2}} \geq
+    \tfrac{\vartheta_n}{\mathrm{Var}[Y(v)]^{1/2}}, M(v) = e, W(v) = f) p_{e,f}} \\
+    &\leq \sum_{e + f \geq d_{n,m}} (1 + o(1))
+    \mathbb{P}(Z \geq \Theta(\log{n})) p_{e,f} = o(n^{-1})
   \end{split}
 \end{equation*}
 We now consider $P_1$. We note that $P_1 \leq R_1 + R_2$
@@ -874,7 +870,7 @@ When $m = \Omega(\sqrt{n \log n})$, Eq.~\eqref{eq:34} gives
   \log{n})\Bigr)
 \end{equation}
 for some $a > 0$. The set $\{v \in [m]\}$ can now be partitition into
-$\{v \in [m] \cap \mathfrak{E} \cap\mathfrak{F}\}$ and $\{v \in [m]
+$\{v \in [m] \cap (\mathfrak{E} \cap\mathfrak{F})\}$ and $\{v \in [m]
 \setminus (\mathfrak{E} \cap \mathfrak{F})\}$. We can show that
 $\mathbb{P}\{v \in [m] \setminus (\mathfrak{E} \cap \mathfrak{F})\} =
 o(n^{-1})$ by using a concentration inequality, e.g., Hoeffding's
@@ -914,17 +910,79 @@ Eq.~\eqref{eq:27} is therefore established.
         \in [m]} Y(v) < a_{n,m}, D(v) \geq N_\kappa\Bigr)
     \end{split}
   \end{equation*}
-  We first show $\mathbb{P}( \cup_{v
+  We now show that $\mathbb{P}( \cup_{v
         \in [m]} Y(v) < a_{n,m}, D(v) \geq N_\kappa) \rightarrow 0$ as
       $n \rightarrow \infty$. Let $v \in [m]$ be arbitrary. It is then
       sufficient to show that $m\mathbb{P}(Y(v) < a_{n,m}, D(v) \geq
-      N_{\kappa}) = o(1)$. 
+      N_{\kappa}) = o(1)$. We note that $\mathbb{P}(Y(v) < a_{n,m}, D(v) \geq
+      N_{\kappa})$ can be rewritten as
+      \begin{equation}
+        \label{eq:24}
+        \sum_{e + f \geq N_{\kappa}}{\mathbb{P}(Y(v) \leq a_{n,m}, M(v) = e, W(v) =
+          f)}p_{e,f}
+      \end{equation}
+We now split the indices set $e + f \geq N_{\kappa}$ in
+Eq.~\eqref{eq:24} into three parts $S_1$, $S_2$ and $S_3$, namely
+\begin{gather}
+  \label{eq:32}
+    S_1 = \{ \{e,f\}\colon e \geq
+        \mu_E + \sigma_E \log{m}\} \\
+    S_2 = \{ \{e,f\} \colon  e \leq
+        \mu_E + \sigma_E \log{m},e + f \leq
+        N_\kappa + \varphi(n)\} \\
+    S_3 = \{ \{e,f\} \colon e \leq \mu_E + \sigma_E \log{m}, e + f \geq
+        N_\kappa + \varphi(n)\}
+\end{gather}
+where $\varphi(n) = \Theta(n^{1/2 - a})$ for some $a > 0$. We can then
+show that $m\mathbb{P}(M(v) = e,
+W(v) =f, \{e,f\} \in S_1) = o(1)$ by applying a concentration
+inequality. Similarly, $e + f \geq N_{\kappa}$ and $e \leq \mu_{E}
++ \sigma_{E} \log{m}$ implies that
+\begin{equation}
+  \label{eq:33}
+  f \geq \mu_{F} + (z_{m} - o(1)) \sigma_F 
+\end{equation}
+and once again, by a concentration inequality, we can show that m
+$\mathbb{P}(M(v) = e, W(v) = f, \{e,f\} \in S_2) = o(1)$. As for
+$S_3$, from the fact that $e + f \geq N_{\kappa} + \varphi(n)$, we have the bound
+  \begin{equation}
+    \begin{split}
+    a_{n,m} - h(v) &\leq (C_{11} p_{11} - C_{10} p_{10})[m \sigma_E
+    \log{m} + \tbinom{\log{m}}{2}] \\ &- C_{00}p_{00} N_\kappa \varphi(n)
+    \end{split}
+  \end{equation}
+  As $\mathrm{Var}[Y(v)] = \Theta(N_\kappa)$ for $\{M(v), W(v)\} \in
+  S_3$, we have
+  \begin{equation}
+    \label{eq:39}
+    \begin{split}
+      p_{S_3} &= \sum_{\{e,f\} \in S_3} \mathbb{P}( Y(v) < a_{n,m}) p_{e,f} 
+      \\ &\leq \sum_{\{e,f\} \in S_3} \mathbb{P}\Bigl(\tfrac{Y(v) - h(v))}{\mathrm{Var}[Y(v)]^{1/2}} \leq \tfrac{a_{n,m} -
+      h(v)}{\mathrm{Var}[Y(v)]^{1/2}}\Bigr)p_{e,f} \\
+    &\leq \sum_{\{e,f\} \in S_3} \mathbb{P}\Bigl[Z \leq
+    O\bigl(\tfrac{m^{3/2} \log m}{N_{\kappa}} - \varphi(n)\bigr)\Bigr] p_{e,f}
+    \end{split}
+  \end{equation}
+  We now set $a = \tfrac{1}{2(k+1)}$. Then for $m =
+  O(n^{k/(k+1)})$ and $\varphi(n) = O(n^{1/2 - a})$ we have
+  \begin{equation}
+    \label{eq:41}
+    \tfrac{m^{3/2} \log m}{N_\kappa} - \varphi(n) =
+    -O(n^{k/2(k+1))})
+  \end{equation}
+  which then implies
+  \begin{equation}
+    \label{eq:27}
+    p_{S_3} \leq \sum_{\{e,f\} \in S_3} \mathbb{P} \Bigl[Z \leq
+    - O(n^{k/2(k+1)}\Bigr] p_{e,f} = o(1)
+  \end{equation}
+  Thus $\mathbb{P}(Y(v) < a_{n,m}, D(v) \geq
+      N_{\kappa}) \rightarrow 0$ as desired.
 \end{proof}
 
 \end{proof}
 \bibliography{ssp2011}
 \end{document}
-
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: t
