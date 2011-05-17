@@ -21,6 +21,19 @@
 \let\overbrace\LaTeXoverbrace
 \newcommand{\argmax}{\operatornamewithlimits{argmax}}
 \newcommand{\argmin}{\operatornamewithlimits{argmin}}
+\def\mathllap{\mathpalette\mathllapinternal}
+\def\mathllapinternal#1#2{%
+\llap{$\mathsurround=0pt#1{#2}$}% $
+}
+\def\clap#1{\hbox to 0pt{\hss#1\hss}}
+\def\mathclap{\mathpalette\mathclapinternal}
+\def\mathclapinternal#1#2{%
+\clap{$\mathsurround=0pt#1{#2}$}%
+}
+\def\mathrlap{\mathpalette\mathrlapinternal}
+\def\mathrlapinternal#1#2{%
+\rlap{$\mathsurround=0pt#1{#2}$}% $
+}
 \bibliographystyle{IEEEtran}
 \begin{document}
 \title{Attribute fusion in a latent process model for time series of
@@ -227,18 +240,17 @@ fusion with parameter $\lambda \in \mathbb{R}^{K}$ via
   \label{eq:6}
   \mathcal{E}_{\lambda}(G(t)) = \sum_{k=1}^{K} \lambda_k \sum_{u,v}
   \mathbb{I}\{ \phi(uv,t) = k \} \\
-  \tau_\lambda(G(t)) = \sum_{k=1}^{K} \lambda_k \!\! \sum_{(u,v,w) \in
-    \binom{V}{3}} h_k(u,v,w) \\
+  \tau_{\lambda}(t) = \sum_{(i,j,k) \in K^{3}\vphantom{\tbinom{V}{3}}}
+  \, \, \sum_{(u,v,w)
+      \in \tbinom{V}{3}} \lambda_{i}\lambda_j \lambda_k h_{ijk}(u,v,w) \\
   \Delta_{\lambda}(G(t)) = \max_{v \in V} \, \sum_{k = 1}^{K} \lambda_k
   \sum_{u \in N(v)}{\mathbb{I}\{\phi(uv,t) = k\}} \\
   \label{eq:3}
   \Psi_{\lambda}(G(t)) = \max_{v \in V} \sum_{k = 1}^{K}
   \lambda_k \!\!\sum_{u,w \in N(v)}\!\!\! \mathbb{I}\{\phi(uw,t) = k\} 
   \end{gather}
-where $h_k(u,v,w)$ is the indicator function that the argument, a set
-of three vertices, forms a triangle of type $k$. A triangle
-is of type $k$ provided that all edges in the triangle have attribute
-$k$. \\ \\
+where $h_{ijk}(u,v,w)$ is the indicator function that $u$, $v$, and
+$w$ form a triangle whose edges have attributes $i$, $j$, and $k$. \\ \\
 \noindent
 Let $J_{\lambda}(t)$ be a statistic of the form as in Eq.~\eqref{eq:6} through
 Eq.~\eqref{eq:3}. We define the normalization $\bar{J}^{l}_\lambda(t)$
@@ -336,6 +348,46 @@ where $K \geq 2$.
  \lambda^{*}\} \not = \emptyset.
  \end{gather}
 \end{theorem}
+\subsection{Power estimates for $\tau_{\lambda}(t)$}
+The limiting distribution for the number of triangles in unattributed
+random graphs was considered in
+\cite{nowicki88:_subgr_u_statis_method} for the Erd\"{o}s-Renyi model
+and in \cite{rukhin09:_asymp_analy_various_statis_random_graph_infer}
+for the kidney-egg model.  
+\label{sec:power-estim-tau_l}
+\begin{theorem}
+  \label{thm:4}
+  Let $\rho$ and $\varsigma$ be defined by
+  \begin{gather}
+    \label{eq:42}
+    \begin{split}
+    \rho = \tbinom{m}{3} \langle \lambda, \pi_{AA} \rangle^{3} &+
+    \tbinom{m}{2}(n-m) \langle \lambda, \pi_{AA} \rangle \langle
+    \lambda, \pi_{0A} \rangle^{2} \\ &+ m \tbinom{n-m}{2} \langle \lambda,
+    \pi_{0A} \rangle^{2} \langle \lambda, \pi_{00} \rangle \\ &+
+    \tbinom{n-m}{3} \langle \lambda, \pi_{00} \rangle^{3}
+    \end{split} \\
+    \begin{split}
+    \varsigma^{2} &= \tbinom{m}{2} \langle \lambda, \eta_{AA} \lambda
+    \rangle \Bigl[(m-2) \langle \lambda, \pi_{AA} \rangle^{2} + (n-m)
+    \langle \pi_{0A} \rangle^{2} \Bigr]^{2} \\
+    &+ m(n-m) \langle \lambda, \eta_{0A} \lambda \rangle^{2} \Bigl[(m-1)
+    \langle \lambda, \pi_{AA} \rangle + (n-m-1) \langle \lambda, \pi_{00} \rangle \Bigr]^{2} \\
+    &+ \tbinom{n-m}{2} \langle \lambda, \eta_{00} \lambda \rangle
+    \Bigl[m \langle \lambda, \pi_{0A} \rangle^{2} + (n-m-2) \langle
+    \lambda, \pi_{00} \rangle^{2} \Bigr]^{2}
+    \end{split}
+  \end{gather}
+  As $n \rightarrow \infty$, we have
+  \begin{gather*}
+    \frac{\tau_{\lambda}(t) - \tbinom{n}{3}\langle \lambda, \pi_{00}
+      \rangle^{3}}{(n-2) \langle \lambda, \pi_{00} \rangle^{2}
+      \sqrt{\tbinom{n}{2} \langle \lambda, \eta_{00} \lambda \rangle}}
+    \rightsquigarrow \mathcal{N}(0,1) \qquad \text{for $t < t^{*}$} \\
+    \frac{\tau_{\lambda}(t) - \rho}{\varsigma} \rightsquigarrow
+    \mathcal{N}(0,1) \qquad \text{for $t = t^{*}$}
+  \end{gather*}
+\end{theorem}
 \subsection{Power estimates for $\Delta_{\lambda}(t)$}
 The analysis of the power estimates for $\Delta_{\lambda}(t)$ depends
 on some preliminary results which we now state. We denote by
@@ -410,7 +462,7 @@ eigenvalue problem as in Theorem~\ref{thm:1}.
 The limiting distribution for the scan statistics for unattributed
 random graphs was considered in
 \cite{rukhin:_limit_distr_graph_scan_statis}. This subsection is
-concerned with adpating the results in
+concerned with adapting the results in
 \cite{rukhin:_limit_distr_graph_scan_statis} to attributed random
 graphs. We state here only the relevant results. The proofs are
 delegated to the appendices. \\ \\
