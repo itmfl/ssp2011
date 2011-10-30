@@ -8,3 +8,9 @@ auto
 *.bbl
 *.blg
 *.brf
+_region*
+*.bz2
+*.gz
+*.RData
+*.Rbin
+*.Rhistory
