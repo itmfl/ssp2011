@@ -1,0 +1,707 @@
+\documentclass[10pt,journal,compsoc]{IEEEtran}
+\usepackage{fontenc}
+\pdfminorversion=4
+%\usepackage{lmodern}
+\usepackage[utopia]{mathdesign}
+\usepackage{graphicx}
+%\usepackage{xltxtra}
+%\setmainfont[Mapping=tex-text]{Linux Libertine}
+\usepackage[cmex10]{amsmath}
+\interdisplaylinepenalty=2500
+\usepackage{array}
+%\usepackage{amssymb}
+\usepackage{amsthm}
+%\usepackage[tight,normalsize,sf,SF]{subfigure}
+\ifCLASSOPTIONcompsoc
+\usepackage[font=normalsize,labelfont=sf,textfont=sf]{subfig}
+\else
+\usepackage[font=footnotesize]{subfig}
+\fi
+\usepackage{subfig}
+\usepackage{parskip}
+\usepackage{mathrsfs}
+\usepackage{bm}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\usepackage[colorlinks=true,pagebackref,linkcolor=magenta]{hyperref}
+\usepackage[noadjust]{cite}
+\renewcommand\arraystretch{1.2}
+\newcommand{\argmax}{\operatornamewithlimits{argmax}}
+\newcommand{\argmin}{\operatornamewithlimits{argmin}}
+\def\mathllap{\mathpalette\mathllapinternal}
+\def\mathllapinternal#1#2{%
+\llap{$\mathsurround=0pt#1{#2}$}% $
+}
+\def\clap#1{\hbox to 0pt{\hss#1\hss}}
+\def\mathclap{\mathpalette\mathclapinternal}
+\def\mathclapinternal#1#2{%
+\clap{$\mathsurround=0pt#1{#2}$}%
+}
+\def\mathrlap{\mathpalette\mathrlapinternal}
+\def\mathrlapinternal#1#2{%
+\rlap{$\mathsurround=0pt#1{#2}$}% $
+}
+\bibliographystyle{IEEEtran}
+\begin{document}
+\title{Attribute fusion in a latent process model for time series of
+  graphs}
+\author{Minh~Tang, Youngser~Park, Nam~H.~Lee, and Carey~E.~Priebe%
+% \IEEEcompsocitemizethanks{\IEEEcompsocthanksitem Minh~Tang, Nam~H.~Lee
+%  and Carey~E.~Priebe are with the Department of Applied Mathematics
+%  and Statistics, Johns Hopkins University.\protect \\
+%   Email: \{mtang10, nhlee, cep\}@jhu.edu
+% \IEEEcompsocthanksitem Youngser Park is with the Center for Imaging
+% Science , Johns Hopkins University.\protect \\
+%   Email: youngser@jhu.edu}%
+\thanks{}}
+\markboth{IEEE Transactions on Pattern Analysis and Machine
+  Intelligence (TPAMI)}{}
+\maketitle
+\appendix[Proofs of some stated results]
+\label{sec:proofs-some-stated}
+\begin{IEEEproof}[Corollary~2]
+  The maximizer of $\mu_\lambda$ also maximizes
+  \begin{equation*}
+    \mu_{\lambda}^{2} = \frac{\lambda^{T} \zeta \zeta^{T}
+      \lambda}{\lambda^{T} \xi \lambda}
+  \end{equation*}
+  Because $\xi$ is positive definite, there exists a positive definite matrix
+  $\xi^{1/2}$ such that $\xi^{1/2} \xi^{1/2} = \xi$. Letting $\nu = \xi^{1/2}
+  \lambda$, the above expression can be rewritten as
+  \begin{equation*}
+    \mu_{\lambda}^{2} = \frac{\nu^{T} \xi^{-1/2} \zeta \zeta^{T}
+      \xi^{-1/2} \nu}{ \nu^{T} \nu}
+  \end{equation*}
+  The claim then follows directly from the Rayleigh-Ritz theorem for
+  Hermitian matrices.
+\end{IEEEproof}
+\begin{IEEEproof}[Lemma~3]
+  $\tau_{\lambda}(G)$ is a U-statistics with kernel function
+  $h(Y_1, Y_2, Y_3) = Y_1 Y_2 Y_3$. By the theory of U-statistics, we
+  know that
+  \begin{equation}
+    \label{eq:48}
+    \frac{\tau_{\lambda}(G) -
+      \mathbb{E}[\tau_{\lambda}^{*}(G)]}{\sqrt{\mathrm{Var}[\tau_{\lambda}^{*}(G)]}}
+       \overset{\mathrm{d}}{\longrightarrow}  N(0,1)
+  \end{equation}
+  provided that $\mathrm{Var}[\tau_{\lambda}(G) -
+  \tau_{\lambda}^{*}(G)] = o(\mathrm{Var}[\tau_{\lambda}^{*}(G)])$.
+  
+  By the independent edge assumption, we have
+  \begin{align}
+    \mathbb{E}[h(Y_i, Y_j, Y_k) &= \mathbb{E}[Y_i]
+  \mathbb{E}[Y_j] \mathbb{E}[Y_k] \\ 
+  \mathbb{E}[h(Y_i, Y_j, Y_k) |
+  Y_i] &= Y_i \mathbb{E}[Y_j] \mathbb{E}[Y_k].
+  \end{align}
+ Thus, for $t < t^{*}$, we have $\mathbb{E}[\tau_{\lambda}^{*}(G(t))] = \tbinom{n}{3} \langle
+  \lambda, \pi_{00} \rangle^{3}$ and
+  \begin{equation}
+    \begin{split}
+      \mathrm{Var}[\tau_{\lambda}^{*}(G(t))] &=
+      \mathrm{Var}\Bigl[\sum_{\{u,v,w\}} Y_{uv} \mathbb{E}[Y_{uw}]
+      \mathbb{E}[Y_{vw}]\Bigr] \\
+      &= (n-2)^{2} \langle \lambda, \pi_{00} \rangle^{4}
+      \mathrm{Var}\Bigl[\sum_{\{u,v\}} Y_{uv} \Bigr] \\
+      &= (n-2)^{2} \langle \lambda, \pi_{00} \rangle^{4} \tbinom{n}{2}
+      \langle \lambda, \eta_{00} \lambda \rangle.
+    \end{split}
+  \end{equation}
+  We now sketch the derivation of
+  $\mathrm{Var}[\tau_{\lambda}^{*}(G(t))]$ for $t = t^{*}$. We partition the set
+  $\{u,v\} \in \tbinom{V}{2}$ into the sets 
+\begin{gather*}
+\mathcal{S}_1 = \{ u,v \in [m]
+  \}, \\ \mathcal{S}_2 = \{ u \in [m], v \in [n] \setminus [m]\}, \\
+  \mathcal{S}_3 = \{ u, v \in [n] \setminus[m]\}.
+\end{gather*} 
+We can thus decompose $\mathrm{Var}[\tau_{\lambda}^{*}(G(t))]$ as 
+\begin{equation}
+  \begin{split}
+  \mathrm{Var}[\tau_{\lambda}^{*}(G(t))] &= S_1^{2} \mathrm{Var}[\sum_{\{u,v\} \in \mathcal{S}_1} Y_{uv}] +
+  S_2^{2}
+  \mathrm{Var}[\sum_{\{u,v\} \in \mathcal{S}_2} Y_{uv}] \\ &+
+  S_3^{2}
+  \mathrm{Var}[\sum_{\{u,v\} \in \mathcal{S}_3} Y_{uv}] 
+  \end{split}
+\end{equation}
+Now, for $\{u,v\} \in \mathcal{S}_1$, we have
+\begin{equation}
+  \label{eq:58}
+  \begin{split}
+S_1 Y_{uv} &=\sum_{w \not = u,v} \mathbb{E}[h(Y_{uv}, Y_{uw}, Y_{vw})
+\, | \, Y_{uv}] \\
+ &= ((m-2) \langle \lambda, \pi_{11} \rangle^{2} + (n-m)
+    \langle \lambda, \pi_{10} \rangle^{2})Y_{uv}.
+  \end{split}
+\end{equation}
+The above expression is reasoned as follows. If $w \in [m]$, then
+$\mathbb{E}[Y_{uw}] = \mathbb{E}[Y_{vw}] = \langle \lambda,
+\pi_{11} \rangle$ and there are $m-2$ possible choices for $w \in [m]$
+different from $u$ and $v$. If $w \in [n] \setminus [m]$, then
+$\mathbb{E}[Y_{vw}] = \mathbb{E}[Y_{uw}] = \langle \lambda, \pi_{10}
+\rangle$ and there are $n - m$ possible choices for $w$. Analogous
+reasoning gives the expressions for $S_2$ and $S_3$ in the statement
+of the lemma. 
+
+We also have
+ \begin{equation}
+   \label{eq:56}
+   \mathrm{Var}[Y_{uv}] = \begin{cases}
+     \langle \lambda, \eta_{00} \lambda \rangle & \text{if $\{u,v\} \in
+       \mathcal{S}_1$} \\
+     \langle \lambda, \eta_{01} \lambda \rangle & \text{if $\{u,v\} \in
+       \mathcal{S}_2$} \\
+     \langle \lambda, \eta_{11} \lambda \rangle & \text{if $\{u,v\} \in
+       \mathcal{S}_3$} \\
+     \end{cases}.
+ \end{equation}
+and thus
+\begin{equation*}
+  \begin{split}
+    \mathrm{Var}[\tau_{\lambda}^{*}(G(t))] &=
+    \tbinom{m}{2} \langle \lambda, \eta_{00} \lambda \rangle S_1^{2} +
+    m(n-m) \langle \lambda, \eta_{01} \lambda \rangle S_2^{2} \\ &+
+    \tbinom{n-m}{2} \langle \lambda, \eta_{00} \lambda \rangle S_3^{2}
+  \end{split}
+\end{equation*}
+as desired. To complete the proof one must show that
+$\mathrm{Var}[\tau_{\lambda}(G) - \tau_{\lambda}^{*}(G)] =
+o(\mathrm{Var}[\tau_{\lambda}^{*}(G)])$ and this follows directly from
+the argument in \cite{nowicki88:_subgr_u_statis_method}
+or \cite{rukhin09:_asymp_analy_various_statis_random_graph_infer}.
+\end{IEEEproof}
+\begin{IEEEproof}[Proposition~5]
+  Let $v \in V(t)$ and denote by $d_{\lambda}(v;t)$ the (fused) degree
+  of vertex $v$, i.e.,
+  \begin{equation*}
+    d_{\lambda}(v;t) = \sum_{w \in N(v)} \langle \lambda,
+    \Gamma_{vw} \rangle.
+  \end{equation*}
+  For $t < t^{*}$, each of the $\Gamma_{vw}$ is a multinomial
+  trial with probability vector $\pi_{00}$. The following statements are
+  made as $n \rightarrow \infty$ for fixed
+  $K$.  By the central limit theorem, we have
+  \begin{equation}
+    \label{eq:17}
+    \frac{d_{\lambda}(v;t) - (n-1) \langle \lambda, \pi_{00}
+      \rangle}{\sqrt{(n-1) \langle \lambda, \eta_{00} \lambda \rangle}}
+    \overset{\mathrm{d}}{\longrightarrow} \mathcal{N}(0, 1).
+  \end{equation}
+  We can thus consider the degree sequence of $G(t)$ for $t < t^{*}$
+  as a sequence of {\em dependent} normally distributed random
+  variables. By an argument analogous to the argument for
+  Erd\"{o}s-Renyi random graphs in \cite[\S
+  III.1]{bollobas85:_random_graph} we can show that the dependency
+  among the $\{d_{\lambda}(v;t)\}_{v \in V(t)}$ can be
+  ignored. Another way of doing this is to note that the covariance
+  between $X_u$ and $X_v$, where $X_u$ and $X_v$ are the ratio in
+  Eq.~\eqref{eq:17} for vertices $u$ and $v$, is given by
+  \begin{equation}
+    \label{eq:63}
+    r = \mathrm{Cov}(X_u,X_v) = 
+    \frac{3 \langle \lambda, \pi_{00} \rangle}{\sqrt{(n-1)
+        \langle \lambda, \eta_{00} \lambda \rangle}}.
+  \end{equation}
+  Because $r \log{n} \rightarrow 0$ as $n \rightarrow \infty$, the
+  sample maximum of the $X_u$ converges to the sample maximum of a
+  sequence of {\em independent} $\mathcal{N}(0,1)$ random variables.
+  $d_{\lambda}(v;t)$, can thus be considered as a sequence
+  of independent random variables from a normal distribution. It is
+  well known that the sample maximum of standard normal random
+  variables converges weakly to a Gumbel distribution \cite[\S
+  2.3]{galambos87:_asymp_theor_extrem_order_statis}. It is, however,
+  not clear whether the convergence of $\Delta_{\lambda}(t)$ to a
+  Gumbel distribution continues to hold under the composition of
+  weak convergence as outlined above. We avoid this problem by
+  showing directly that
+  \begin{equation}
+    \label{eq:22}
+    \mathbb{P}\Bigl(\tfrac{\Delta_{\lambda}(t) - (n-1)
+      \langle \lambda, \pi_{00} \rangle}{\sqrt{(n-1) \langle
+        \lambda, \eta_{00} \lambda \rangle}} \leq a_n + b_n x\Big)
+    \rightarrow 
+    e^{-e^{-x}}. 
+  \end{equation}
+  Let $\zeta_v = \tfrac{d_{\lambda}(v;t) - (n-1) \langle \lambda,
+    \pi_{00} \rangle}{\sqrt{(n-1) \langle \lambda, \eta_{00} \lambda
+      \rangle}}$ and $F_n(u) = \mathbb{P}(\zeta_v \leq u)$. If $n
+  \rightarrow \infty$ and $u = O(\sqrt{\log{n}})$, we have the
+  following moderate deviations result \cite[Theorem~2, \S
+  XVI.7]{feller71:_introd_probab_theor_its_applic,rubin65:_probab}.
+  \begin{equation}
+    \label{eq:23}
+    \frac{1 - F_{n}(u)}{1 - \Phi(u)} = \Bigl[1 + (C\tfrac{u^{3}}{\sqrt{n}}) + O(\tfrac{u^{6}}{n}) \Bigr]
+  \end{equation}
+  for some constant $C$. Letting $u_n = a_n + b_n x$ in
+  Eq.~\eqref{eq:23}, we have
+  \begin{equation*}
+    \begin{split}
+      F_n(u_n) &= 1 - (1 - \Phi(u_n))(1 + C \tfrac{u_n^{3}}{\sqrt{n}} +
+      O(\tfrac{u_n^{6}}{n})) \\
+      &= \Phi(u_n) + (1 - \Phi(u_n))(C \tfrac{u_n^{3}}{\sqrt{n}} +
+      O(\tfrac{u_n^6}{n})) \\
+      &= \Phi(u_n) + O(\tfrac{1}{u_n n^{1- \delta}})(C \tfrac{u_n^{3}}{\sqrt{n}} +
+      O(\tfrac{u_n^6}{n})) \\
+      &= \Phi(u_n) + O(\tfrac{u_n^{5}}{n^{3/2 - \delta}})
+    \end{split}
+  \end{equation*}
+  for some sufficiently small $\delta > 0$. We therefore have
+  \begin{equation}
+    \label{eq:25}
+    \begin{split}
+      \mathbb{P}(\max_{v \in [n]} \zeta(v) \leq u_n) &= (F_n(u_n))^{n} \\
+      &= \Bigl[\Phi(u_n) + O(\tfrac{u_n^{5}}{n^{3/2 - \delta}})\Bigr]^{n} \\
+      &= (\Phi(u_n))^{n} + O(\tfrac{u_n^{5}}{n^{1/2 - \delta}}) \\
+      & \rightarrow e^{-e^{-x}}. 
+    \end{split}
+  \end{equation}
+  Eq.~\eqref{eq:22} is established and we obtain the limiting Gumbel distribution for
+  $\Delta_{\lambda}(t)$ for $t < t^{*}$.
+  
+  The case when $t = t^{*}$ can be derive in a similar manner. We
+  first show that if $m = \Omega(\sqrt{n \log n})$ then
+  $\Delta_{\lambda}(v;t^{*}) \overset{\mathrm{d}}{\longrightarrow}
+  \max_{v \in [m]}{d_{\lambda}(v;t^{*})}$ \cite[Lemma
+  3.1]{rukhin:_limit_distr_graph_scan_statis}. We then show, again by
+  the central limit theorem, that for $v \in [m]$,
+  $\tfrac{d_{\lambda}(v;t^{*}) - \mu_2}{\sigma_2}
+  \overset{\mathrm{d}}{\longrightarrow} \mathcal{N}(0,1)$. It then
+  follows, similar to our previous reasoning for the case where $t <
+  t^{*}$, that $\max_{v \in [m]} \tfrac{d_{\lambda}(v;t^{*}) -
+    \mu_2}{\sigma_2}
+  \overset{\mathrm{d}}{\longrightarrow}\mathcal{G}(a_m,b_m)$ and we
+  obtain the limiting Gumbel distribution for $\Delta_{\lambda}(t)$ for $t = t^{*}$.
+\end{IEEEproof}
+\begin{IEEEproof}[Theorem~6]
+  Let $ X \sim \mathcal{G}(\alpha, \beta)$. We consider the
+  normalization $\tfrac{X - \mu}{\sigma}$. We have
+  \begin{equation*}
+    \begin{split}
+    \mathbb{P}\Bigl[ \tfrac{X - \mu}{\sigma} \leq z\Bigr]  &= \mathbb{P}[X \leq z
+    \sigma + \mu] 
+    = e^{-e^{-(z \sigma + \mu - \alpha)/\beta}} \\
+      &= e^{- e^{-(z - (\alpha - \mu)/\sigma)/(\beta/\sigma)}}.
+    \end{split}
+  \end{equation*}
+  Thus, $\tfrac{X - \mu}{\sigma} \sim \mathcal{G}(\tfrac{\alpha -
+    \mu}{\sigma}, \tfrac{\beta}{\sigma})$. Because the sample
+  mean and the sample variance are consistent estimators, the claim
+  follows after an application of Slutsky's theorem.
+\end{IEEEproof}
+\begin{IEEEproof}[Lemma~7]
+Let $\phi_{\lambda}(v;t) = \psi_{\lambda}(v;t) - d_{\lambda}(v;t)$ be
+the (fused) locality statistics for
+vertex $v$ at time $t$ not including the (fused) degree of $v$, i.e.,
+\begin{equation}
+  \label{eq:11}
+  \phi_{\lambda}(v;t) = \sum_{\substack{uw
+      \in N(v) \\ u,w \not = v}} \langle \lambda,
+  \Gamma_{uw} \rangle.
+\end{equation}
+The following statements are conditional on $|N(v)| = l$. First
+of all, we have
+\begin{equation*}
+  \phi_{\lambda}(v;t) = \sum_{k=1}^{K}{\lambda_k z_k}
+\end{equation*}
+where the $(z_1, \dots, z_K)$ are distributed as
+\begin{gather*}
+  (z_1,z_2,\dots,z_K) \sim \textrm{multinomial}\Bigl(
+  \tbinom{l}{2}, \pi_{00}\Bigr). 
+\end{gather*}
+By the central limit theorem, we have
+\begin{equation*}
+  \frac{\phi_\lambda(v;t) - \tbinom{l}{2} \langle \lambda, \pi_{00}
+    \rangle}{\sqrt{\tbinom{l}{2} \langle \lambda, \eta_{00} \lambda \rangle}}
+  \overset{\mathrm{d}}{\longrightarrow} \mathcal{N}(0,1).
+\end{equation*}
+Let $\lambda^{(2)}$ be the element-wise square of $\lambda$. Define
+$C_{00}$ and $p_{00}$ to be 
+ \begin{gather}
+   \label{eq:26}
+   C_{00} = \tfrac{\langle \lambda^{(2)}, \pi_{00} \rangle}{\langle \lambda,
+     \pi_{00}\rangle}, \quad p_{00} = \tfrac{(\langle \lambda, \pi_{00}
+     \rangle)^{2}}{\langle \lambda^{(2)},\, \pi_{00} \rangle}.
+ \end{gather}
+ We note that $p_{00} \in [0,1]$. Now let $Y_{l} = C_{00}
+ \mathrm{Bin}(\tbinom{l}{2}, p_{00})$. Then $\mathbb{E}[Y_l] =
+ \tbinom{l}{2} \langle \lambda, \pi_{00} \rangle$ and
+ $\mathrm{Var}[Y_l] = \tbinom{l}{2} \langle \lambda, \eta_{00} \lambda
+ \rangle$ and again by the central limit theorem, we have
+\begin{equation}
+  \label{eq:12}
+  \frac{\psi_{\lambda}(v;t) - \tbinom{l}{2} \langle \lambda, \pi_{00}
+    \rangle}{\sqrt{\tbinom{l}{2} \langle \lambda, \eta_{00} \lambda
+      \rangle}}   \overset{\mathrm{d}}{\longrightarrow} \frac{Y_l -
+    \tbinom{l}{2} \langle \lambda, \pi_{00} \rangle}{\sqrt{\tbinom{l}{2}
+    \langle \lambda, \eta_{00} \lambda \rangle}}.
+\end{equation}
+Eq.~\eqref{eq:12} states that the locality statistics for our
+attributed random graphs model with $t < t^{*}$
+can be approximated by the locality statistics for an Erd\"{o}s-Renyi
+graph with edge probability $p_{00}$. The lemma then follows
+from Theorem~1.1 in \cite{rukhin:_limit_distr_graph_scan_statis}.
+\end{IEEEproof}
+\begin{IEEEproof}[Lemma~8]
+  For ease of exposition we drop the index $t^{*}$ from our discussion. Let
+  $\phi_{\lambda}(v) = \psi_{\lambda}(v) - d_{\lambda}(v)$. Let
+  $M(v)$ be the number of neighbors of $v$ that lies in $[m]$ and
+  $W(v)$ be the number of neighbors of $v$ that lies in $[n]
+\setminus [m]$. The following statements are conditional on
+$M(v) = l_{\zeta}$ and $W(v) = l_{\xi}$. We have
+\begin{equation}
+  \phi_{\lambda}(v) = \sum_{k=1}^{K} \lambda_k ( y^{(\zeta)}_k +
+  y^{(\xi)}_k + y^{(\omega)}_k)
+\end{equation}
+where $(y^{(\zeta)}_1, \dots, y^{(\zeta)}_K)$, $(y^{(\xi)}_1,\dots,
+ y^{(\xi)}_K)$,  $(y^{(\omega)}_1, \dots, y^{(\omega)}_K)$ are
+ distributed as
+\begin{gather*}
+(y^{(\zeta)}_1,\dots,y^{(\zeta)}_K) \sim \textrm{multinomial}\Bigl(
+\tbinom{l_\zeta}{2}, \pi_{11}\Bigr) \\ 
+(y^{(\xi)}_1,\dots,y^{(\xi)}_K) \sim \textrm{multinomial}\Bigl(
+\tbinom{l_\xi}{2}, \pi_{00}\Bigr) \\
+(y^{(\omega)}_1,\dots,y^{(\omega)}_m) \sim \textrm{multinomial}\Bigl(
+l_\zeta l_\xi, \pi_{10}\Bigr).
+\end{gather*}
+Let $\rho$ and $\varsigma$ be defined as
+\begin{gather*}
+  \rho = \langle \lambda, \tbinom{l_{\zeta}}{2} \pi_{11} +
+  \tbinom{l_{\xi}}{2} \pi_{00} + l_{\zeta} l_{\xi} \pi_{10} \rangle \\
+  \varsigma = \langle \lambda, \Bigl(\tbinom{l_{\zeta}}{2} \eta_{11} +
+  \tbinom{l_{\xi}}{2} \eta_{00} + l_{\zeta} l_{\xi} \eta_{10}\Bigr)
+  \lambda.
+  \rangle
+\end{gather*}
+By the central limit theorem, as $l_{\zeta} \rightarrow
+\infty$ and $l_{\xi} \rightarrow \infty$
+\begin{equation}
+  \label{eq:16}
+  \frac{\phi_{\lambda}(v) - \rho}{\varsigma}  \overset{\mathrm{d}}{\longrightarrow}  \mathcal{N}(0,1)
+\end{equation}
+Let $\lambda^{(2)}$ be the
+element-wise square of $\lambda$. Define $C_{00}$, $C_{01}$, $C_{11}$
+and $p_{00}$, $p_{01}$, $p_{11}$ to be
+ \begin{gather}
+   \label{eq:18}
+   C_{00} = \tfrac{\langle \lambda^{(2)}, \pi_{00} \rangle}{\langle \lambda,
+     \pi_{00}\rangle}; \quad p_{00} = \tfrac{(\langle \lambda, \pi_{00}
+     \rangle)^{2}}{\langle \lambda^{(2)},\, \pi_{00} \rangle} \\
+ C_{11} = \tfrac{\langle \lambda^{(2)}, \pi_{11} \rangle}{\langle \lambda,
+     \pi_{11}\rangle}; \quad p_{11} = \tfrac{(\langle \lambda, \pi_{11}
+     \rangle)^{2}}{\langle \lambda^{(2)},\, \pi_{11} \rangle} \\
+ C_{10} = \tfrac{\langle \lambda^{(2)}, \pi_{11} \rangle}{\langle \lambda,
+     \pi_{10}\rangle}; \quad p_{10} = \tfrac{(\langle \lambda, \pi_{10}
+     \rangle)^{2}}{\langle \lambda^{(2)},\, \pi_{10} \rangle} 
+ \end{gather}
+ We note that $p_{00}$, $p_{01}$, and $p_{11}$ are all elements of
+ $[0,1]$. Now let $Y_{\zeta} \sim C_{11}
+ \mathrm{Bin}\Bigl(\tbinom{l_{\zeta}}{2}, p_{11}\Bigr)$, $Y_{\xi} \sim
+ C_{00} \mathrm{Bin}\Bigl(\tbinom{l_\xi}{2}, p_{00}\Bigr)$ and
+ $Y_{\omega} \sim C_{10} \mathrm{Bin}\Bigl( l_{\zeta} l_{\xi}, p_{10}
+ \Bigr)$. We also set $Y = Y_{\zeta} + Y_{\xi} + Y_{\omega}$. By the
+ central limit theorem, we have
+\begin{equation}
+  \label{eq:21}
+ \frac{\phi_{\lambda}(v) - \rho}{\varsigma}
+ \overset{\mathrm{d}}{\longrightarrow}  \frac{Y - \rho}{\varsigma}.
+\end{equation}
+Eq.~\eqref{eq:21} states that the locality statistics
+$\phi_\lambda(v)$ for our attributed random graphs model at time $t =
+t^{*}$ can be approximated by the locality statistics $Y(v)$ for an
+unattributed kidney and egg model. The limiting distribution for the
+scan statistics in unattributed kidney-egg graphs had previously been
+considered in \cite{rukhin:_limit_distr_graph_scan_statis}. We
+provided a sketch of the arguments from
+\cite{rukhin:_limit_distr_graph_scan_statis} below, along with some
+minor changes to handle the case where the probability of
+kidney-kidney and
+kidney-egg connections are different. \\ \\
+\noindent
+Let $G$ be an instance of
+$\kappa(n,m,p_{11}, p_{10}, p_{00})$, an unattributed kidney-egg graph
+with the probability of egg-egg, egg-kidney, and kidney-kidney
+connections being $p_{11}$, $p_{10}$, and $p_{00}$,
+respectively. $D(v) = M(v) + W(v)$ is then the degree of $v$ in
+$G$. We now show two inequalities relating the tail distribution of
+$\Delta(G)$ and $\Upsilon(G) = \max_{v \in V(G)} Y(v)$.
+\begin{gather}
+  \label{eq:27}
+    \limsup\,\, \mathbb{P}( \Upsilon(G) \geq a_{n,m} ) \leq \lim
+   \mathbb{P}( \Delta(G) \geq N_\kappa), \\
+   \label{eq:30}
+  \liminf\,\, \mathbb{P}( \Upsilon(G) \geq a_{n,m} ) \geq \lim \mathbb{P}(
+  \Delta(G) \geq N_{\kappa}).
+\end{gather}
+\begin{IEEEproof}[Eq.~\eqref{eq:27}]
+ Let $C^{*} = \max\{C_{11},
+C_{10}, C_{00}\}$ and $d_{n,m} = \sqrt{2 a_{n,m}/C^{*}}$. We first
+note that
+\begin{equation*}
+\Upsilon(G) \geq a_{n,m} \Rightarrow C^{*} \tbinom{D(v)}{2} \geq
+a_{n,m} \Rightarrow D(v) \geq d_{n,m}.
+\end{equation*}
+Let us define $h(v) = \mathbb{E}[Y(v)]$, i.e., 
+\begin{equation*}
+  \begin{split}
+  h(v) = C_{00}p_{00} \tbinom{D(v)}{2} &+ (C_{11} p_{11} - C_{00}
+  p_{00}) \tbinom{M(v)}{2} \\ &+ (C_{10} p_{10} - C_{00} p_{00}) M(v)
+  W(v).
+  \end{split}
+\end{equation*}
+We then have
+  \begin{equation*}
+    \label{eq:31}
+    \begin{split}
+    \mathbb{P}(\Upsilon(G) \geq a_{n,m}) &= \mathbb{P}\Bigl( \bigcup_{v
+      \in V(G)} Y(v) \geq a_{n,m}\Bigr) \\
+    &= \mathbb{P}\Bigl( \bigcup_{v
+      \in V(G)} Y(v) \geq a_{n,m}, \, D(v) \geq d_{n,m} \Bigr) \\
+    &\leq P_1 + P_2
+    \end{split}
+  \end{equation*}
+  where 
+  \begin{align*}
+    \vartheta_n &= C_{00} \Bigl[ \tbinom{n}{2} p_{00} (1 -
+    p_{00})\Bigr]^{1/2} \log{n} \\
+    P_1 &= \mathbb{P}(\bigcup_{v \in V(G)} D(v) \geq d_{n,m}, h(v) \geq
+    a_{n,m} - \vartheta_n) \\
+    P_2 &= \mathbb{P}(\bigcup_{v \in V(G)} D(v) \geq d_{n,m},
+    Y(v) - h(v) \geq \vartheta_n).
+  \end{align*}
+  We now show that $P_2$ is negligible as $n \rightarrow \infty$. To
+  proceed, let $A$ be the event $\{M(v) = e, W(v) = f\}$ and let
+  $p_{e,f} = \mathbb{P}(A)$. $P_2$ can then be bounded as follows
+\begin{equation*}
+  \begin{split}
+    \frac{P_2}{n} & \leq \sum_{e + f \geq
+        d_{n,m}}{\mathbb{P}( Y(v) - h(v) \geq
+      \vartheta_{n} \, | \, A)} p_{e,f}  \\
+  &=  \sum_{e + f \geq d_{n,m}}{\mathbb{P}\Bigl(
+    \tfrac{Y(v) - h(v)}{\mathrm{Var}[Y(v)]^{1/2}} \geq
+    \tfrac{\vartheta_n}{\mathrm{Var}[Y(v)]^{1/2}} \, \Bigl| \, A\Bigr) p_{e,f}} \\
+    &\leq \sum_{e + f \geq d_{n,m}} (1 + o(1))
+    \mathbb{P}(Z \geq \Theta(\log{n})) p_{e,f} \\ &= o(n^{-1}).
+  \end{split}
+\end{equation*}
+We now consider $P_1$. We note that $P_1 \leq R_1 + R_2$
+where
+\begin{align*}
+  R_1 &= \mathbb{P}\Bigl(\bigcup_{v \in [m]} D(v) \geq
+  d_{n,m}, h(v) \geq a_{n,m} - \vartheta_n \Bigr), \\  
+  R_2 &= \mathbb{P}\Bigl(\bigcup_{v \in [n] \setminus [m]} D(v) \geq
+  d_{n,m}, h(v) \geq a_{n,m} - \vartheta_n \Bigr).
+\end{align*}
+Let us define $g(v) = h(v) - C_{00}p_{00} \tbinom{D(v)}{2}$.
+$R_1$ is then bounded as follows
+\begin{equation}
+  \begin{split}
+    \label{eq:36}
+    R_1 &\leq \mathbb{P}\Bigl( \bigcup_{v \in [m]} h(v) \geq
+    a_{n,m} - \vartheta_{n} \Bigr) \\
+    % &\leq \mathbb{P}\Bigl( \bigcup_{v \in [n_1]}  C_{00} p_{00}
+    % \tbinom{D(v)}{2} \geq a_{n,m} - \vartheta_{n} - g(v) \Bigr) \\
+    &\leq \mathbb{P}\Bigl(\bigcup_{v \in [m]} D(v) \geq
+      \sqrt{\tfrac{2 (a_{n,m} - \vartheta_n -
+        g(v))}{C_{00} p_{00}}} \Bigr).
+  \end{split}
+\end{equation}
+We now consider the term $a_{n,m} - g(v)$. We have
+\begin{equation*}
+  \begin{split}
+  a_{n,m} - g(v) &= C_{00} p_{00} \tbinom{N_\kappa}{2} \\ &+ (C_{11}p_{11} -
+  C_{00} p_{00})(\tbinom{\mu_E}{2} - \tbinom{M(v)}{2})
+  \\ &+ (C_{10} p_{10} - C_{00} p_{00})(\mu_E\mu_F - M(v)W(v)).
+  \end{split}
+\end{equation*}
+Let $\mathfrak{E}$ and $\mathfrak{F}$ be sets of vertices defined by
+\begin{align}
+\mathfrak{E} &=
+\{v \colon |M(v) - \mu_E| \leq \sigma_E \log{m}\} \\ \mathfrak{F} &=
+\{v \colon |W(v) - \mu_F| \leq \sigma_F \log{(n-m)}\}.
+\end{align}
+Then we have, for $v \in \mathfrak{E} \cap \mathfrak{F}$
+\begin{equation}
+  \label{eq:34}
+  \begin{split}
+  a_{n,m} - g(v) =  C_{00} p_{00} \tbinom{N_\kappa}{2} &+
+  \Theta(m^{3/2} \log{m}) \\ &+ 
+  \Theta(m \sqrt{n - m}) \\
+  \end{split}
+\end{equation}
+When $m = \Omega(\sqrt{n \log n})$, Eq.~\eqref{eq:34} gives
+\begin{equation}
+  \label{eq:35}
+  a_{n,m} - g(v) = N_{\kappa}^{2}\Bigl(\tfrac{C_{00}p_{00}}{2} + O(n^{-1/2 - a}
+  \log{n})\Bigr).
+\end{equation}
+for some $a > 0$. The set $\{v \in [m]\}$ can be partition into
+$\{v \in [m] \cap (\mathfrak{E} \cap\mathfrak{F})\}$ and $\{v \in [m]
+\setminus (\mathfrak{E} \cap \mathfrak{F})\}$. We can show that
+$\mathbb{P}\{v \in [m] \setminus (\mathfrak{E} \cap \mathfrak{F})\} =
+o(1)$ by using a concentration inequality, e.g., Hoeffding's
+bound. We thus have
+\begin{equation}
+  \label{eq:37}
+  \begin{split}
+    R_1 &\leq \mathbb{P}\biggl( \bigcup_{\substack{v \in [m] \\ v
+        \in \mathfrak{E} \cap \mathfrak{F}}} D(v) \geq
+    N_{\kappa} \sqrt{1 + O(\tfrac{\log{n}}{n^{1/2+a}})} \Bigr) + o(n^{-1}) \\
+    & = \mathbb{P}\Bigl(\bigcup_{v \in [m]} D(v) \geq N_\kappa +
+    O(n^{1/2 - a} \log{n})\Bigr) + o(n^{-1}) \\
+    &= \mathbb{P}\Bigl(\Delta \geq \mu_{E+F} +
+    \sigma_{E+F}(z_m + O(\tfrac{\log{n}}{n^{a}}))\Bigr) + o(n^{-1}) \\ 
+    & \rightarrow \mathbb{P}(\Delta \geq N_{\kappa}).
+    \end{split}
+\end{equation}
+The same argument can be applied to $R_2$ to show that
+\begin{equation}
+  \label{eq:38}
+  R_2 \leq \mathbb{P}\Bigl(\bigcup_{v \in [n] \setminus [m]} D(v) \geq
+  N_{\kappa}(1 + o(1))\Bigr) = o(1).
+\end{equation}
+Eq.~\eqref{eq:27} is therefore established.
+\end{IEEEproof}
+\begin{IEEEproof}[Eq.~\eqref{eq:30}]
+  We start by noting that
+  \begin{equation*}
+    \begin{split}
+      \mathbb{P}(\Upsilon(G) \geq a_{n,m}) &=
+      \mathbb{P}\Bigl(\bigcup_{v \in [n]}Y(v) \geq
+      a_{n,m}\Bigr) \\
+      & \geq \mathbb{P}\Bigl(\bigcup_{v \in [m]}Y(v) \geq
+      a_{n,m}, D(v) \geq N_\kappa \Bigr) \\
+      & \geq \mathbb{P}\Bigl(\bigcup_{v \in [m]} D(v) \geq
+      N_\kappa\Bigr) \\ &- \mathbb{P}\Bigl( \bigcup_{v
+        \in [m]} Y(v) < a_{n,m}, D(v) \geq N_\kappa\Bigr).
+    \end{split}
+  \end{equation*}
+  We now show that $\mathbb{P}( \cup_{v
+        \in [m]} Y(v) < a_{n,m}, D(v) \geq N_\kappa) \rightarrow 0$ as
+      $n \rightarrow \infty$. Let $v \in [m]$ be arbitrary. It is then
+      sufficient to show that $m\mathbb{P}(Y(v) < a_{n,m}, D(v) \geq
+      N_{\kappa}) = o(1)$. We note that $\mathbb{P}(Y(v) < a_{n,m}, D(v) \geq
+      N_{\kappa})$ can be rewritten as
+      \begin{equation}
+        \label{eq:24}
+        \sum_{e + f \geq N_{\kappa}}{\mathbb{P}(Y(v) \leq a_{n,m} \, |
+          \, M(v) = e, W(v) =
+          f)}p_{e,f}.
+      \end{equation}
+We now split the indices set $e + f \geq N_{\kappa}$ in
+Eq.~\eqref{eq:24} into three parts $S_1$, $S_2$ and $S_3$, namely
+\begin{gather}
+  \label{eq:32}
+    S_1 = \{  e \geq
+        \mu_E + \sigma_E \log{m}\} \\
+    S_2 = \{  e \leq
+        \mu_E + \sigma_E \log{m},e + f \leq
+        N_\kappa + \varphi(n)\} \\
+    S_3 = \{ e \leq \mu_E + \sigma_E \log{m}, e + f \geq
+        N_\kappa + \varphi(n)\}
+\end{gather}
+where $\varphi(n) = \Theta(n^{1/2 - a})$ for some $a > 0$. We can then
+show that $m\mathbb{P}(M(v) = e,
+W(v) =f, \{e,f\} \in S_1) = o(1)$ by applying a concentration
+inequality. Similarly, $e + f \geq N_{\kappa}$ and $e \leq \mu_{E}
++ \sigma_{E} \log{m}$ implies that
+\begin{equation}
+  \label{eq:33}
+  f \geq \mu_{F} + (z_{m} - o(1)) \sigma_F 
+\end{equation}
+and once again, by a concentration inequality, we can show that $m
+\mathbb{P}(M(v) = e, W(v) = f, \{e,f\} \in S_2) = o(1)$. As for
+$S_3$, from the fact that $e + f \geq N_{\kappa} + \varphi(n)$, we have the bound
+  \begin{equation}
+    \begin{split}
+    a_{n,m} - h(v) &\leq (C_{11} p_{11} - C_{10} p_{10})[m \sigma_E
+    \log{m} + \tbinom{\log{m}}{2}] \\ &- C_{00}p_{00} N_\kappa
+    \varphi(n).
+    \end{split}
+  \end{equation}
+  As $\mathrm{Var}[Y(v)] = \Theta(N_\kappa)$ for $\{M(v), W(v)\} \in
+  S_3$, we have
+  \begin{equation}
+    \label{eq:39}
+    \begin{split}
+      p_{S_3} &= \sum_{\{e,f\} \in S_3} \mathbb{P}( Y(v) < a_{n,m}) p_{e,f} 
+      \\ &\leq \sum_{\{e,f\} \in S_3} \mathbb{P}\Bigl(\tfrac{Y(v) - h(v))}{\mathrm{Var}[Y(v)]^{1/2}} \leq \tfrac{a_{n,m} -
+      h(v)}{\mathrm{Var}[Y(v)]^{1/2}}\Bigr)p_{e,f} \\
+    &\leq \sum_{\{e,f\} \in S_3} \mathbb{P}\Bigl[Z \leq
+    O\bigl(\tfrac{m^{3/2} \log m}{N_{\kappa}} - \varphi(n)\bigr)\Bigr]
+    p_{e,f}.
+    \end{split}
+  \end{equation}
+  We now set $a = \tfrac{1}{2(k+1)}$. Then for $m =
+  O(n^{k/(k+1)})$ and $\varphi(n) = O(n^{1/2 - a})$ we have
+  \begin{equation}
+    \label{eq:41}
+    \tfrac{m^{3/2} \log m}{N_\kappa} - \varphi(n) =
+    -O(n^{k/2(k+1))})
+  \end{equation}
+  which then implies
+  \begin{equation}
+    \label{eq:44}
+    m p_{S_3} \leq m \sum_{\{e,f\} \in S_3} \mathbb{P} \Bigl[Z \leq
+    - O(n^{k/2(k+1)}\Bigr] p_{e,f} = o(1).
+  \end{equation}
+  Thus $\mathbb{P}(Y(v) < a_{n,m}, D(v) \geq
+      N_{\kappa}) \rightarrow 0$ as desired.
+\end{IEEEproof}
+From Eq.~\eqref{eq:27} and Eq.~\eqref{eq:30}, we have
+\begin{equation}
+  \label{eq:40}
+ \lim
+\mathbb{P}(\Upsilon(G) \geq a_{n,m}) = \lim \mathbb{P}(\Delta(G) \geq
+N_{\kappa}).
+ \end{equation}
+Let $N_{\kappa,y} = N_\kappa + y \tfrac{\sigma_{E+F}}{\sqrt{2
+    \log{m}}}$. We now define $a_{n,m,y}$ as 
+\begin{equation*}
+  \langle \lambda, \pi_{00} \rangle
+    \tbinom{N_{\kappa,y}}{2} +
+  \langle \lambda, \pi_{11} - \pi_{00} \rangle \tbinom{\mu_E}{2}  +
+  \langle \lambda, \pi_{10} - \pi_{00} \rangle \mu_E \mu_F.
+\end{equation*}
+The above expression is equal to 
+\begin{equation}
+  \label{eq:57}
+ a_{n,m} + \langle \lambda, \pi_{00} \rangle y
+  \frac{\sigma_{E+F}}{\sqrt{2 \log m}} \Bigl(N_{\kappa} + y
+  \frac{\sigma_{E+F}^{2}}{2 \sqrt{2 \log{m}}} + O(1) \Bigr).
+\end{equation}
+We thus have
+\begin{equation*}
+   a_{n,m,y} = a_{n,m} + (y + o(1)) b_{n,m}.
+\end{equation*}
+We therefore have
+\begin{equation*}
+  \begin{split}
+  \lim \mathbb{P}(\Upsilon(G) \geq a_{n,m,y}) &= 
+  \lim \mathbb{P}\Bigl(\frac{\Upsilon(G) - a_{n,m}}{b_{n,m}} \geq y \Bigr) \\
+  &= \lim \mathbb{P}(\Delta(G) \geq N_{\kappa,y}) \\
+  &= \lim \mathbb{P}\Bigl(\frac{\Delta(G) -
+    N_{\kappa}}{\sigma_{E+F}} \geq \frac{y}{\sqrt{2 \log{m}}} \Bigr). \\
+  \end{split}
+\end{equation*}
+Because $\Delta(G)$ converges weakly to a Gumbel
+distribution in the limit
+(\cite{bollobas85:_random_graph,rukhin:_limit_distr_graph_scan_statis}),
+we have
+\begin{equation}
+  \label{eq:47}
+  \mathbb{P}\Big(\frac{\Upsilon(G) - a_{n,m}}{b_{n,m}} \leq
+    y\Bigr) \rightarrow e^{- e^{-y}}.
+\end{equation}
+\end{IEEEproof}
+\bibliography{ssp2011}
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
