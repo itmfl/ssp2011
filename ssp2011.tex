@@ -86,8 +86,10 @@ Science , Johns Hopkins University.\protect \\
 \end{IEEEkeywords}}
 \maketitle
 \section{Introduction}
+\label{sec:introduction}
 
 \subsection{Latent Process Model}
+\label{sec:latent-process-model}
 The latent process model for time series of attributed graphs was
 presented in \cite{lee11}. We summarize here the ideas that are
 relevant to our discussion.  Let $G = (V,E)$ be an undirected graph,
@@ -842,9 +844,11 @@ in testing using graph invariants were discussed in
 \cite{rukhin11,priebe10:_you_i}.   
 %\section{Experimental Results}
 %\label{sec:experimental-results}
-\section{Inference Example}
-We present here an inference example with the following
-parameters
+\section{Inference Examples}
+We present here two inference examples, one on simulated data and the
+other on the Enron email data set. In the first inference example, we
+simulated data from the model in \S~\ref{sec:latent-process-model}
+with the following parameters:
 \begin{equation*}
   K = 2, n = 100, m = 9, l = 10,
 \end{equation*}
@@ -862,11 +866,11 @@ transition matrices
     1 & -1 & 0 \\
     1 & 0 & -1
   \end{bmatrix}
-  \end{matrix}
+  \end{matrix},
 \end{equation*}
 and stationary probability vectors
 \begin{equation*}
-  \pi_0 = (0.10,0.30,0.60)^{T}, \quad \pi_1 = (0.25,0.40,0.35)^{T}
+  \pi_0 = (0.10,0.30,0.60)^{T}, \quad \pi_1 = (0.25,0.40,0.35)^{T}.
 \end{equation*}
 Power estimates for our attribute fusion statistics for this example
 are presented in \figurename~\ref{fig:power-scale} and
@@ -953,7 +957,38 @@ data applications.
     invariants.  
   }
   \label{fig:power-estimate}
-  \end{figure*}
+\end{figure*}
+
+Our second example uses the Enron data set which consists of email
+messages between 184 employees of the Enron corporation during a time
+period from 1998 to 2002. The Enron email messages for most of the
+2001 calendar year have been annotated into 32 different topics 
+\cite{berry01:_topic_annot_enron_email_data_set} and thus form the
+basis of our analysis. We chose to condense these 32 different
+topics into two groups. The first group consists of
+general enery-related topics and the second group consists of
+topics that are specifically related to the Enron corporation. 
+From the collection of email messages, we construct a time series of
+graphs. Each graph consists of email messages sent during a week in
+2001. The vertices of the graphs represent the employees and the edges
+represent email communication between the employees. The attributes on
+the edges are given by the grouping of the email topics as mentioned
+above. 
+
+The detection of a chatter anomaly in the Enron data set during the
+first week of May 2001 was previously
+reported in \cite{priebe05:_scan_statis_enron_graph}, but with 
+unattributed edges. We chose to investigate the effect
+of attribute fusion for that same week in our inference example. 
+\figurename~\ref{fig:enron} presents a plot of the normalized
+statistic $T_{\lambda}^{l}$ with $l = 20$ for the four graph
+invariants against the fusion parameter
+$\lambda = (cos(\theta), sin(\theta))$. \figurename~\ref{fig:enron}
+indicates that the fusing of attributes leads to better detection
+as exemplified by the fact that the maximum for each of the normalized
+statistics $T_{\lambda}$ occurs for $\theta \not \in
+\{0,\pi/2\}$. Furthermore, the optimal fusion parameters are dependent
+on the specific graph invariants.
 \section{Conclusions}
 We have presented an analysis of change-point detection for time
 series of attributed graphs through the use of test statistics which
@@ -964,7 +999,7 @@ large and $r$, the process parameter rate, is also sufficiently
 large. The limiting distribution for these test statistics are then
 used to derive estimates for the power of the tests. 
 
-The experiment in \S \ref{eq:55} indicates that the power estimates
+The simulation experiment in \S \ref{eq:55} indicates that the power estimates
 are accurate, even for the moderate value of $n = 100$. Furthermore,
 it was also indicated that the optimal linear fusion parameter depends
 on the graph invariant considered. In particular, the results depicted
@@ -989,6 +1024,14 @@ and many other applications may benefit from generalizations of our
 results and the model in \cite{lee11} to directed, multi, and weighted
 graphs, as well as the consideration of inference with errorful edge
 attributes through an attribute confusion matrix.
+\begin{figure}[tbp]
+  \centering
+ \includegraphics[width=8cm]{graphics/enron152.pdf} 
+  \caption{Detecting chatter anomaly in the Enron time series of
+    graphs. The graph in question corresponds to the first week of May
+    2001. Attribute fusion provides superior detection.}
+  \label{fig:enron}
+\end{figure}
 % \appendix[Proofs of some stated results]
 % \label{sec:proofs-some-stated}
 % \begin{IEEEproof}[Corollary~\ref{cor:1}]
