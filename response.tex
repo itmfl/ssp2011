@@ -1,0 +1,182 @@
+We thank the referees for their feedback. We have
+revised the paper in light of their comments and criticism, especially 
+on issues regarding the paper appropriateness for the Trans on SP
+readership. A more detailed response to the comments from each referee
+is included below. 
+
+=================
+Referee 1
+
+Although the idea of linearly fusing attributes seems appealing and
+the authors present their ideas in a technically sound way, nicely
+structured and well supported by theoretical analysis and derivations,
+I have some critical reservations:
+
+1. The practicality of the approach: Both examples consider the case
+of graphs with k=2 attributes and a convenient single parameter
+representation ($\theta$). However for larger k, sets of different
+optimal values would be harder to argue about. Also given a set of
+real graph snapshots the determination (or approximation) of the
+corresponding Markov processes - assuming all properties assumed hold
+- is not commented on.
+
+*** Response to point 1:
+    The cases where $ k \geq 3$ was not considered in the experiments,
+    as we deemed them to be more complex but not more
+    difficult. Theoretically, the optimal $\lambda$ for $k \geq 3$ can
+    be found for all of the graph invariants by numerical techniques,
+    i.e., find the $\lambda$ that maximizes non-central parameters
+    $\mu_{\lambda}$ in the cases for size and number of triangles, or
+    the ratio $\rho_{\lambda}/\zeta_{\lambda}$ in the case of max
+    degree or scan. As for empirical evaluation, one can parametrize 
+    the set $\{\lambda \colo \| \lambda \| = 1\}$ for $k \geq 3$
+    using hypershperical coordinates and the problem of finding the
+    optimal $\lambda$ can be done by exhaustive search. This is 
+    inefficient or even intractable for $k \geq 5$, but this is a
+    common issue for most global optimization problems. 
+    
+    The issue of determining or estimating the parameters of the
+    underlying Markov chain given a set of snapshots of the graphs is an
+    important issue that we failed to comment on explicitly in the
+    previous submission. We have added in a paragraph to the revision that
+    allude to this issue. In general, it is intractable to estimate the
+    parameters of the underlying Markov chains given the snapshots. It is
+    possible, however, to estimate the latent vectors associated with the
+    first and second-order approximation via a spectral embedding
+    technique [1]. We also note that more refined models, where the
+    messaging events between each pairs of vertices is modeled as point
+    process, e.g. [2,3] can also be formulated. The snapshot of the graphs
+    is then a binning of these point processes and the issue of parameters
+    estimation is fundamental but feasible in these point processes
+    approaches.
+
+    [1] Sussman et. al. ``A consistent dot product embedding for
+    stochastic blockmodel graphs'', Online at http://arxiv.org/abs/1108.2228
+
+    [2] Heard et. al. ``Bayesian anomaly detection methods for social
+    networks'', Annals of Applied Statistics, (4):645--662, 2010.
+
+    [3] P. Perry and P. J. Wolfe. ``Point process modeling for directed
+    interaction networks'', Online at http://arxiv.org/abs/1011.1703v2
+
+***
+
+2. Journal relevance: This is very important since there does not seem
+to exist some clear identification of a concrete application from
+signal processing. The content would be much more relevant to a
+statistics journal or to network analysis audience.
+
+*** Response to point 2:
+    
+We have added a new section to motivates the consideration of
+time-series of attributed graphs. We believe that the notion of a
+time-series is a fundamental concept in signal processing and
+furthermore the representation of data as (attributed) graphs is
+ubiquitous in many applications domain. Also, anomaly/change-point
+detection is one of the main problems in time-series analysis. As
+such, anomaly detection on time-series of graphs is a natural and
+challenging problem. There have been recent work on signal processing
+on graphs, with many of them on the construction of wavelets on
+graphs. Our paper is similar in spirit to these wavelets paper in that
+they all consider signal processing on non-Euclidean data (graphs in
+particular), but we have taken a more time-series and statistical 
+point of view, as evidenced by our setup of the anomaly detection
+problem via hypothesis testings along with the derivations of the
+limiting behaviour of the test statistics.  
+***
+
+=======
+Referee 2
+
+*** Comments
+The contributions of this paper are timely, relevant, and novel. The
+development of signal processing methods for graphs is an important
+topic to the signal processing community, as noted by the special
+sessions at recent ICASSP and SSP conferences. The literature on
+analysis methods for dynamic graphs is limited, and even more so for
+attributed graphs. Furthermore, theoretical results that are also
+practically useful are extremely rare.
+
+The main weakness of this paper is that it is not organized well and
+is not self-contained.
+
+As such, it is difficult to understand the latent process model
+without referring to the previous work (reference [1]). There really
+is no introduction to the paper, no context is provided for the
+problem--aside from the first sentence of the abstract, the reader is
+left with no idea why change point detection in dynamic graphs is
+useful, and specifically why one may want to use attributed graphs
+rather than graphs without attributes. Finally, the latent process
+model is a new model, and it would be beneficial to specify early in
+the introduction the relationship between this model and other models
+that the reader may be familiar with, namely the mixed-membership
+stochastic blockmodel and the latent space models of Hoff et al. To
+address these weakness, I would suggest to add a few paragraphs
+preceding the current section I.A providing context and relationship
+to existing models. The authors should find it useful to refer to
+other papers published in the Trans on SP to get an idea on the type
+of format, organization and style of writing that the TSP reader
+expects.
+
+Furthermore, there are terms and quantities that are introduced
+without definition, e.g., the bracket notation "[]", e.g., "[K+1]",
+the "cadlag process", and the "rdpm" in Sec 1.A. These are not
+notations and quantities that are familiar to a signal processing
+audience and should be carefully defined before they are introduced.
+
+Specific comments:
+- Page 3, figure 1: Please provide a more descriptive caption with
+meanings of the regions and trajectories.
+- Page 11, line 38: From the definitions of E and F, they appear to be
+scalars, but E+F is defined as the convolution of E and F, which does
+not make sense.
+- Page 13, lines 10-11: What is the change point t* in this example?
+- Page 14, line 49: Change "yields" to "yield"
+- Page 15, line 4: A plot of each of the normalized test statistics
+T_lambda^l (with the optimal lambda for each statistic) against time
+should also be included so the reader can get a sense for how
+anomalous this particular time step happens to be.
+- Page 17, figure 6: Why are there multiple lines for the second order
+approximation and exact model? Are they for different values of r? If
+so, the values of r should be indicated somewhere in the plots
+themselves (perhaps by reducing the number of values of r shown) or by
+listing them in the caption.
+- Appendix, page 1, line 31: Change "U-statistics" to "U-statistic"
+
+*** Response
+
+We have reorganized the paper to incorporate the referees comments
+about the lack of a proper introduction (Section 2 in the new
+manuscript was orignally Section 1 and the new Section 1 now discusses
+the motivation behind time-series of attributed graphs). As we allude
+to in the manuscript, representations of data as
+graphs are ubiquitous in many application
+domains and as the graphs representations do change over time,
+the notion of a time-series of graphs is natural. Furthermore, in many
+application domains, the edges are attributed, e.g., in neuroscience,
+the edges can represent either inhibitory or excitatory synapses, in
+social networks, the edges can represent the medium of communication
+(twitter, email, sms). It is thus desirable for 
+any approach that analyzes time-series of
+graphs to also extends to attributed graphs
+in a transparent manner. 
+
+We have also added several paragraphs to Section 2 to clarify/motivate the
+latent process model and to compare it with other models such as the
+latent vector model or the dot product model. We have also went
+through the paper to carefully note/clarify notations for
+terms/quantities such as [K+1] or rdpm. 
+
+For the specific comments, we addressed them in the paper. In
+particular, 
+1) the caption for Figure 1 is now updated to contains
+description of the regions and tracjectories 
+2) It is noted that E and F are meant to be random variables. The
+statement that defined E and F had been adjusted accordingly. 
+3) t* for the synthetic example is noted to be 11.
+4) Figure 7 in the paper now contains  a plot of the
+normalized test statistics T_{\lambda}^{l} (with the optimal lambda
+for each statistic) against time.
+5) The multiple lines for the exact model and the second-order
+approximation are for different values of r. The set of vertex process
+parameters r considered is also noted in the caption of Figure 5.

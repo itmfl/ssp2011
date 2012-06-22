@@ -1,15 +1,15 @@
-\documentclass[10pt,journal,compsoc]{IEEEtran}
+\documentclass[10pt,twocolumn]{IEEEtran}
 \usepackage{fontenc}
 \pdfminorversion=4
 %\usepackage{lmodern}
-\usepackage[utopia]{mathdesign}
+%\usepackage[utopia]{mathdesign}
 \usepackage{graphicx}
 %\usepackage{xltxtra}
 %\setmainfont[Mapping=tex-text]{Linux Libertine}
 \usepackage[cmex10]{amsmath}
 \interdisplaylinepenalty=2500
 \usepackage{array}
-%\usepackage{amssymb}
+\usepackage{amssymb}
 \usepackage{amsthm}
 %\usepackage[tight,normalsize,sf,SF]{subfigure}
 \ifCLASSOPTIONcompsoc
@@ -27,7 +27,7 @@
 \newtheorem{proposition}[theorem]{Proposition}
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
-\usepackage[colorlinks=true,pagebackref,linkcolor=magenta]{hyperref}
+%\usepackage[colorlinks=true,pagebackref,linkcolor=magenta]{hyperref}
 \usepackage[noadjust]{cite}
 \renewcommand\arraystretch{1.2}
 \newcommand{\argmax}{\operatornamewithlimits{argmax}}
@@ -49,18 +49,26 @@
 \begin{document}
 \title{Attribute fusion in a latent process model for time series of
   graphs}
-\author{Minh~Tang, Youngser~Park, Nam~H.~Lee, and Carey~E.~Priebe%
-\IEEEcompsocitemizethanks{\IEEEcompsocthanksitem Minh~Tang, Nam~H.~Lee
- and Carey~E.~Priebe are with the Department of Applied Mathematics
- and Statistics, Johns Hopkins University.\protect \\
-  Email: \{mtang10, nhlee, cep\}@jhu.edu
-\IEEEcompsocthanksitem Youngser Park is with the Center for Imaging
-Science , Johns Hopkins University.\protect \\
-  Email: youngser@jhu.edu}%
-\thanks{}}
-\markboth{IEEE Transactions on Pattern Analysis and Machine
-  Intelligence (TPAMI)}{}
-\IEEEcompsoctitleabstractindextext{%
+\author{Minh~Tang, Youngser~Park, Nam~H.~Lee, and Carey~E.~Priebe*%
+\thanks{Minh~Tang is with the Department of Applied Mathematics and
+  Statistics, Johns Hopkins University, Baltimore, MD 21218
+  USA. (email: mtang10@jhu.edu)}%
+\thanks{Youngser~Park is with the Center of Imaging Science, Johns
+  Hopkins University, Baltimore, MD 21218
+  USA. (email:youngser@jhu.edu)}%
+\thanks{Nam~H.~Lee is with the Department of Applied Mathematics and
+  Statistics, Johns Hopkins University, Baltimore, MD 21218
+  USA. (email: nhlee@jhu.edu)}%
+\thanks{Carey~E.~Priebe is with the Department of Applied Mathematics and
+  Statistics, Johns Hopkins University, Baltimore, MD 21218
+  USA. (phone: 410-516-7200; fax:410-516-7459; email: cep@jhu.edu)}}%
+%\markboth{IEEE Transactions on Signal Processing}{}
+% \begin{IEEEkeywords}
+%   Anomaly detection, Attributed Random Graphs, Random Dot
+%   Product Graphs.
+% \end{IEEEkeywords}}
+
+\maketitle
 \begin{abstract}
   Hypothesis testing on time series of attributed graphs has
   applications in diverse areas, e.g., social network analysis
@@ -80,52 +88,164 @@ Science , Johns Hopkins University.\protect \\
   conclude that approximation model investigations have some bearing
   on real data applications.
 \end{abstract}
-\begin{IEEEkeywords}
-  Anomaly detection, Attributed Random Graphs, Random Dot
-  Product Graphs.
-\end{IEEEkeywords}}
-\maketitle
+\ifCLASSOPTIONpeerreview
+\begin{center} \bfseries EDICS Category: SSP-SSAN, SSP-DETC \end{center}
+\fi
+%\pagebreak
 \section{Introduction}
 \label{sec:introduction}
+The notion of data as a time series is fundamental to signal
+processing. However, time-series analysis had been mostly confined to
+data in Euclidean spaces, while the representation of data as graphs
+with the vertices as the entities and the edges as the relationships
+between the entities is now ubiquitous in many application domains,
+e.g., social networks (wherein vertices represent individual actors or
+organizations), neuroscience (wherein vertices are neurons or brain
+regions), and text processing (wherein vertices represent authors or
+documents). Furthermore, in many of these application domains, the
+edges between the vertices, in addition to representing the presence
+of a relationship, can also be use to identify the attributes
+associated with that relationship. For example, in social network
+graphs where edges represent email communications, the attributes
+signify the context of the email messages. Finally, in many of these
+application domains, the underlying data changes over time, and thus a
+representation of data as a time-series of attributed graphs is
+natural. The analysis of time-series of (attributed) graphs thus
+presents a natural and challenging extension to the signal processing
+community. 
 
-\subsection{Latent Process Model}
+We mention here some related work. The notion of signal
+processing for graphs appears to be in an emerging
+state, with significant research activity in constructing wavelet
+representations for graphs, e.g., 
+\cite{hammond10:_wavel,r.coifman06:_diffus,crovella03:_graph,narangss:_perfec}. 
+The formulation of graph analysis problems in a signal processing framework
+is also of potential interest, e.g, \cite{miller10:_towar_euclid}. 
+
+One of the main exploitation tasks in time-series analysis is the
+problem of anomaly/change-point detection, where anomaly is broadly
+interpreted to mean deviation from some ``normal'' pattern and
+change-point is the time window at which the anomalous deviation
+occurs. In the context of a time-series of graphs, an anomaly can be
+for example the presence of a specific subgraph, or frequent occurence
+of some subgraphs, or other more vague notions such as existence of a
+community structure.
+
+In this paper, we investigate the anomaly/change-point detection
+problem for time-series of attributed graphs. In the spirit of
+time-series analysis, we approach this problem via test statistics
+based on the moving average of some graph invariants. We derive
+limiting distributions for these test statistics under a generative
+model for the attributed graphs. The experimental evidence indicate that these
+test statistics have sufficient power against the null hypothesis for
+a general class of change-point problem but that many interesting
+questions remain to ponder.
+
+Our paper is structured as follows. We present an overview of the
+generative model for time-series of attributed graphs \cite{lee11} in
+\S\ref{sec:latent-process-model}. The change-point detection problem
+along with the relevant test statistics are described in
+\S\ref{sec:change-point-detect}. The distributions of the test
+statistics and the power estimates for hypothesis testing using
+these test statistics are given in \S\ref{sec:power-estimates}. 
+\S\ref{sec:inference-examples} presents a
+synthetic data example and an example using the Enron email corpus to
+illustrate our methodology.
+\section{Latent Process Model}
 \label{sec:latent-process-model}
-The latent process model for time series of attributed graphs was
-presented in \cite{lee11}. We summarize here the ideas that are
-relevant to our discussion.  Let $G = (V,E)$ be an undirected graph,
-equipped with an edge-attribution function $\phi \colon \tbinom{V}{2}
-\mapsto \{1,2,\dots, K+1\}$ for some $K$ such that $\phi(e) \leq K$
-for $e \in E$ and $\phi(e) \equiv K+1$ for $e \not \in E$. We refer to
-$\phi(e)$ as the attribute of edge $e \in E$, and the pair $(G,\phi)$
-as an attributed graph. Let $\mathscr{S}$ be the unit simplex in
-$\mathbb{R}^{K}$, i.e.,
+The abundance of graph representations in diverse application domains
+leads to a proliferation of random graph models to model the
+association among the entities. In addition to the classical
+Erd\"{o}s-R\'{e}nyi model \cite{Erdos1959}, there is, the exponential
+graph models \cite{holland81}, the stochastic block model
+\cite{Holland1983,Wang1987}, the latent position model
+\cite{hoff02:_laten}, the dot product model for unattributed graphs
+\cite{young07:_random} and the latent process model for attributed
+graphs \cite{lee11}. We now describe briefly the latent position model
+of \cite{hoff02:_laten} and the dot product model of
+\cite{young07:_random} as they are closely related to the latent
+process model in \cite{lee11}. The latent process model serves as
+the generative model for our attributed graphs and thus plays a
+key role in our setup of the anomaly detection problem in 
+\S~\ref{sec:change-point-detect}.
+
+The latent space model is one where each vertex is associated with a
+latent random vector. There may also be additional covariate
+information but those are not relevant to the current exposition. The
+vectors are independent and identically distributed and the
+probability of an edge between two nodes depends only on their latent
+vectors. Conditioned on the latent vectors, the presence of each edge
+is an independent Bernoulli trial. For example, if $p_{uv}$ is the
+probability of an edge between the vertices $u$ and $v$, then $p_{uv}
+= \tfrac{1}{1 + \exp( - \|z_u - z_v\|)}$ where $z_u$ and $z_v$ are the
+latent vectors associated with vertex $u$ and $v$, respectively.
+Another example of a latent space model is the random dot product
+graph model \cite{young07:_random}. Under the random dot product graph
+model, the probability of an edge between two vertices is given
+by the dot product of their respective latent vectors, i.e., $p_{uv} =
+\langle z_u, z_v \rangle$. Parts of the motivation of the random dot
+product graph model is that, in a social network with edges
+indicating friendships, the components of the vector may be
+interpreted as the relative interest of the individual in various
+topics. The magnitude of the vector can be interpreted as how
+talkative the individual is, with more talkative individuals more
+likely to form relationships. Talkative individuals interested in the
+same topics are most likely to form relationships while individuals
+who do not share interests are unlikely to form relationships.
+
+The latent process model for time-series of attributed graphs was
+presented in \cite{lee11}. The main ideas underlying the model is as
+follows. The model is motivated by the assumption that each vertex is
+associated with a stochastic process, in this case a finite-state
+continuous time Markov chain. The stochastic processes then associate
+to each vertex $v$, for the time interval $(t-1,t]$, a (latent) random
+vector $X_v(t)$ in the unit simplex with the $k$-th entry of $X_v(t)$
+denoting the proportion of time the stochastic process spent in state
+$k$. The probability of interactions between vertices $u$
+and $v$ during $(t-1, t]$ is then given by the dot product of $X_u$
+and $X_v$ a la the dot product model of \cite{young07:_random}, with a
+slight modification to account for the presence of attributes on the
+edges.
+
+We now give the necessary details to make the above ideas precise. Let $G =
+(V,E)$ be an undirected graph, equipped with an edge-attribution
+function $\phi \colon \tbinom{V}{2} \mapsto [K+1] = \{1,2,\dots, K+1\}$ for
+some $K$ such that $\phi(e) \leq K$ for $e \in E$ and $\phi(e) \equiv
+K+1$ for $e \not \in E$. We refer to $\phi(e)$ as the attribute of
+edge $e \in E$, and the pair $(G,\phi)$ as an attributed graph. Let
+$\mathscr{S}$ be the unit simplex in $\mathbb{R}^{K}$, i.e.,
 \begin{equation}
   \mathscr{S} = \{ \xi \in [0,1]^{K}
   \colon \sum_{k = 1}^{K} \xi_k \leq 1 \}.
 \end{equation}
 A {\em random dot product space} for attributed graphs with vertices
-in $[n]$ and edge attributes $[K]$ is a pair $(\mathbf{X},G)$ of
+in $[n]$ ($[n] = \{1,2,\dots,n\}$) and edge attributes $[K]$ ($[K] =
+\{1,2,\dots,K\}$) is a pair $(\mathbf{X},G)$ of
 random elements such that
 \begin{enumerate}
 \item $\mathbf{X} = \{X_v\}_{v = 1}^{n}$ is a collection of
   independent $\mathscr{S}$-valued random vectors.
-\item $G$ is a random undirected graph with vertex set $[n]$ such that
+\item $G$ is a random undirected graph with vertex set $[n]$ such
+  that the edges of $G$ are conditionally independent given
+  $\mathbf{X}$ and that
   \begin{equation}
     \label{eq:1}
     \mathbb{P}(u \sim v \,|\, \mathbf{X}) = \mathbb{P}(u \sim v \, |
-    \, X_u,X_v) = \langle x_u, x_v \rangle
+    \, X_u,X_v) = \langle x_u, x_v \rangle.
   \end{equation}
-  and $\bm{1}(u \sim v \,|\, \mathbf{X})$ and $\bm{1}(u' \sim
-  v' \,|\, \mathbf{X})$ are independent whenever $(u,v) \not =
-  (u',v')$. Furthermore, we also have 
-  \begin{equation*}
-    \mathbb{P}(\phi(\{u,v\} = k \, | \, u \sim
-    v) = x_{u,k} x_{v,k}. 
-  \end{equation*}
+ Furthermore, we also have 
+  \begin{equation}
+    \label{eq:11}
+    \mathbb{P}(\phi(\{u,v\}) = k \, | \, u \sim
+    v) = \frac{x_{u,k} x_{v,k}}{\langle x_u, x_v \rangle}
+  \end{equation}
+  i.e., the pair $\{u,v\}$ is an edge in $G$ with attribute $k$ with
+  probability $x_{u,k} x_{v,k}$.  
 \end{enumerate}
-We say that a c\'{a}dl\'{a}g process $W \colon [0,\infty) \mapsto
-[K+1]^{n}$ induces the sequence of random dot product spaces
-$\mathscr{V} = (\mathbf{X}(t), G(t))_{t = 1}^{\infty}$ if
+We say that a c\'{a}dl\'{a}g (right continuous with left limit)
+process $W \colon [0,\infty) \mapsto [K+1]^{n}$ induces the sequence
+of random dot product spaces $\mathscr{V} = (\mathbf{X}(t), G(t))_{t =
+1}^{\infty}$ if
 \begin{enumerate}
 \item Each $(\mathbf{X}(t), G(t))$ is a random dot product space with
   vertices $[n]$ and edge attributes $[K]$. Furthermore, for each $v
@@ -146,16 +266,30 @@ where $\mathscr{F}_{\leq t}$ is the $\sigma$-field generated by $\{W(s)
   \colon s \leq t\}$.
 \end{enumerate}
 We will call any pair $(\mathscr{V}, W)$ that satisfies the above
-properties a random dot process model. In particular, we are
-interested in the pairs $(\mathscr{V}, W)$ possessing the following
-properties:
+properties a random dot process model.
+
+The random dot process model can be interpreted as follows. During
+each time interval $(t-1,t]$, a particular vertex is inclined to
+communicate with other vertices on a variety of topics (the topics are
+enumerated as the elements of $[K]$). As the inclination of a vertex
+$v$ is governed by its underlying stochastic process $W_v$, we can
+view the $\{W_v\}$ as encapsulating a notion of changes in the
+inclination of the vertices over time. The propensity for
+vertex $v$ to communicate about a particular topic $k$ is $X_{v,k}(t)$
+and two vertices $u$ and $v$ are more likely to exchange communication
+on topic $k$ if the propensity to communicate about topic $k$ is high
+for both $u$ and $v$. Eq.~\eqref{eq:1} and Eq.~\eqref{eq:11} attempt
+to capture these two assumptions.
+
+In this paper, we are interested in the pairs $(\mathscr{V}, W)$
+possessing the following properties:
 \begin{enumerate}
 \item For each $t \in \mathbb{N}$ and vertex $v \in [n]$, there exists
   a matrix $\mathbf{Q}^{(v)}(t)$ such that $W_v$, when restricted to
   the interval $[t, t+1)$, is a stationary, continuous-time Markov
   chain with state space $[K+1]$, intensity matrix
   ${\mathbf{Q}^{(v)}(t)}$, and stationary distribution
-  $\pi^{(v)}(t)$. $W$ is thus a piecewise stationary, continuous-time
+  $\pi^{(v)}(t)$. $W$ is thus a piece-wise stationary, continuous-time
   Markov chain with state space $[K+1]^{n}$ and intensity matrix
   $\otimes_{v=1}^{n}\mathbf{Q}^{(v)}(t)$.
 \item There exists a $t^{*} \in \mathbb{N}$ and a $m < n$ such that,
@@ -176,26 +310,28 @@ properties:
   \end{enumerate}
 \end{enumerate}
 The above properties characterize a random dot process model with a
-change-point phenomena for $(X(t),G(t))$ at time $t = t^{*}$. We chose $\{1,2,\dots,m\}$
-as the set of vertices with a change in the stationary distribution
-and intensity matrix at time $t = t^{*} - 1$ for ease of
-discussion. Permutation of the vertex labels does not affect our
-subsequent analysis. We will refer to $(t^{*}, m, \pi_0, \pi_1,
-\mathbf{Q}_0, \mathbf{Q}_1)$ as the change parameters.  Because $W$ is
-completely determined by the change parameters, we often choose to
-omit $W$ and only mention $\mathscr{V}$ when referring to random dot
-process models (rdpm) with change-point phenomena. For a rdpm
+change-point phenomena for $(X(t),G(t))$ at time $t = t^{*}$. We chose
+$\{1,2,\dots,m\}$ as the set of vertices with a change in the
+stationary distribution and intensity matrix at time $t = t^{*} - 1$
+for ease of discussion. Permutation of the vertex labels does not
+affect our subsequent analysis. We will refer to $(t^{*}, m, \pi_0,
+\pi_1, \mathbf{Q}_0, \mathbf{Q}_1)$ as the change parameters.  Because
+$W$ is completely determined by the change parameters, we often choose
+to omit $W$ and only mention $\mathscr{V}$ when referring to random
+dot process models with change-point phenomena. For a random dot
+process model
 $\mathscr{V}$ with change parameters $(t^{*}, m, \pi_0, \pi_1,
 \mathbf{Q}_0, \mathbf{Q}_1)$, we can construct several approximations
 to $\mathscr{V}$. Of particular interests are the following two
 approximations.
 \begin{definition}
   \label{def:1}
-  Let $\mathscr{V}$ be a rdpm with change parameters $(t^{*}, m,
-  \pi_0, \pi_1, \mathbf{Q}_0, \mathbf{Q}_1)$. The first order approximation
-  $\bar{\mathscr{V}}$ of $\mathscr{V}$ is the sequence $\{(\bar{X}(t),
-  \bar{G}(t)\}_{t = 1}^{\infty}$ of {\em independent} random dot product
-  spaces such that
+  Let $\mathscr{V}$ be a random dot process model (rdpm) with change
+  parameters $(t^{*}, m, \pi_0, \pi_1, \mathbf{Q}_0,
+  \mathbf{Q}_1)$. The first order approximation $\bar{\mathscr{V}}$ of
+  $\mathscr{V}$ is the sequence $\{(\bar{X}(t), \bar{G}(t)\}_{t =
+    1}^{\infty}$ of {\em independent} random dot product spaces such
+  that
  \begin{enumerate}
  \item for $t < t^{*} - 1$,
    \begin{equation}
@@ -231,7 +367,12 @@ p = \mathbb{P}(u \sim v \, | \, u \leq m, v \leq m) = \langle
 \begin{figure}[!tp]
   \centering
   \includegraphics[width=5cm]{graphics/Fig2-SSP2011-hat1.pdf}
-  \caption{An illustration of the kidney-egg model for $G(t^{*})$.}
+  \caption{An illustration of the kidney-egg model for $G(t^{*})$. The
+    probability of an edge is $\langle \hat{\pi}_0, \hat{\pi}_0
+    \rangle$ for the connections inside the kidney set (black), $\langle
+    \hat{\pi}_1, \hat{\pi}_1 \rangle$ for the connections inside the egg set
+    (red), and $\langle \hat{\pi}_0, \hat{\pi}_1 \rangle$ for the connections
+    between the kidney and egg set.}
   \label{fig:kidney-egg}
 \end{figure}
  \begin{definition}
@@ -287,7 +428,8 @@ p = \mathbb{P}(u \sim v \, | \, u \leq m, v \leq m) = \langle
   \end{enumerate}
 \end{definition}
 A second-order approximation yields a sequence of independent latent
-position graphs \cite{marchette08:_predic,scheinerman10:_model,hoff02:_laten}. 
+position graphs
+\cite{marchette08:_predic,scheinerman10:_model,hoff02:_laten}.  
 
 Suppose that we have a sequence $\{\mathscr{V}^{r} \colon r > 0 \}$ of
 rdpm with vertices $[n]$ and attributes $[K]$ where for each $r > 0$,
@@ -309,13 +451,32 @@ as $r \rightarrow \infty$, $\widehat{\Sigma}_0^{(r)} \rightarrow
 \bm{0}$ and $\widehat{\Sigma}_1^{(r)} \rightarrow \bm{0}$ and so
 $\widehat{\mathscr{V}}^{r} \overset{\mathrm{d}}{\longrightarrow}
 \bar{\mathscr{V}}$. This indicates that for sufficiently large $r$,
-there is little statistical difference amongst the
+there is little statistical difference among the
 $\bar{\mathscr{V}}$, $\mathscr{V}^{r}$ and $\widehat{\mathscr{V}}^{r}$
 (\cite[Theorem 2]{lee11}). The behavior of
 $\widehat{\mathscr{V}}^{r}$ for ``small'' $r$ is less
 clear. $\bar{\mathscr{V}}$ will thus serve as the basis for our
-subsequent analysis on graph invariants for attributed random graphs.
-\subsection{Change-point detection}
+subsequent analysis on graph invariants for attributed random
+graphs.
+
+A comment should also be made about the utility of the exact
+generative model. It is computationally intractable to estimate the
+parameters of the underlying continuous time Markov chains, i.e. the
+$\{\mathbf{Q}^{(v)}(t)\}$, given a snapshot of the graphs. Therefore,
+the main interest of \cite{lee11}, and consequently of this paper,
+lies not in the exact generative model but in its first and
+second-order approximation. We will not be concerned with the
+estimation of the latent position vectors for the first and
+second-order approximation in this paper, but we note that they can be
+done via spectral embedding technique a la \cite{STFP-2011}. We also
+note that more refined models, where the messaging events between each pairs of
+vertices is modeled as point process,
+e.g. \cite{Heard2010,PerryWolfe2010}, can also be formulated. The
+snapshot of the graphs is then a binning of these point processes and
+the issue of parameters estimation is fundamental but feasible for
+these point processes approaches.
+\section{Change-point detection}
+\label{sec:change-point-detect}
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=8cm]{graphics/Fig1-SSP2011.pdf}
@@ -411,7 +572,7 @@ the power of the test using $T_{\lambda}^{l}$ is maximized. We note that
 $T_{\lambda}^{l}$ is scale invariant in $\lambda$ for all of our graph
 invariants. It was noted in \cite{lee11} that the maximum of the power
 for scale invariant test statistics is attainable in the set $\{ \lambda \colon \|
-\lambda \| = 1 \}$. \\ \\
+\lambda \| = 1 \}$. 
 
 As we have mentioned earlier, we will assume that the number of
 vertices $n$ is large and that the use of the first order
@@ -450,6 +611,7 @@ $\eta_{11}$ be matrices of size $K \times K$ defined by
   \label{fig:temporal}
 \end{figure}
 \section{Power estimates}
+\label{sec:power-estimates}
 \subsection{Power estimates for $\mathcal{E}_\lambda$}
 \label{sec:power-estim-mathc}
 It was shown in \cite{lee11} that if $J_\lambda(t) =
@@ -718,9 +880,9 @@ eigenvalue problem as in Corollary~\ref{cor:1}.
 \label{sec:power-estim-psi_l}
 The limiting distribution for the scan statistics in unattributed
 random graphs was considered in
-\cite{rukhin:_limit_distr_graph_scan_statis}. We note here the changes
+\cite{rukhin12}. We note here the changes
 that allow us to extend the results in
-\cite{rukhin:_limit_distr_graph_scan_statis} to our attributed graphs
+\cite{rukhin12} to our attributed graphs
 model. Let $z_n$ be defined, for $n \in \mathbb{N}$, by
 \begin{equation}
   \label{eq:20}
@@ -728,7 +890,7 @@ model. Let $z_n$ be defined, for $n \in \mathbb{N}$, by
       \log{n}}\Bigl(1 - \frac{\log{\log{n}} + \log{4 \pi}}{4
       \log{n}}\Bigr).
 \end{equation}
-Let us also define $E$ and $F$ by
+Let us also define two random variables $E$ and $F$ by
 \begin{gather*}
  %  B \sim \mathrm{Bin}(m, \langle 1, \pi_{00} \rangle); \quad C \sim \mathrm{Bin}(n-m-1,
  % \langle 1, \pi_{01} \rangle) \\
@@ -845,6 +1007,7 @@ in testing using graph invariants were discussed in
 %\section{Experimental Results}
 %\label{sec:experimental-results}
 \section{Inference Examples}
+\label{sec:inference-examples}
 We present here two inference examples, one on simulated data and the
 other on the Enron email data set. In the first inference example, we
 simulated data from the model in \S~\ref{sec:latent-process-model}
@@ -872,6 +1035,7 @@ and stationary probability vectors
 \begin{equation*}
   \pi_0 = (0.10,0.30,0.60)^{T}, \quad \pi_1 = (0.25,0.40,0.35)^{T}.
 \end{equation*}
+The change-point $t^{*}$ for this example is $t^{*} = 11$. 
 Power estimates for our attribute fusion statistics for this example
 are presented in \figurename~\ref{fig:power-scale} and
 \figurename~\ref{fig:power-estimate}. We consider the asymptotic,
@@ -912,13 +1076,13 @@ data applications.
   \caption{Power $\beta(\theta^{*}_r,r)$ at $\theta_{r}^{*} =
     \argmax_{\theta} \beta(\theta,r)$ as a function of $r$ for the
     four invariants at test size $\alpha = 0.05$. The horizontal lines
-    represents first-order approximation $\pm$ three
-    standard deviations, and the two curves represent the second
-    approximation (green) and exact model (blue). The 10000 Monte
-    Carlo replicates yields standard deviations not exceeding $0.005$ for the power
-    estimates . The second approximation results match well with the exact model results, and
-    both match well for large $r$ with the first-order approximation results.
-  }
+    represents first-order approximation $\pm$ three standard
+    deviations, and the two curves represent the second approximation
+    (green) and exact model (blue). The 10000 Monte Carlo replicates
+    yield standard deviations not exceeding $0.005$ for the power
+    estimates . The second approximation results match well with the
+    exact model results, and both match well for large $r$ with the
+    first-order approximation results.  }
   \label{fig:power-scale}
 \end{figure*}
 \begin{figure*}[!t]
@@ -943,7 +1107,10 @@ data applications.
     = (cos(\theta),sin(\theta))$. The plot shows analytic asymptotic
     result (black), and first approximation (red), second
     approximation (green), and exact model (blue) estimates for the
-    various invariants via Monte Carlo. The 10000 Monte Carlo
+    various invariants via Monte Carlo. The multiple green and blue
+    lines correspond to different values of the vertex process rate
+    $r$ (here $r \in \{1,2,4,8,16,32,64,128,256,512,1024\}$). 
+    The 10000 Monte Carlo
     replicates yields standard deviations not exceeding $0.005$ for
     the power estimates. The four vertical lines in each plot
     correspond to $\theta \in \{0, \pi/2, \pi/4,
@@ -960,30 +1127,69 @@ data applications.
 \end{figure*}
 
 Our second example uses the Enron data set which consists of email
-messages between 184 employees of the Enron corporation during a time
+messages between 184 executives of the Enron corporation during a time
 period from 1998 to 2002. The Enron email messages for most of the
 2001 calendar year have been annotated into 32 different topics 
 \cite{berry01:_topic_annot_enron_email_data_set} and thus form the
 basis of our analysis. We chose to condense these 32 different
 topics into two groups. The first group consists of
-general enery-related topics and the second group consists of
+general energy-related topics and the second group consists of
 topics that are specifically related to the Enron corporation. 
 From the collection of email messages, we construct a time series of
 graphs. Each graph consists of email messages sent during a week in
-2001. The vertices of the graphs represent the employees and the edges
-represent email communication between the employees. The attributes on
+2001. The vertices of the graphs represent the executives and the edges
+represent email communication between the executives. The attributes on
 the edges are given by the grouping of the email topics as mentioned
 above. 
 
+\begin{figure}[tbp]
+  \centering
+ \includegraphics[width=8cm]{graphics/enron152.pdf} 
+ \caption{Detecting chatter anomaly in the Enron time series of
+   graphs. The plot shows the normalized statistics
+   $T_{\lambda}^{l}(t)$ as a function of the fusion parameter $\lambda
+   = (\cos(\theta), sin(\theta))$ for $l = 20$ and $t = 152$. The
+   graph in question ($t = 152$) corresponds to the first week of May
+   2001. The dashed lines correspond to the $\theta^{*}$ for the
+   different graph invariants ($\theta^{*}_{\mathcal{E}_{\lambda}}
+   \approx \theta^{*}_{\Delta_{\lambda}} \approx 0.96$,
+   $\theta^{*}_{\Psi_{\lambda}} \approx 1.06$ and
+   $\theta^{*}_{\tau_{\lambda}} \approx 0.83$). Attribute fusion
+   provides superior detection.}
+  \label{fig:enron}
+\end{figure}
+
+\begin{figure}[tbp]
+  \centering
+ \includegraphics[width=8cm]{graphics/Tstat_thetastar.pdf} 
+ \caption{The fluctuations of $T_{\lambda}^{l}(t)$ over time for the
+   four graph invariants. The value of $\lambda = (\cos(\theta),
+   sin(\theta))$ for each graph invariants correspond to the optimal
+   fusion parameters for the detection as illustrated in
+   \figurename~\ref{fig:enron} and they are
+   $\theta^{*}_{\mathcal{E}_{\lambda}} \approx
+   \theta^{*}_{\Delta_{\lambda}} \approx 0.96$,
+   $\theta^{*}_{\Psi_{\lambda}} \approx 1.06$ and
+   $\theta^{*}_{\tau_{\lambda}} \approx 0.83$. The fluctuations
+   indicate that there are possible anomalies around the weeks 120,
+   132, and 146, which were also reported and analyzed in 
+   \cite{priebe05:_scan_statis_enron_graph}.}
+\label{fig:enron_time}
+\end{figure}
 The detection of a chatter anomaly in the Enron data set during the
-first week of May 2001 was previously
+first week of May 2001 ($t = 152$) was previously
 reported in \cite{priebe05:_scan_statis_enron_graph}, but with 
 unattributed edges. We chose to investigate the effect
 of attribute fusion for that same week in our inference example. 
 \figurename~\ref{fig:enron} presents a plot of the normalized
-statistic $T_{\lambda}^{l}$ with $l = 20$ for the four graph
-invariants against the fusion parameter
-$\lambda = (cos(\theta), sin(\theta))$. \figurename~\ref{fig:enron}
+statistic $T_{\lambda}^{l}(t)$ at $t = 152$ with $l = 20$ for the four graph
+invariants against the fusion parameter $\lambda = (cos(\theta),
+sin(\theta))$. \figurename~\ref{fig:enron_time} presents a plot of the
+normalized statistics $T_{\lambda}^{l}(t)$ with $l = 20$ for the four
+graph invariants over the time interval corresponding to the
+weeks $t = 96$ through $t = 168$. The value of $\lambda$ used
+for each graph invariants is the $\lambda$ that maximizes
+$T_{\lambda}^{l}(152)$. \figurename~\ref{fig:enron}
 indicates that the fusing of attributes leads to better detection
 as exemplified by the fact that the maximum for each of the normalized
 statistics $T_{\lambda}$ occurs for $\theta \not \in
@@ -1013,7 +1219,12 @@ this result with the ``no uniformly most powerful invariant'' result
 \cite{pao11:_statis_infer_random_graph}, we conclude that optimal
 linear attribute fusion theory requires significant additional
 development. Toward this end, the approximation models from
-\cite{lee11} promise to be of assistance.
+\cite{lee11} promise to be of assistance. 
+
+% The exact generative model for time-series
+% of attributed graphs as presented in \S~\ref{sec:power-estimates}
+% contains assumptions that are not readily verified. However, as our
+% analysis 
 
 Hypothesis testing on time series of attributed graphs has
 applications in diverse areas, e.g., social network analysis (wherein
@@ -1024,653 +1235,7 @@ and many other applications may benefit from generalizations of our
 results and the model in \cite{lee11} to directed, multi, and weighted
 graphs, as well as the consideration of inference with errorful edge
 attributes through an attribute confusion matrix.
-\begin{figure}[tbp]
-  \centering
- \includegraphics[width=8cm]{graphics/enron152.pdf} 
-  \caption{Detecting chatter anomaly in the Enron time series of
-    graphs. The graph in question corresponds to the first week of May
-    2001. Attribute fusion provides superior detection.}
-  \label{fig:enron}
-\end{figure}
-% \appendix[Proofs of some stated results]
-% \label{sec:proofs-some-stated}
-% \begin{IEEEproof}[Corollary~\ref{cor:1}]
-%   The maximizer of $\mu_\lambda$ also maximizes
-%   \begin{equation*}
-%     \mu_{\lambda}^{2} = \frac{\lambda^{T} \zeta \zeta^{T}
-%       \lambda}{\lambda^{T} \xi \lambda}
-%   \end{equation*}
-%   Because $\xi$ is positive definite, there exists a positive definite matrix
-%   $\xi^{1/2}$ such that $\xi^{1/2} \xi^{1/2} = \xi$. Letting $\nu = \xi^{1/2}
-%   \lambda$, the above expression can be rewritten as
-%   \begin{equation*}
-%     \mu_{\lambda}^{2} = \frac{\nu^{T} \xi^{-1/2} \zeta \zeta^{T}
-%       \xi^{-1/2} \nu}{ \nu^{T} \nu}
-%   \end{equation*}
-%   The claim then follows directly from the Rayleigh-Ritz theorem for
-%   Hermitian matrices.
-% \end{IEEEproof}
-% \begin{IEEEproof}[Lemma~\ref{lem:3}]
-%   $\tau_{\lambda}(G)$ is a U-statistics with kernel function
-%   $h(Y_1, Y_2, Y_3) = Y_1 Y_2 Y_3$. By the theory of U-statistics, we
-%   know that
-%   \begin{equation}
-%     \label{eq:48}
-%     \frac{\tau_{\lambda}(G) -
-%       \mathbb{E}[\tau_{\lambda}^{*}(G)]}{\sqrt{\mathrm{Var}[\tau_{\lambda}^{*}(G)]}}
-%        \overset{\mathrm{d}}{\longrightarrow}  N(0,1)
-%   \end{equation}
-%   provided that $\mathrm{Var}[\tau_{\lambda}(G) -
-%   \tau_{\lambda}^{*}(G)] = o(\mathrm{Var}[\tau_{\lambda}^{*}(G)])$.
-  
-%   By the independent edge assumption, we have
-%   \begin{align}
-%     \mathbb{E}[h(Y_i, Y_j, Y_k) &= \mathbb{E}[Y_i]
-%   \mathbb{E}[Y_j] \mathbb{E}[Y_k] \\ 
-%   \mathbb{E}[h(Y_i, Y_j, Y_k) |
-%   Y_i] &= Y_i \mathbb{E}[Y_j] \mathbb{E}[Y_k].
-%   \end{align}
-%  Thus, for $t < t^{*}$, we have $\mathbb{E}[\tau_{\lambda}^{*}(G(t))] = \tbinom{n}{3} \langle
-%   \lambda, \pi_{00} \rangle^{3}$ and
-%   \begin{equation}
-%     \begin{split}
-%       \mathrm{Var}[\tau_{\lambda}^{*}(G(t))] &=
-%       \mathrm{Var}\Bigl[\sum_{\{u,v,w\}} Y_{uv} \mathbb{E}[Y_{uw}]
-%       \mathbb{E}[Y_{vw}]\Bigr] \\
-%       &= (n-2)^{2} \langle \lambda, \pi_{00} \rangle^{4}
-%       \mathrm{Var}\Bigl[\sum_{\{u,v\}} Y_{uv} \Bigr] \\
-%       &= (n-2)^{2} \langle \lambda, \pi_{00} \rangle^{4} \tbinom{n}{2}
-%       \langle \lambda, \eta_{00} \lambda \rangle.
-%     \end{split}
-%   \end{equation}
-%   We now sketch the derivation of
-%   $\mathrm{Var}[\tau_{\lambda}^{*}(G(t))]$ for $t = t^{*}$. We partition the set
-%   $\{u,v\} \in \tbinom{V}{2}$ into the sets 
-% \begin{gather*}
-% \mathcal{S}_1 = \{ u,v \in [m]
-%   \}, \\ \mathcal{S}_2 = \{ u \in [m], v \in [n] \setminus [m]\}, \\
-%   \mathcal{S}_3 = \{ u, v \in [n] \setminus[m]\}.
-% \end{gather*} 
-% We can thus decompose $\mathrm{Var}[\tau_{\lambda}^{*}(G(t))]$ as 
-% \begin{equation}
-%   \begin{split}
-%   \mathrm{Var}[\tau_{\lambda}^{*}(G(t))] &= S_1^{2} \mathrm{Var}[\sum_{\{u,v\} \in \mathcal{S}_1} Y_{uv}] +
-%   S_2^{2}
-%   \mathrm{Var}[\sum_{\{u,v\} \in \mathcal{S}_2} Y_{uv}] \\ &+
-%   S_3^{2}
-%   \mathrm{Var}[\sum_{\{u,v\} \in \mathcal{S}_3} Y_{uv}] 
-%   \end{split}
-% \end{equation}
-% Now, for $\{u,v\} \in \mathcal{S}_1$, we have
-% \begin{equation}
-%   \label{eq:58}
-%   \begin{split}
-% S_1 Y_{uv} &=\sum_{w \not = u,v} \mathbb{E}[h(Y_{uv}, Y_{uw}, Y_{vw})
-% \, | \, Y_{uv}] \\
-%  &= ((m-2) \langle \lambda, \pi_{11} \rangle^{2} + (n-m)
-%     \langle \lambda, \pi_{10} \rangle^{2})Y_{uv}.
-%   \end{split}
-% \end{equation}
-% The above expression is reasoned as follows. If $w \in [m]$, then
-% $\mathbb{E}[Y_{uw}] = \mathbb{E}[Y_{vw}] = \langle \lambda,
-% \pi_{11} \rangle$ and there are $m-2$ possible choices for $w \in [m]$
-% different from $u$ and $v$. If $w \in [n] \setminus [m]$, then
-% $\mathbb{E}[Y_{vw}] = \mathbb{E}[Y_{uw}] = \langle \lambda, \pi_{10}
-% \rangle$ and there are $n - m$ possible choices for $w$. Analogous
-% reasoning gives the expressions for $S_2$ and $S_3$ in the statement
-% of the lemma. 
 
-% We also have
-%  \begin{equation}
-%    \label{eq:56}
-%    \mathrm{Var}[Y_{uv}] = \begin{cases}
-%      \langle \lambda, \eta_{00} \lambda \rangle & \text{if $\{u,v\} \in
-%        \mathcal{S}_1$} \\
-%      \langle \lambda, \eta_{01} \lambda \rangle & \text{if $\{u,v\} \in
-%        \mathcal{S}_2$} \\
-%      \langle \lambda, \eta_{11} \lambda \rangle & \text{if $\{u,v\} \in
-%        \mathcal{S}_3$} \\
-%      \end{cases}.
-%  \end{equation}
-% and thus
-% \begin{equation*}
-%   \begin{split}
-%     \mathrm{Var}[\tau_{\lambda}^{*}(G(t))] &=
-%     \tbinom{m}{2} \langle \lambda, \eta_{00} \lambda \rangle S_1^{2} +
-%     m(n-m) \langle \lambda, \eta_{01} \lambda \rangle S_2^{2} \\ &+
-%     \tbinom{n-m}{2} \langle \lambda, \eta_{00} \lambda \rangle S_3^{2}
-%   \end{split}
-% \end{equation*}
-% as desired. To complete the proof one must show that
-% $\mathrm{Var}[\tau_{\lambda}(G) - \tau_{\lambda}^{*}(G)] =
-% o(\mathrm{Var}[\tau_{\lambda}^{*}(G)])$ and this follows directly from
-% the argument in \cite{nowicki88:_subgr_u_statis_method}
-% or \cite{rukhin09:_asymp_analy_various_statis_random_graph_infer}.
-% \end{IEEEproof}
-% \begin{IEEEproof}[Proposition~\ref{prop:3}]
-%   Let $v \in V(t)$ and denote by $d_{\lambda}(v;t)$ the (fused) degree
-%   of vertex $v$, i.e.,
-%   \begin{equation*}
-%     d_{\lambda}(v;t) = \sum_{w \in N(v)} \langle \lambda,
-%     \Gamma_{vw} \rangle.
-%   \end{equation*}
-%   For $t < t^{*}$, each of the $\Gamma_{vw}$ is a multinomial
-%   trial with probability vector $\pi_{00}$. The following statements are
-%   made as $n \rightarrow \infty$ for fixed
-%   $K$.  By the central limit theorem, we have
-%   \begin{equation}
-%     \label{eq:17}
-%     \frac{d_{\lambda}(v;t) - (n-1) \langle \lambda, \pi_{00}
-%       \rangle}{\sqrt{(n-1) \langle \lambda, \eta_{00} \lambda \rangle}}
-%     \overset{\mathrm{d}}{\longrightarrow} \mathcal{N}(0, 1).
-%   \end{equation}
-%   We can thus consider the degree sequence of $G(t)$ for $t < t^{*}$
-%   as a sequence of {\em dependent} normally distributed random
-%   variables. By an argument analogous to the argument for
-%   Erd\"{o}s-Renyi random graphs in \cite[\S
-%   III.1]{bollobas85:_random_graph} we can show that the dependency
-%   among the $\{d_{\lambda}(v;t)\}_{v \in V(t)}$ can be
-%   ignored. Another way of doing this is to note that the covariance
-%   between $X_u$ and $X_v$, where $X_u$ and $X_v$ are the ratio in
-%   Eq.~\eqref{eq:17} for vertices $u$ and $v$, is given by
-%   \begin{equation}
-%     \label{eq:63}
-%     r = \mathrm{Cov}(X_u,X_v) = 
-%     \frac{3 \langle \lambda, \pi_{00} \rangle}{\sqrt{(n-1)
-%         \langle \lambda, \eta_{00} \lambda \rangle}}.
-%   \end{equation}
-%   Because $r \log{n} \rightarrow 0$ as $n \rightarrow \infty$, the
-%   sample maximum of the $X_u$ converges to the sample maximum of a
-%   sequence of {\em independent} $\mathcal{N}(0,1)$ random variables.
-%   $d_{\lambda}(v;t)$, can thus be considered as a sequence
-%   of independent random variables from a normal distribution. It is
-%   well known that the sample maximum of standard normal random
-%   variables converges weakly to a Gumbel distribution \cite[\S
-%   2.3]{galambos87:_asymp_theor_extrem_order_statis}. It is, however,
-%   not clear whether the convergence of $\Delta_{\lambda}(t)$ to a
-%   Gumbel distribution continues to hold under the composition of
-%   weak convergence as outlined above. We avoid this problem by
-%   showing directly that
-%   \begin{equation}
-%     \label{eq:22}
-%     \mathbb{P}\Bigl(\tfrac{\Delta_{\lambda}(t) - (n-1)
-%       \langle \lambda, \pi_{00} \rangle}{\sqrt{(n-1) \langle
-%         \lambda, \eta_{00} \lambda \rangle}} \leq a_n + b_n x\Big)
-%     \rightarrow 
-%     e^{-e^{-x}}. 
-%   \end{equation}
-%   Let $\zeta_v = \tfrac{d_{\lambda}(v;t) - (n-1) \langle \lambda,
-%     \pi_{00} \rangle}{\sqrt{(n-1) \langle \lambda, \eta_{00} \lambda
-%       \rangle}}$ and $F_n(u) = \mathbb{P}(\zeta_v \leq u)$. If $n
-%   \rightarrow \infty$ and $u = O(\sqrt{\log{n}})$, we have the
-%   following moderate deviations result \cite[Theorem~2, \S
-%   XVI.7]{feller71:_introd_probab_theor_its_applic,rubin65:_probab}.
-%   \begin{equation}
-%     \label{eq:23}
-%     \frac{1 - F_{n}(u)}{1 - \Phi(u)} = \Bigl[1 + (C\tfrac{u^{3}}{\sqrt{n}}) + O(\tfrac{u^{6}}{n}) \Bigr]
-%   \end{equation}
-%   for some constant $C$. Letting $u_n = a_n + b_n x$ in
-%   Eq.~\eqref{eq:23}, we have
-%   \begin{equation*}
-%     \begin{split}
-%       F_n(u_n) &= 1 - (1 - \Phi(u_n))(1 + C \tfrac{u_n^{3}}{\sqrt{n}} +
-%       O(\tfrac{u_n^{6}}{n})) \\
-%       &= \Phi(u_n) + (1 - \Phi(u_n))(C \tfrac{u_n^{3}}{\sqrt{n}} +
-%       O(\tfrac{u_n^6}{n})) \\
-%       &= \Phi(u_n) + O(\tfrac{1}{u_n n^{1- \delta}})(C \tfrac{u_n^{3}}{\sqrt{n}} +
-%       O(\tfrac{u_n^6}{n})) \\
-%       &= \Phi(u_n) + O(\tfrac{u_n^{5}}{n^{3/2 - \delta}})
-%     \end{split}
-%   \end{equation*}
-%   for some sufficiently small $\delta > 0$. We therefore have
-%   \begin{equation}
-%     \label{eq:25}
-%     \begin{split}
-%       \mathbb{P}(\max_{v \in [n]} \zeta(v) \leq u_n) &= (F_n(u_n))^{n} \\
-%       &= \Bigl[\Phi(u_n) + O(\tfrac{u_n^{5}}{n^{3/2 - \delta}})\Bigr]^{n} \\
-%       &= (\Phi(u_n))^{n} + O(\tfrac{u_n^{5}}{n^{1/2 - \delta}}) \\
-%       & \rightarrow e^{-e^{-x}}. 
-%     \end{split}
-%   \end{equation}
-%   Eq.~\eqref{eq:22} is established and we obtain the limiting Gumbel distribution for
-%   $\Delta_{\lambda}(t)$ for $t < t^{*}$ in Eq.~\eqref{eq:14}.
-  
-%   The case when $t = t^{*}$ can be derive in a similar manner. We
-%   first show that if $m = \Omega(\sqrt{n \log n})$ then
-%   $\Delta_{\lambda}(v;t^{*}) \overset{\mathrm{d}}{\longrightarrow}
-%   \max_{v \in [m]}{d_{\lambda}(v;t^{*})}$ \cite[Lemma
-%   3.1]{rukhin:_limit_distr_graph_scan_statis}. We then show, again by
-%   the central limit theorem, that for $v \in [m]$,
-%   $\tfrac{d_{\lambda}(v;t^{*}) - \mu_2}{\sigma_2}
-%   \overset{\mathrm{d}}{\longrightarrow} \mathcal{N}(0,1)$. It then
-%   follows, similar to our previous reasoning for the case where $t <
-%   t^{*}$, that $\max_{v \in [m]} \tfrac{d_{\lambda}(v;t^{*}) -
-%     \mu_2}{\sigma_2}
-%   \overset{\mathrm{d}}{\longrightarrow}\mathcal{G}(a_m,b_m)$ and we
-%   obtain Eq.~\eqref{eq:14} for $t = t^{*}$.
-% \end{IEEEproof}
-% \begin{IEEEproof}[Theorem~\ref{thm:8}]
-%   Let $ X \sim \mathcal{G}(\alpha, \beta)$. We consider the
-%   normalization $\tfrac{X - \mu}{\sigma}$. We have
-%   \begin{equation*}
-%     \begin{split}
-%     \mathbb{P}\Bigl[ \tfrac{X - \mu}{\sigma} \leq z\Bigr]  &= \mathbb{P}[X \leq z
-%     \sigma + \mu] 
-%     = e^{-e^{-(z \sigma + \mu - \alpha)/\beta}} \\
-%       &= e^{- e^{-(z - (\alpha - \mu)/\sigma)/(\beta/\sigma)}}.
-%     \end{split}
-%   \end{equation*}
-%   Thus, $\tfrac{X - \mu}{\sigma} \sim \mathcal{G}(\tfrac{\alpha -
-%     \mu}{\sigma}, \tfrac{\beta}{\sigma})$. Because the sample
-%   mean and the sample variance are consistent estimators, the claim
-%   follows after an application of Slutsky's theorem.
-% \end{IEEEproof}
-% \begin{IEEEproof}[Lemma~\ref{lem:5}]
-% Let $\phi_{\lambda}(v;t) = \psi_{\lambda}(v;t) - d_{\lambda}(v;t)$ be
-% the (fused) locality statistics for
-% vertex $v$ at time $t$ not including the (fused) degree of $v$, i.e.,
-% \begin{equation}
-%   \label{eq:11}
-%   \phi_{\lambda}(v;t) = \sum_{\substack{uw
-%       \in N(v) \\ u,w \not = v}} \langle \lambda,
-%   \Gamma_{uw} \rangle.
-% \end{equation}
-% The following statements are conditional on $|N(v)| = l$. First
-% of all, we have
-% \begin{equation*}
-%   \phi_{\lambda}(v;t) = \sum_{k=1}^{K}{\lambda_k z_k}
-% \end{equation*}
-% where the $(z_1, \dots, z_K)$ are distributed as
-% \begin{gather*}
-%   (z_1,z_2,\dots,z_K) \sim \textrm{multinomial}\Bigl(
-%   \tbinom{l}{2}, \pi_{00}\Bigr). 
-% \end{gather*}
-% By the central limit theorem, we have
-% \begin{equation*}
-%   \frac{\phi_\lambda(v;t) - \tbinom{l}{2} \langle \lambda, \pi_{00}
-%     \rangle}{\sqrt{\tbinom{l}{2} \langle \lambda, \eta_{00} \lambda \rangle}}
-%   \overset{\mathrm{d}}{\longrightarrow} \mathcal{N}(0,1).
-% \end{equation*}
-% Let $\lambda^{(2)}$ be the element-wise square of $\lambda$. Define
-% $C_{00}$ and $p_{00}$ to be 
-%  \begin{gather}
-%    \label{eq:26}
-%    C_{00} = \tfrac{\langle \lambda^{(2)}, \pi_{00} \rangle}{\langle \lambda,
-%      \pi_{00}\rangle}, \quad p_{00} = \tfrac{(\langle \lambda, \pi_{00}
-%      \rangle)^{2}}{\langle \lambda^{(2)},\, \pi_{00} \rangle}.
-%  \end{gather}
-%  We note that $p_{00} \in [0,1]$. Now let $Y_{l} = C_{00}
-%  \mathrm{Bin}(\tbinom{l}{2}, p_{00})$. Then $\mathbb{E}[Y_l] =
-%  \tbinom{l}{2} \langle \lambda, \pi_{00} \rangle$ and
-%  $\mathrm{Var}[Y_l] = \tbinom{l}{2} \langle \lambda, \eta_{00} \lambda
-%  \rangle$ and again by the central limit theorem, we have
-% \begin{equation}
-%   \label{eq:12}
-%   \frac{\psi_{\lambda}(v;t) - \tbinom{l}{2} \langle \lambda, \pi_{00}
-%     \rangle}{\sqrt{\tbinom{l}{2} \langle \lambda, \eta_{00} \lambda
-%       \rangle}}   \overset{\mathrm{d}}{\longrightarrow} \frac{Y_l -
-%     \tbinom{l}{2} \langle \lambda, \pi_{00} \rangle}{\sqrt{\tbinom{l}{2}
-%     \langle \lambda, \eta_{00} \lambda \rangle}}.
-% \end{equation}
-% Eq.~\eqref{eq:12} states that the locality statistics for our
-% attributed random graphs model with $t < t^{*}$
-% can be approximated by the locality statistics for an Erd\"{o}s-Renyi
-% graph with edge probability $p_{00}$. The lemma then follows
-% from Theorem~1.1 in \cite{rukhin:_limit_distr_graph_scan_statis}.
-% \end{IEEEproof}
-% \begin{IEEEproof}[Lemma~\ref{lem:6}]
-%   For ease of exposition we drop the index $t^{*}$ from our discussion. Let
-%   $\phi_{\lambda}(v) = \psi_{\lambda}(v) - d_{\lambda}(v)$. Let
-%   $M(v)$ be the number of neighbors of $v$ that lies in $[m]$ and
-%   $W(v)$ be the number of neighbors of $v$ that lies in $[n]
-% \setminus [m]$. The following statements are conditional on
-% $M(v) = l_{\zeta}$ and $W(v) = l_{\xi}$. We have
-% \begin{equation}
-%   \phi_{\lambda}(v) = \sum_{k=1}^{K} \lambda_k ( y^{(\zeta)}_k +
-%   y^{(\xi)}_k + y^{(\omega)}_k)
-% \end{equation}
-% where $(y^{(\zeta)}_1, \dots, y^{(\zeta)}_K)$, $(y^{(\xi)}_1,\dots,
-%  y^{(\xi)}_K)$,  $(y^{(\omega)}_1, \dots, y^{(\omega)}_K)$ are
-%  distributed as
-% \begin{gather*}
-% (y^{(\zeta)}_1,\dots,y^{(\zeta)}_K) \sim \textrm{multinomial}\Bigl(
-% \tbinom{l_\zeta}{2}, \pi_{11}\Bigr) \\ 
-% (y^{(\xi)}_1,\dots,y^{(\xi)}_K) \sim \textrm{multinomial}\Bigl(
-% \tbinom{l_\xi}{2}, \pi_{00}\Bigr) \\
-% (y^{(\omega)}_1,\dots,y^{(\omega)}_m) \sim \textrm{multinomial}\Bigl(
-% l_\zeta l_\xi, \pi_{10}\Bigr).
-% \end{gather*}
-% Let $\rho$ and $\varsigma$ be defined as
-% \begin{gather*}
-%   \rho = \langle \lambda, \tbinom{l_{\zeta}}{2} \pi_{11} +
-%   \tbinom{l_{\xi}}{2} \pi_{00} + l_{\zeta} l_{\xi} \pi_{10} \rangle \\
-%   \varsigma = \langle \lambda, \Bigl(\tbinom{l_{\zeta}}{2} \eta_{11} +
-%   \tbinom{l_{\xi}}{2} \eta_{00} + l_{\zeta} l_{\xi} \eta_{10}\Bigr)
-%   \lambda.
-%   \rangle
-% \end{gather*}
-% By the central limit theorem, as $l_{\zeta} \rightarrow
-% \infty$ and $l_{\xi} \rightarrow \infty$
-% \begin{equation}
-%   \label{eq:16}
-%   \frac{\phi_{\lambda}(v) - \rho}{\varsigma}  \overset{\mathrm{d}}{\longrightarrow}  \mathcal{N}(0,1)
-% \end{equation}
-% Let $\lambda^{(2)}$ be the
-% element-wise square of $\lambda$. Define $C_{00}$, $C_{01}$, $C_{11}$
-% and $p_{00}$, $p_{01}$, $p_{11}$ to be
-%  \begin{gather}
-%    \label{eq:18}
-%    C_{00} = \tfrac{\langle \lambda^{(2)}, \pi_{00} \rangle}{\langle \lambda,
-%      \pi_{00}\rangle}; \quad p_{00} = \tfrac{(\langle \lambda, \pi_{00}
-%      \rangle)^{2}}{\langle \lambda^{(2)},\, \pi_{00} \rangle} \\
-%  C_{11} = \tfrac{\langle \lambda^{(2)}, \pi_{11} \rangle}{\langle \lambda,
-%      \pi_{11}\rangle}; \quad p_{11} = \tfrac{(\langle \lambda, \pi_{11}
-%      \rangle)^{2}}{\langle \lambda^{(2)},\, \pi_{11} \rangle} \\
-%  C_{10} = \tfrac{\langle \lambda^{(2)}, \pi_{11} \rangle}{\langle \lambda,
-%      \pi_{10}\rangle}; \quad p_{10} = \tfrac{(\langle \lambda, \pi_{10}
-%      \rangle)^{2}}{\langle \lambda^{(2)},\, \pi_{10} \rangle} 
-%  \end{gather}
-%  We note that $p_{00}$, $p_{01}$, and $p_{11}$ are all elements of
-%  $[0,1]$. Now let $Y_{\zeta} \sim C_{11}
-%  \mathrm{Bin}\Bigl(\tbinom{l_{\zeta}}{2}, p_{11}\Bigr)$, $Y_{\xi} \sim
-%  C_{00} \mathrm{Bin}\Bigl(\tbinom{l_\xi}{2}, p_{00}\Bigr)$ and
-%  $Y_{\omega} \sim C_{10} \mathrm{Bin}\Bigl( l_{\zeta} l_{\xi}, p_{10}
-%  \Bigr)$. We also set $Y = Y_{\zeta} + Y_{\xi} + Y_{\omega}$. By the
-%  central limit theorem, we have
-% \begin{equation}
-%   \label{eq:21}
-%  \frac{\phi_{\lambda}(v) - \rho}{\varsigma}
-%  \overset{\mathrm{d}}{\longrightarrow}  \frac{Y - \rho}{\varsigma}.
-% \end{equation}
-% Eq.~\eqref{eq:21} states that the locality statistics
-% $\phi_\lambda(v)$ for our attributed random graphs model at time $t =
-% t^{*}$ can be approximated by the locality statistics $Y(v)$ for an
-% unattributed kidney and egg model. The limiting distribution for the
-% scan statistics in unattributed kidney-egg graphs had previously been
-% considered in \cite{rukhin:_limit_distr_graph_scan_statis}. We
-% provided a sketch of the arguments from
-% \cite{rukhin:_limit_distr_graph_scan_statis} below, along with some
-% minor changes to handle the case where the probability of
-% kidney-kidney and
-% kidney-egg connections are different. \\ \\
-% \noindent
-% Let $G$ be an instance of
-% $\kappa(n,m,p_{11}, p_{10}, p_{00})$, an unattributed kidney-egg graph
-% with the probability of egg-egg, egg-kidney, and kidney-kidney
-% connections being $p_{11}$, $p_{10}$, and $p_{00}$,
-% respectively. $D(v) = M(v) + W(v)$ is then the degree of $v$ in
-% $G$. We now show two inequalities relating the tail distribution of
-% $\Delta(G)$ and $\Upsilon(G) = \max_{v \in V(G)} Y(v)$.
-% \begin{gather}
-%   \label{eq:27}
-%     \limsup\,\, \mathbb{P}( \Upsilon(G) \geq a_{n,m} ) \leq \lim
-%    \mathbb{P}( \Delta(G) \geq N_\kappa), \\
-%    \label{eq:30}
-%   \liminf\,\, \mathbb{P}( \Upsilon(G) \geq a_{n,m} ) \geq \lim \mathbb{P}(
-%   \Delta(G) \geq N_{\kappa}).
-% \end{gather}
-% \begin{IEEEproof}[Eq.~\eqref{eq:27}]
-%  Let $C^{*} = \max\{C_{11},
-% C_{10}, C_{00}\}$ and $d_{n,m} = \sqrt{2 a_{n,m}/C^{*}}$. We first
-% note that
-% \begin{equation*}
-% \Upsilon(G) \geq a_{n,m} \Rightarrow C^{*} \tbinom{D(v)}{2} \geq
-% a_{n,m} \Rightarrow D(v) \geq d_{n,m}.
-% \end{equation*}
-% Let us define $h(v) = \mathbb{E}[Y(v)]$, i.e., 
-% \begin{equation*}
-%   \begin{split}
-%   h(v) = C_{00}p_{00} \tbinom{D(v)}{2} &+ (C_{11} p_{11} - C_{00}
-%   p_{00}) \tbinom{M(v)}{2} \\ &+ (C_{10} p_{10} - C_{00} p_{00}) M(v)
-%   W(v).
-%   \end{split}
-% \end{equation*}
-% We then have
-%   \begin{equation*}
-%     \label{eq:31}
-%     \begin{split}
-%     \mathbb{P}(\Upsilon(G) \geq a_{n,m}) &= \mathbb{P}\Bigl( \bigcup_{v
-%       \in V(G)} Y(v) \geq a_{n,m}\Bigr) \\
-%     &= \mathbb{P}\Bigl( \bigcup_{v
-%       \in V(G)} Y(v) \geq a_{n,m}, \, D(v) \geq d_{n,m} \Bigr) \\
-%     &\leq P_1 + P_2
-%     \end{split}
-%   \end{equation*}
-%   where 
-%   \begin{align*}
-%     \vartheta_n &= C_{00} \Bigl[ \tbinom{n}{2} p_{00} (1 -
-%     p_{00})\Bigr]^{1/2} \log{n} \\
-%     P_1 &= \mathbb{P}(\bigcup_{v \in V(G)} D(v) \geq d_{n,m}, h(v) \geq
-%     a_{n,m} - \vartheta_n) \\
-%     P_2 &= \mathbb{P}(\bigcup_{v \in V(G)} D(v) \geq d_{n,m},
-%     Y(v) - h(v) \geq \vartheta_n).
-%   \end{align*}
-%   We now show that $P_2$ is negligible as $n \rightarrow \infty$. To
-%   proceed, let $A$ be the event $\{M(v) = e, W(v) = f\}$ and let
-%   $p_{e,f} = \mathbb{P}(A)$. $P_2$ can then be bounded as follows
-% \begin{equation*}
-%   \begin{split}
-%     \frac{P_2}{n} & \leq \sum_{e + f \geq
-%         d_{n,m}}{\mathbb{P}( Y(v) - h(v) \geq
-%       \vartheta_{n} \, | \, A)} p_{e,f}  \\
-%   &=  \sum_{e + f \geq d_{n,m}}{\mathbb{P}\Bigl(
-%     \tfrac{Y(v) - h(v)}{\mathrm{Var}[Y(v)]^{1/2}} \geq
-%     \tfrac{\vartheta_n}{\mathrm{Var}[Y(v)]^{1/2}} \, \Bigl| \, A\Bigr) p_{e,f}} \\
-%     &\leq \sum_{e + f \geq d_{n,m}} (1 + o(1))
-%     \mathbb{P}(Z \geq \Theta(\log{n})) p_{e,f} \\ &= o(n^{-1}).
-%   \end{split}
-% \end{equation*}
-% We now consider $P_1$. We note that $P_1 \leq R_1 + R_2$
-% where
-% \begin{align*}
-%   R_1 &= \mathbb{P}\Bigl(\bigcup_{v \in [m]} D(v) \geq
-%   d_{n,m}, h(v) \geq a_{n,m} - \vartheta_n \Bigr), \\  
-%   R_2 &= \mathbb{P}\Bigl(\bigcup_{v \in [n] \setminus [m]} D(v) \geq
-%   d_{n,m}, h(v) \geq a_{n,m} - \vartheta_n \Bigr).
-% \end{align*}
-% Let us define $g(v) = h(v) - C_{00}p_{00} \tbinom{D(v)}{2}$.
-% $R_1$ is then bounded as follows
-% \begin{equation}
-%   \begin{split}
-%     \label{eq:36}
-%     R_1 &\leq \mathbb{P}\Bigl( \bigcup_{v \in [m]} h(v) \geq
-%     a_{n,m} - \vartheta_{n} \Bigr) \\
-%     % &\leq \mathbb{P}\Bigl( \bigcup_{v \in [n_1]}  C_{00} p_{00}
-%     % \tbinom{D(v)}{2} \geq a_{n,m} - \vartheta_{n} - g(v) \Bigr) \\
-%     &\leq \mathbb{P}\Bigl(\bigcup_{v \in [m]} D(v) \geq
-%       \sqrt{\tfrac{2 (a_{n,m} - \vartheta_n -
-%         g(v))}{C_{00} p_{00}}} \Bigr).
-%   \end{split}
-% \end{equation}
-% We now consider the term $a_{n,m} - g(v)$. We have
-% \begin{equation*}
-%   \begin{split}
-%   a_{n,m} - g(v) &= C_{00} p_{00} \tbinom{N_\kappa}{2} \\ &+ (C_{11}p_{11} -
-%   C_{00} p_{00})(\tbinom{\mu_E}{2} - \tbinom{M(v)}{2})
-%   \\ &+ (C_{10} p_{10} - C_{00} p_{00})(\mu_E\mu_F - M(v)W(v)).
-%   \end{split}
-% \end{equation*}
-% Let $\mathfrak{E}$ and $\mathfrak{F}$ be sets of vertices defined by
-% \begin{align}
-% \mathfrak{E} &=
-% \{v \colon |M(v) - \mu_E| \leq \sigma_E \log{m}\} \\ \mathfrak{F} &=
-% \{v \colon |W(v) - \mu_F| \leq \sigma_F \log{(n-m)}\}.
-% \end{align}
-% Then we have, for $v \in \mathfrak{E} \cap \mathfrak{F}$
-% \begin{equation}
-%   \label{eq:34}
-%   \begin{split}
-%   a_{n,m} - g(v) =  C_{00} p_{00} \tbinom{N_\kappa}{2} &+
-%   \Theta(m^{3/2} \log{m}) \\ &+ 
-%   \Theta(m \sqrt{n - m}) \\
-%   \end{split}
-% \end{equation}
-% When $m = \Omega(\sqrt{n \log n})$, Eq.~\eqref{eq:34} gives
-% \begin{equation}
-%   \label{eq:35}
-%   a_{n,m} - g(v) = N_{\kappa}^{2}\Bigl(\tfrac{C_{00}p_{00}}{2} + O(n^{-1/2 - a}
-%   \log{n})\Bigr).
-% \end{equation}
-% for some $a > 0$. The set $\{v \in [m]\}$ can be partition into
-% $\{v \in [m] \cap (\mathfrak{E} \cap\mathfrak{F})\}$ and $\{v \in [m]
-% \setminus (\mathfrak{E} \cap \mathfrak{F})\}$. We can show that
-% $\mathbb{P}\{v \in [m] \setminus (\mathfrak{E} \cap \mathfrak{F})\} =
-% o(1)$ by using a concentration inequality, e.g., Hoeffding's
-% bound. We thus have
-% \begin{equation}
-%   \label{eq:37}
-%   \begin{split}
-%     R_1 &\leq \mathbb{P}\biggl( \bigcup_{\substack{v \in [m] \\ v
-%         \in \mathfrak{E} \cap \mathfrak{F}}} D(v) \geq
-%     N_{\kappa} \sqrt{1 + O(\tfrac{\log{n}}{n^{1/2+a}})} \Bigr) + o(n^{-1}) \\
-%     & = \mathbb{P}\Bigl(\bigcup_{v \in [m]} D(v) \geq N_\kappa +
-%     O(n^{1/2 - a} \log{n})\Bigr) + o(n^{-1}) \\
-%     &= \mathbb{P}\Bigl(\Delta \geq \mu_{E+F} +
-%     \sigma_{E+F}(z_m + O(\tfrac{\log{n}}{n^{a}}))\Bigr) + o(n^{-1}) \\ 
-%     & \rightarrow \mathbb{P}(\Delta \geq N_{\kappa}).
-%     \end{split}
-% \end{equation}
-% The same argument can be applied to $R_2$ to show that
-% \begin{equation}
-%   \label{eq:38}
-%   R_2 \leq \mathbb{P}\Bigl(\bigcup_{v \in [n] \setminus [m]} D(v) \geq
-%   N_{\kappa}(1 + o(1))\Bigr) = o(1).
-% \end{equation}
-% Eq.~\eqref{eq:27} is therefore established.
-% \end{IEEEproof}
-% \begin{IEEEproof}[Eq.~\eqref{eq:30}]
-%   We start by noting that
-%   \begin{equation*}
-%     \begin{split}
-%       \mathbb{P}(\Upsilon(G) \geq a_{n,m}) &=
-%       \mathbb{P}\Bigl(\bigcup_{v \in [n]}Y(v) \geq
-%       a_{n,m}\Bigr) \\
-%       & \geq \mathbb{P}\Bigl(\bigcup_{v \in [m]}Y(v) \geq
-%       a_{n,m}, D(v) \geq N_\kappa \Bigr) \\
-%       & \geq \mathbb{P}\Bigl(\bigcup_{v \in [m]} D(v) \geq
-%       N_\kappa\Bigr) \\ &- \mathbb{P}\Bigl( \bigcup_{v
-%         \in [m]} Y(v) < a_{n,m}, D(v) \geq N_\kappa\Bigr).
-%     \end{split}
-%   \end{equation*}
-%   We now show that $\mathbb{P}( \cup_{v
-%         \in [m]} Y(v) < a_{n,m}, D(v) \geq N_\kappa) \rightarrow 0$ as
-%       $n \rightarrow \infty$. Let $v \in [m]$ be arbitrary. It is then
-%       sufficient to show that $m\mathbb{P}(Y(v) < a_{n,m}, D(v) \geq
-%       N_{\kappa}) = o(1)$. We note that $\mathbb{P}(Y(v) < a_{n,m}, D(v) \geq
-%       N_{\kappa})$ can be rewritten as
-%       \begin{equation}
-%         \label{eq:24}
-%         \sum_{e + f \geq N_{\kappa}}{\mathbb{P}(Y(v) \leq a_{n,m} \, |
-%           \, M(v) = e, W(v) =
-%           f)}p_{e,f}.
-%       \end{equation}
-% We now split the indices set $e + f \geq N_{\kappa}$ in
-% Eq.~\eqref{eq:24} into three parts $S_1$, $S_2$ and $S_3$, namely
-% \begin{gather}
-%   \label{eq:32}
-%     S_1 = \{  e \geq
-%         \mu_E + \sigma_E \log{m}\} \\
-%     S_2 = \{  e \leq
-%         \mu_E + \sigma_E \log{m},e + f \leq
-%         N_\kappa + \varphi(n)\} \\
-%     S_3 = \{ e \leq \mu_E + \sigma_E \log{m}, e + f \geq
-%         N_\kappa + \varphi(n)\}
-% \end{gather}
-% where $\varphi(n) = \Theta(n^{1/2 - a})$ for some $a > 0$. We can then
-% show that $m\mathbb{P}(M(v) = e,
-% W(v) =f, \{e,f\} \in S_1) = o(1)$ by applying a concentration
-% inequality. Similarly, $e + f \geq N_{\kappa}$ and $e \leq \mu_{E}
-% + \sigma_{E} \log{m}$ implies that
-% \begin{equation}
-%   \label{eq:33}
-%   f \geq \mu_{F} + (z_{m} - o(1)) \sigma_F 
-% \end{equation}
-% and once again, by a concentration inequality, we can show that $m
-% \mathbb{P}(M(v) = e, W(v) = f, \{e,f\} \in S_2) = o(1)$. As for
-% $S_3$, from the fact that $e + f \geq N_{\kappa} + \varphi(n)$, we have the bound
-%   \begin{equation}
-%     \begin{split}
-%     a_{n,m} - h(v) &\leq (C_{11} p_{11} - C_{10} p_{10})[m \sigma_E
-%     \log{m} + \tbinom{\log{m}}{2}] \\ &- C_{00}p_{00} N_\kappa
-%     \varphi(n).
-%     \end{split}
-%   \end{equation}
-%   As $\mathrm{Var}[Y(v)] = \Theta(N_\kappa)$ for $\{M(v), W(v)\} \in
-%   S_3$, we have
-%   \begin{equation}
-%     \label{eq:39}
-%     \begin{split}
-%       p_{S_3} &= \sum_{\{e,f\} \in S_3} \mathbb{P}( Y(v) < a_{n,m}) p_{e,f} 
-%       \\ &\leq \sum_{\{e,f\} \in S_3} \mathbb{P}\Bigl(\tfrac{Y(v) - h(v))}{\mathrm{Var}[Y(v)]^{1/2}} \leq \tfrac{a_{n,m} -
-%       h(v)}{\mathrm{Var}[Y(v)]^{1/2}}\Bigr)p_{e,f} \\
-%     &\leq \sum_{\{e,f\} \in S_3} \mathbb{P}\Bigl[Z \leq
-%     O\bigl(\tfrac{m^{3/2} \log m}{N_{\kappa}} - \varphi(n)\bigr)\Bigr]
-%     p_{e,f}.
-%     \end{split}
-%   \end{equation}
-%   We now set $a = \tfrac{1}{2(k+1)}$. Then for $m =
-%   O(n^{k/(k+1)})$ and $\varphi(n) = O(n^{1/2 - a})$ we have
-%   \begin{equation}
-%     \label{eq:41}
-%     \tfrac{m^{3/2} \log m}{N_\kappa} - \varphi(n) =
-%     -O(n^{k/2(k+1))})
-%   \end{equation}
-%   which then implies
-%   \begin{equation}
-%     \label{eq:44}
-%     m p_{S_3} \leq m \sum_{\{e,f\} \in S_3} \mathbb{P} \Bigl[Z \leq
-%     - O(n^{k/2(k+1)}\Bigr] p_{e,f} = o(1).
-%   \end{equation}
-%   Thus $\mathbb{P}(Y(v) < a_{n,m}, D(v) \geq
-%       N_{\kappa}) \rightarrow 0$ as desired.
-% \end{IEEEproof}
-% From Eq.~\eqref{eq:27} and Eq.~\eqref{eq:30}, we have
-% \begin{equation}
-%   \label{eq:40}
-%  \lim
-% \mathbb{P}(\Upsilon(G) \geq a_{n,m}) = \lim \mathbb{P}(\Delta(G) \geq
-% N_{\kappa}).
-%  \end{equation}
-% Let $N_{\kappa,y} = N_\kappa + y \tfrac{\sigma_{E+F}}{\sqrt{2
-%     \log{m}}}$. We now define $a_{n,m,y}$ as 
-% \begin{equation*}
-%   \langle \lambda, \pi_{00} \rangle
-%     \tbinom{N_{\kappa,y}}{2} +
-%   \langle \lambda, \pi_{11} - \pi_{00} \rangle \tbinom{\mu_E}{2}  +
-%   \langle \lambda, \pi_{10} - \pi_{00} \rangle \mu_E \mu_F.
-% \end{equation*}
-% The above expression is equal to 
-% \begin{equation}
-%   \label{eq:57}
-%  a_{n,m} + \langle \lambda, \pi_{00} \rangle y
-%   \frac{\sigma_{E+F}}{\sqrt{2 \log m}} \Bigl(N_{\kappa} + y
-%   \frac{\sigma_{E+F}^{2}}{2 \sqrt{2 \log{m}}} + O(1) \Bigr).
-% \end{equation}
-% We thus have
-% \begin{equation*}
-%    a_{n,m,y} = a_{n,m} + (y + o(1)) b_{n,m}.
-% \end{equation*}
-% We therefore have
-% \begin{equation*}
-%   \begin{split}
-%   \lim \mathbb{P}(\Upsilon(G) \geq a_{n,m,y}) &= 
-%   \lim \mathbb{P}\Bigl(\frac{\Upsilon(G) - a_{n,m}}{b_{n,m}} \geq y \Bigr) \\
-%   &= \lim \mathbb{P}(\Delta(G) \geq N_{\kappa,y}) \\
-%   &= \lim \mathbb{P}\Bigl(\frac{\Delta(G) -
-%     N_{\kappa}}{\sigma_{E+F}} \geq \frac{y}{\sqrt{2 \log{m}}} \Bigr). \\
-%   \end{split}
-% \end{equation*}
-% Because $\Delta(G)$ converges weakly to a Gumbel
-% distribution in the limit
-% (\cite{bollobas85:_random_graph,rukhin:_limit_distr_graph_scan_statis}),
-% we have
-% \begin{equation}
-%   \label{eq:47}
-%   \mathbb{P}\Big(\frac{\Upsilon(G) - a_{n,m}}{b_{n,m}} \leq
-%     y\Bigr) \rightarrow e^{- e^{-y}} 
-% \end{equation}
-% and Eq.~\eqref{eq:29} follows.
-% \end{IEEEproof}
 \bibliography{ssp2011}
 \end{document}
 %%% Local Variables: 

@@ -1,0 +1,392 @@
+06-Apr-2012
+
+Prof. Carey Priebe
+Johns Hopkins University
+Whitehead Hall
+Baltimore
+Maryland
+United States
+21218-2682
+
+
+Manuscript: T-SP-13180-2012 "Attribute fusion in a latent process
+model for time series of graphs"
+
+Dear Prof. Carey Priebe,
+
+Your manuscript, T-SP-13180-2012 "Attribute fusion in a latent process
+model for time series of graphs", which you submitted to the
+Transactions on Signal Processing has been reviewed. The comments from
+the reviewers are included at the bottom of this letter (**See note
+below about attachments).
+
+In view of the criticisms of the reviewers, I must reject the
+manuscript for publication in the IEEE Transactions on Signal
+Processing at this time. However, a new manuscript may be submitted
+which takes into consideration these comments.
+
+Your new manuscript must be submitted back to Manuscript Central
+http://mc.manuscriptcentral.com/tsp-ieee together with a
+point-by-point reply that explains how you addressed the reviewers'
+comments.
+
+Please note that resubmitting your manuscript does not guarantee
+eventual acceptance, and that your resubmission will be subject to
+re-review by the reviewers before a decision is rendered.
+
+You will be unable to make your revisions on the originally submitted
+version of your manuscript. Once you have revised your manuscript, log
+into http://mc.manuscriptcentral.com/tsp-ieee and enter your Author
+Center, where you will find your manuscript title listed under
+"Manuscripts with Decisions". Under "Actions", click on "Create a
+Resubmission" then follow the steps for resubmitting your manuscript.
+
+If you have any questions, please contact the Admin for this journal
+Ziggy Kowalski at z.kowalski@ieee.org.
+
+Sincerely,
+
+Prof. Maciej Niedzwiecki
+Associate Editor
+IEEE Transactions on Signal Processing
+maciekn@eti.pg.gda.pl, maciekn@pg.gda.pl
+
+Ziggy Kowalski
+Coordinator Society Publications
+IEEE Signal Processing Society
+z.kowalski@ieee.org
+
+** {This applies to SUBMITTING AUTHOR Accounts ONLY: You can find any
+   possible ATTACHMENTS FROM THE REVIEWERS by going to the "Manuscript
+   with Decisions" status link in your Author Center and clicking on
+   "view decision letter". They are located at the bottom of decision
+   letter under "Files attached" heading}
+
+Reviewer Comments:
+
+Reviewer: 1
+
+Recommendation: R - Reject (Paper Is Not Of Sufficient Quality Or
+Novelty To Be Published In This Transactions)
+
+Comments:
+Let's say that an graph edge can carry one of k different
+attributes. Then each vertex is equipped with a vector of k elements:
+there is an entry in this vector representing the affinity of the
+vertex to act as an endpoint for each of the k possible types of
+attributed edges. Based on these hidden vectors the probability of two
+vertices to be connected is the dot product of their independent
+vectors and more specifically the conditional probability that a
+connecting edge will be labelled by attribute i is simply the product
+of the ith vector entries. Practically, given the vectors attached to
+each vertex, we can then compute "wiring" and "labelling"
+probabilities and thus construct a graph instance based on them.
+
+For a time series of graphs the authors extend to hidden vectors with
+time-varying entries. Their goal is to identify the time when a
+chatter anomaly - defined as perturbations in the links connecting
+only a subset of the vertices - occurs in this series. At this point
+they introduce extra assumptions in how the vectors can vary in time:
+In any time interval $[t, t+1)$, a stationary, continuous-time Markov
+process with k+1 states is assumed behind the scenes for computing the
+time evolution of the vector (the extra state is absence of connection
+for the vertex). Identical transition-matrix ($Q_1$) Markov processes
+are suggested for all nodes before the anomaly, while after the
+anomaly occurs they assume two Markov processes over the graph: the
+previous one with stationary distribution $\pi_1$ running at nodes
+with no incident link perturbations and $\pi_2$ at the others.
+
+They next introduce two approximations of this assumed model: The
+first order approximation considers attaching a hidden vector equal to
+the stationary distribution of the Markov chain at works there; this
+means that only perturbation-incident vertices will shift from $\pi_1$
+to $\pi_2$ vectors at the time the anomaly happens. The second order
+approximation assumes hidden vectors sampled from within an interval
+around the first order approximation (stationary-distribution)
+vectors.
+
+The next step is to define their test statistics. For a given graph
+they count the number of edges, the number of triangles, the maximum
+degree and the maximum number of edges between neighbors over all
+vertices, however inserting a weighting vector $\lambda$ with k
+entries as a parameter, effectively changing the contribution of
+different-attribute edges in the counting process. For each of these
+four quantities they define a respective test statistic, as the
+normalized deviation of the quantity from its average over a period of
+the last $l$ graph history snapshots.
+
+Selecting the weighting vector $\lambda$ that maximizes the power of
+their approach is their next stop. This is the probability their test
+will reject the null hypothesis when the null hypothesis is actually
+false (the null hyposthesis states that the anomaly occurs after the
+actual time it occurs, and this is obviously erroneous). They compute
+this maximum-power $\lambda$ by actually finding the distributions
+followed by their test statistics (Student t for the first two and
+Gumbel for the rest two - maximum related - ones).
+
+In the experimental section they work with two graphs, with 2
+attributes each (k=2). A synthetic one where they explicitly set the
+two Markov processes and then explore the dependence of the power for
+exponentially decreasing waiting times for the processes (increasing
+r) for their exact model and its two approximations. They also reduce
+the Enron dataset into a k=2 attributed graph and plot their test
+statistics as a function of $\theta$ (the magnitude of optimum
+$\lambda$ vector is known to be 1, so for k=2 dimensions it could be
+parameterized as $(\cos(\theta), \sin(\theta))$.
+
+Although the idea of linearly fusing attributes seems appealing and
+the authors present their ideas in a technically sound way, nicely
+structured and well supported by theoretical analysis and derivations,
+I have some critical reservations:
+
+1. The practicality of the approach: Both examples consider the case
+of graphs with k=2 attributes and a convenient single parameter
+representation ($\theta$). However for larger k, sets of different
+optimal values would be harder to argue about. Also given a set of
+real graph snapshots the determination (or approximation) of the
+corresponding Markov processes - assuming all properties assumed hold
+- is not commented on.
+
+*** 
+    The cases where $ k \geq 3$ was not considered in the experiments,
+    as we deemed them to be more complex but not more
+    difficult. Theoretically, the optimal $\lambda$ for $k \geq 3$ can
+    be found for all of the graph invariants by numerical techniques,
+    i.e., find the $\lambda$ that maximizes non-central parameters
+    $\mu_{\lambda}$ in the cases for size and number of triangles, or
+    the ratio $\rho_{\lambda}/\zeta_{\lambda}$ in the case of max
+    degree or scan. As for empirical evaluation, one can parametrize 
+    the set $\{\lambda \colo \| \lambda \| = 1\}$ for $k \geq 3$
+    using hypershperical coordinates and the problem of finding the
+    optimal $\lambda$ can be done by exhaustive search. This is 
+    inefficient or even intractable for $k \geq 5$, but this is a
+    common issue for most global optimization problems. 
+    
+    The issue of determining or estimating the parameters of the
+    underlying Markov chain given a set of snapshots of the graphs is
+    an important issue that we failed to comment on explicitly in the
+    previous submission. We have added in a paragraph to the revision
+    that allude to this issue. In general, it is intractable to
+    estimate the parameters of the underlying Markov chains given the
+    snapshots. It is possible, however, to estimate the latent vectors
+    associated with the first and second-order approximation via
+    a spectral embedding technique [1]. We also
+    note that more refined models, where the messaging events between each pairs of
+    vertices is modeled as point process,
+    e.g. [2,3] can also be formulated. The
+    snapshot of the graphs is then a binning of these point processes and
+    the issue of parameters estimation is fundamental but feasible in 
+    these point processes approaches.
+
+[1] Sussman et. al. ``A consistent dot product embedding for
+stochastic blockmodel graphs'', Online at http://arxiv.org/abs/1108.2228
+
+[2] Heard et. al. ``Bayesian anomaly detection methods for social
+networks'', Annals of Applied Statistics, (4):645--662, 2010.
+
+[3] P. Perry and P. J. Wolfe. ``Point process modeling for directed
+interaction networks'', Online at http://arxiv.org/abs/1011.1703v2
+
+***
+
+2. Journal relevance: This is very important since there does not seem
+to exist some clear identification of a concrete application from
+signal processing. The content would be much more relevant to a
+statistics journal or to network analysis audience.
+
+*** 
+We have added a new section to motivates the consideration of
+time-series of attributed graphs. We believe that the notion of a
+time-series is a fundamental concept in signal processing and
+furthermore the representation of data as (attributed) graphs is
+ubiquitous in many applications domain. Also, anomaly/change-point
+detection is one of the main problems in time-series analysis.  As
+such, anomaly detection on time-series of graphs is a natural and
+challenging problem. There have been recent work on signal processing
+on graphs, with many of them on the construction of wavelets on
+graphs. Our paper is similar in spirits to these wavelets paper but we
+have taken a more statistical point of view, as evidenced by our 
+setup of the anomaly detection problem via hypothesis testings along
+with the derivations of the limiting behaviour of the test statistics.
+
+Additional Questions:
+1. Is the topic appropriate for publication in these transactions?: No
+
+2. Is the topic important to colleagues working in the field?: No (explain):
+
+Explain: As inferred by the comprehensive description of the paper
+content included in the comments to authors, there is no explicit link
+to the signal processing field e.g. in the form of its corresponding
+application potential.
+
+1. Is the paper technically sound?: Yes
+
+why not?: 
+
+2. Is the coverage of the topic sufficiently comprehensive and balanced?: Yes
+
+3. How would you describe technical depth of paper?: Appropriate for
+the Generally Knowledgeable Individual Working in the Field or a
+Related Field
+
+4. How would you rate the technical novelty of the paper?: Not Novel
+
+1. How would you rate the overall organization of the paper?: Satisfactory
+
+2. Are the title and abstract satisfactory?: Yes
+
+Explain: 
+
+3. Is the length of the paper appropriate? If not, recommend how the
+length of the paper should be amended, including a possible target
+length for the final manuscript.: Yes
+
+4. Are symbols, terms, and concepts adequately defined?: Yes
+
+5. How do you rate the English usage? : Satisfactory
+
+6. Rate the Bibliography: Satisfactory
+
+null: 
+
+1. How would you rate the technical contents of the paper?: Good
+
+2. How would you rate the novelty of the paper?: Not Novel
+
+3. How would you rate the "literary" presentation of the paper?: Mostly Accessible
+
+4. How would you rate the appropriateness of this paper for
+publication in this IEEE Transactions?: Poor Match
+
+
+Reviewer: 2
+
+Recommendation: RQ - Review Again After Major Changes
+
+Comments:
+The paper presents an attribute fusion approach for detecting change
+points in dynamic graphs that evolve over time according to a latent
+process model. The graphs considered are attributed graphs where each
+edge can take one of K possible categories. Four types of graph
+invariants for detection are considered, namely the number of edges,
+the number of triangles, the maximum degree, and the scan statistic.
+Attribute fusion refers to taking non-negative linear combinations of
+these invariants computed for each category of edge.
+
+The main contribution of the paper is an asymptotic analysis of the
+power of the tests for each invariant as a function of the fusion
+parameter lambda, which corresponds to a weighting of the different
+attributes. For certain invariants, a closed-form solution for the
+optimal lambda is also given. The analysis is performed under a
+first-order approximation to the latent process model, which amounts
+to a time series of independent Erdos-Renyi graphs (prior to the
+change point) and independent graphs sampled from a special instance
+of the mixed-membership stochastic blockmodel (after the change
+point). Simulation results suggest that the asymptotic estimates of
+the power under the first-order approximation are accurate, and that
+the optimal choice of fusion parameter lambda under the first-order
+approximation is close to the optimal fusion parameter under the exact
+model.
+
+The contributions of this paper are timely, relevant, and novel. The
+development of signal processing methods for graphs is an important
+topic to the signal processing community, as noted by the special
+sessions at recent ICASSP and SSP conferences. The literature on
+analysis methods for dynamic graphs is limited, and even more so for
+attributed graphs. Furthermore, theoretical results that are also
+practically useful are extremely rare.
+
+The main weakness of this paper is that it is not organized well and
+is not self-contained.
+
+As such, it is difficult to understand the latent process model
+without referring to the previous work (reference [1]). There really
+is no introduction to the paper, no context is provided for the
+problem--aside from the first sentence of the abstract, the reader is
+left with no idea why change point detection in dynamic graphs is
+useful, and specifically why one may want to use attributed graphs
+rather than graphs without attributes. Finally, the latent process
+model is a new model, and it would be beneficial to specify early in
+the introduction the relationship between this model and other models
+that the reader may be familiar with, namely the mixed-membership
+stochastic blockmodel and the latent space models of Hoff et al. To
+address these weakness, I would suggest to add a few paragraphs
+preceding the current section I.A providing context and relationship
+to existing models. The authors should find it useful to refer to
+other papers published in the Trans on SP to get an idea on the type
+of format, organization and style of writing that the TSP reader
+expects.
+
+Furthermore, there are terms and quantities that are introduced
+without definition, e.g., the bracket notation "[]", e.g., "[K+1]",
+the "cadlag process", and the "rdpm" in Sec 1.A. These are not
+notations and quantities that are familiar to a signal processing
+audience and should be carefully defined before they are introduced.
+
+Specific comments:
+- Page 3, figure 1: Please provide a more descriptive caption with
+meanings of the regions and trajectories.
+- Page 11, line 38: From the definitions of E and F, they appear to be
+scalars, but E+F is defined as the convolution of E and F, which does
+not make sense.
+- Page 13, lines 10-11: What is the change point t* in this example?
+- Page 14, line 49: Change "yields" to "yield"
+- Page 15, line 4: A plot of each of the normalized test statistics
+T_lambda^l (with the optimal lambda for each statistic) against time
+should also be included so the reader can get a sense for how
+anomalous this particular time step happens to be.
+- Page 17, figure 6: Why are there multiple lines for the second order
+approximation and exact model? Are they for different values of r? If
+so, the values of r should be indicated somewhere in the plots
+themselves (perhaps by reducing the number of values of r shown) or by
+listing them in the caption.
+- Appendix, page 1, line 31: Change "U-statistics" to "U-statistic"
+
+
+Additional Questions:
+1. Is the topic appropriate for publication in these transactions?: Yes
+
+2. Is the topic important to colleagues working in the field?: Yes
+
+Explain:  
+
+1. Is the paper technically sound?: Yes
+
+why not?: 
+
+2. Is the coverage of the topic sufficiently comprehensive and
+balanced?: Important Information is missing or superficially treated.
+
+3. How would you describe technical depth of paper?: Suitable only for an expert
+
+4. How would you rate the technical novelty of the paper?: Somewhat Novel
+
+1. How would you rate the overall organization of the paper?: Poor
+
+2. Are the title and abstract satisfactory?: Yes
+
+Explain: 
+
+3. Is the length of the paper appropriate? If not, recommend how the
+length of the paper should be amended, including a possible target
+length for the final manuscript.: Yes
+
+4. Are symbols, terms, and concepts adequately defined?: No
+
+5. How do you rate the English usage? : Satisfactory
+
+6. Rate the Bibliography: Satisfactory
+
+null: 
+
+1. How would you rate the technical contents of the paper?: Excellent
+
+2. How would you rate the novelty of the paper?: Sufficiently Novel
+
+3. How would you rate the "literary" presentation of the paper?:
+Partially Accessible
+
+4. How would you rate the appropriateness of this paper for
+publication in this IEEE Transactions?: Weak Match
+
+
