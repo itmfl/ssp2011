@@ -14,3 +14,9 @@ _region*
 *.RData
 *.Rbin
 *.Rhistory
+*.jpg
+out
+*.zip
+*.dvi
+*.rar
+Data

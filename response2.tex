@@ -1,0 +1,211 @@
+\documentclass{article}
+\pdfminorversion=4
+\usepackage{parskip}
+\usepackage{fontenc}
+\begin{document}
+\title{Response to reviewers}
+\maketitle
+\date{}
+Thank you for the careful reading of our manuscript and the referee
+report and we deeply appreciate your comments and critiques on the
+manuscript. The specific comments and suggestions for review have been
+followed, and the result is an improved manuscript. In particular,
+the discussions surrounding the theoretical results in Section IV and
+the experiments in Section V had been expanded, most importantly the
+addition of Figure 5, illustrating, through Q-Q plots, 
+the convergence of the statistics to their limiting distribution. Below we
+give specific responses to the comments of the reviewers (the
+reviewers comments are in italic). Again, we
+thank the editor and reviewers for their valuable comments.
+
+\section{Comments from Reviewer 1}
+Recommendation: AQ - Publish In Minor, Required Changes
+
+Comments:
+{\em (1) Expand the discussion on the connection of your approach with the
+wavelet representations for graphs; a small paragraph, 3-4 sentences,
+would suffice.}
+
+*** Response: We have expanded the discussion on related works. In
+particular, we described the similarities between the construction and
+use of the wavelet representation for traffic analysis in [Crovella \&
+Kolaczyk, 2003] and anomaly detection using locality/scan statistics
+in our manuscript.
+
+{\em (2) Comment more explicitly on the choice of the running-average
+window l. Is there a guideline?}
+
+*** Response: We had added a comment about the choice of $l$ right
+before the end of Section 3. In general, the choice of $l$ depends on
+the practitioner. Small values of $l$ could induce large fluctuations
+in the temporal standardization statistics, which might lead to a
+higher false positive rate. Large values of $l$, on the other hand,
+could induce over-smoothing, leading to a higher false negative
+rate. As for the Enron data experiment, $l = 20$ was used in the
+earlier scan paper on Enron graph (Priebe et al. 2005) so we used it
+to keep the comparisons between the two papers meaningful.
+
+{\em (3) Add reference [*] C. E. Priebe, N. H. Lee, Y. Park, and
+M. Tang, "Attribute Fusion in a Latent Process Model for Time Series
+of Graphs," 2011 IEEE Workshop on Statistical Signal Processing
+(SSP2011), July 2011.}
+
+*** Response: This had been done.
+
+\section{Comments from Reviewer 2}
+
+Recommendation: RQ - Review Again After Major Changes
+
+Comments:
+
+{\em (1) The paper has been improved somewhat but it is still written in a
+terse mathematical style that is not consistent with the signal
+processing audience. The introductory section is from [1] but the
+reader would not know this if [1] had not been read.  The Lemmas and
+Theorems in the power analysis section are inadequately discussed in
+terms of their practical applicability to problems of signal
+processing and time series analysis. In particular, the weak
+convergence theory of Thms 4, 6 and 9 is interesting but the utility
+of these theorems is not adequately illustrated.  The Gumbel limits
+are not explained, interpreted or illustrated in the numerical
+section. The authors could, for example, illustrate how these results
+can be used to set thresholds or select the linear parameter
+lambda. How large does n and l have to be for these limits to become
+good apprxoimation? Q-Q plots of simulation or real (Enron) data
+against student-t and Gumbel would give an idea of how fast these
+approximations converge.  In any case, any theoretical results that
+are not illustrated for a SP problem should be removed from the paper.}
+
+*** Response: We have reorganized and expanded the paper to make the
+connections between the theoretical results in Section IV and their
+applicability to signal processing and time-series analysis more
+explicit. In particular, section IV now starts off with a discussion
+relating the change-point detection framework in Section III with the
+theoretical results, i.e., the theoretical results provided power
+estimates for each choice of the fusion parameter $\lambda$. We have
+also note how the theoretical results in this paper are extensions of
+results that exist in the literature.
+
+The rate of convergence for the limiting distribution is an important
+result that we had ignored in the paper. The paper of [1] contains
+evaluation (via Monte Carlo estimates) of rate of convergence of size,
+max degree, number of triangles and scan to the corresponding limiting
+distributions, i.e., normal, Gumbel, normal and Gumbel in the
+Erdos-Renyi and kindey-egg settings. Note that they consider only a
+single (unattributed) graph at a time. The paper Pao, Coppersmith and
+Priebe (citation below) showed that the limiting distribution with the
+associated parameters is sufficiently accurate for the size and max
+degree statistic starting at $n = 100$ and for number of of triangles
+and scan statistics starting at $n = 1000$.
+
+In general, for the case of degree and number of triangles provided
+that the normal distribution is a good large-sample approximation,
+then the weak convergence of the temporal standardization statistics
+to the Student's t-distribution holds independent of $l$, as long as
+the underlying time-series of graphs is stationary during that time
+interval.
+
+For the case of max degree and scan, the weak convergence of
+their temporal standardization to the Gumbel distribution requires
+both that $n$ is sufficiently large (so that the Gumbel distribution
+is a good large-sample approximation at any time $t$) and that $l$ is
+sufficiently large, e.g., $l \geq 100$. However, if $n$ is
+sufficiently large, then the limiting distribution of the temporal
+standardization for any value of $l \geq 2$ converges weakly to the
+convolution of $l$ Gumbel distributed random variables as long as the
+underlying time-series is stationary during that time interval. Power
+estimates in this case (where both the null and alternative is a
+convolution of Gumbel random variables) is also straightforward but tedious. 
+
+The manuscript has now been revised to include parts of the above
+discussion on the limiting distribution (right after the statement of
+the relevant results) and how it is applied to the simulation
+experiment setup (second paragraph of Section V). In particular, Q-Q
+plots for the temporal standardization of the max degree, number of
+triangles and scan statistics against the limiting distributions had
+been added to the manuscript. These Q-Q plots help to illustrate the
+convergence of these temporal standardization statistics to their
+limiting distribution.
+
+[1] Pao, Coppersmith, and Priebe, ``Statistical inference of random
+graphs: Comparative power analysis via Monte Carlo'' Journal of
+Computational and Graphical Statistics, 2011.
+
+{\em (2) The Introduction should very clearly state the differences between [1]
+and the present work. The reader should not have to read [1], which
+this reviewer did, in order to figure this out.}
+
+*** Response: The manuscript now include a short paragraph at the end
+of the introductory section describing the relationships between [1],
+another paper that was an earlier version of the manuscript and was
+presented at the 2011 SSP workshop in Nice, France, and the
+manuscript. In particular the current manuscript used the generative
+model for the time-series of graphs from [1]. Also, the setup of
+anomaly/change-point detection and the use of temporal standardization
+of the graph invariants as the test statistics are also identical to
+that done in [1] (this setup or its variation had been used previously
+by some of the authors, see e.g., Priebe et al ``Scan statistics on
+Enron graphs''). However, [1] only considered the use of the size
+invariant. The earlier version of the manuscript that was presented at
+the 2011 SSP workshop motivates the current manuscript and include a
+preliminary version of the simulation experiment in Section V.  ***
+
+{\em (3) In Fig 4 the 1st and 2nd order approximations appear to upper bound
+the exact curve for all cases studied.  Is this provable? The authors
+should comment.}
+
+*** Response: Two of the authors of the manuscript had noticed the
+above phenomenon (and the fact that the 2nd-order approximation is
+monotone increasing in $r$, the process rate parameter) in their
+previous paper [1]. However, they have not been able to explain the
+phenomenon. It might be possible to show that the second-order
+approximations is monotone increasing in $r$, which also implies that
+the first-order approximation is an upper bound for the second order
+approximations, for the size and number of triangle statistic using
+some recent results in [2]. However, to the best of our knowledge, the
+explanation for the full phenomenon is still elusive. We would be very
+much interested in knowing an explanation behind this phenomenon.
+
+[2] Priebe and Rukhin, ``Invariant theory for hypothesis testing on
+graphs'', Proceedings of the 58th World Statistic Congress, 2011. 
+***
+
+{\em (4) Non-standard notation (e.g. [n], [K+1]) has now been defined but
+it should be aligned with a more standard notation (e.g. {1,...,n} and
+{1,...,K+1}) familar to SP audience. There are also many typographical
+errors in the manuscript. The authors need to go through and carefully
+correct errors of syntax and omissions of important assumptions. A
+sampling of the ones I found is:
+
+\begin{enumerate}
+  \item Eqn (2) , $<x_u,x_v>$ should be $<X_u,X_v>$.
+  \item Line 14 on p. 5: "phenoma" should be "phenomenon"
+  \item Line 19 on p. 5; "Permutation of the vertex labels does not affect
+our subsequent analysis"
+\item Line 23 p 5: "Of general interests" should be replaced by "Of general interest"
+\item Line 31 on p 7: "parameters" should be "parameter"
+\item Line 4 on p 8: "interests" should be "interest"
+\item Line 12 on p 8: the "I" notation used to define $\Gamma_{uv}(k)$ should
+be defined explicitly as a vector of indicator functions since this is
+not standard notation. Furthermore, on the next line the statement
+$\Gamma_{uv}=0$ is confusing since $\Gamma_{uv}$ is a vector. A better
+notation will be $\Gamma_{uv} =[0,\ldots,0]^T$.
+\item Thm 1 needs to be stated more precisely with all necessary
+assumptions, as in [1]. The quantites defined are functions of m,n,l
+and involve matrices $eta_{ij}$. In [1] these matrices are assumed to be
+positive definite and the matrix $\zeta$ is assumed to be
+non-zero. These assumptions need to be stated here too.
+\end{enumerate}}
+
+*** Response: The above errors had all been fixed. In particular the
+statement of the theoretical results had been revised or corrected. An
+additional assumption regarding the matrix $\zeta$ being positive
+definite is now included in Theorem 1. All occurrences of the fraction
+$\sqrt{\pi}/6$ in Theorem 6 and Theorem 9 had now been
+changed/corrected to $\sqrt{6}/pi$.
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

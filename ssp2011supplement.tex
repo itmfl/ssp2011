@@ -58,8 +58,6 @@
 % Science , Johns Hopkins University.\protect \\
 %   Email: youngser@jhu.edu}%
 \thanks{}}
-\markboth{IEEE Transactions on Pattern Analysis and Machine
-  Intelligence (TPAMI)}{}
 \maketitle
 \appendix[Proofs of some stated results]
 \label{sec:proofs-some-stated}
@@ -268,7 +266,7 @@ or \cite{rukhin09:_asymp_analy_various_statis_random_graph_infer}.
   first show that if $m = \Omega(\sqrt{n \log n})$ then
   $\Delta_{\lambda}(v;t^{*}) \overset{\mathrm{d}}{\longrightarrow}
   \max_{v \in [m]}{d_{\lambda}(v;t^{*})}$ \cite[Lemma
-  3.1]{rukhin:_limit_distr_graph_scan_statis}. We then show, again by
+  3.1]{rukhin12}. We then show, again by
   the central limit theorem, that for $v \in [m]$,
   $\tfrac{d_{\lambda}(v;t^{*}) - \mu_2}{\sigma_2}
   \overset{\mathrm{d}}{\longrightarrow} \mathcal{N}(0,1)$. It then
@@ -345,7 +343,7 @@ Eq.~\eqref{eq:12} states that the locality statistics for our
 attributed random graphs model with $t < t^{*}$
 can be approximated by the locality statistics for an Erd\"{o}s-Renyi
 graph with edge probability $p_{00}$. The lemma then follows
-from Theorem~1.1 in \cite{rukhin:_limit_distr_graph_scan_statis}.
+from Theorem~1.1 in \cite{rukhin12}.
 \end{IEEEproof}
 \begin{IEEEproof}[Lemma~8]
   For ease of exposition we drop the index $t^{*}$ from our discussion. Let
@@ -416,9 +414,9 @@ $\phi_\lambda(v)$ for our attributed random graphs model at time $t =
 t^{*}$ can be approximated by the locality statistics $Y(v)$ for an
 unattributed kidney and egg model. The limiting distribution for the
 scan statistics in unattributed kidney-egg graphs had previously been
-considered in \cite{rukhin:_limit_distr_graph_scan_statis}. We
+considered in \cite{rukhin12}. We
 provided a sketch of the arguments from
-\cite{rukhin:_limit_distr_graph_scan_statis} below, along with some
+\cite{rukhin12} below, along with some
 minor changes to handle the case where the probability of
 kidney-kidney and
 kidney-egg connections are different. \\ \\
@@ -691,7 +689,7 @@ We therefore have
 \end{equation*}
 Because $\Delta(G)$ converges weakly to a Gumbel
 distribution in the limit
-(\cite{bollobas85:_random_graph,rukhin:_limit_distr_graph_scan_statis}),
+(\cite{bollobas85:_random_graph,rukhin12}),
 we have
 \begin{equation}
   \label{eq:47}

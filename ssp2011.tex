@@ -1,4 +1,4 @@
-\documentclass[10pt,twocolumn]{IEEEtran}
+\documentclass[10pt,draftclsnofoot,onecolumn]{IEEEtran}
 \usepackage{fontenc}
 \pdfminorversion=4
 %\usepackage{lmodern}
@@ -50,6 +50,7 @@
 \title{Attribute fusion in a latent process model for time series of
   graphs}
 \author{Minh~Tang, Youngser~Park, Nam~H.~Lee, and Carey~E.~Priebe*%
+  \thanks{Copyright (c) 2012 IEEE. Personal use of this material is permitted. However, permission to use this material for any other purposes must be obtained from the IEEE by sending a request to pubs-permissions@ieee.org.}
 \thanks{Minh~Tang is with the Department of Applied Mathematics and
   Statistics, Johns Hopkins University, Baltimore, MD 21218
   USA. (email: mtang10@jhu.edu)}%
@@ -62,12 +63,7 @@
 \thanks{Carey~E.~Priebe is with the Department of Applied Mathematics and
   Statistics, Johns Hopkins University, Baltimore, MD 21218
   USA. (phone: 410-516-7200; fax:410-516-7459; email: cep@jhu.edu)}}%
-%\markboth{IEEE Transactions on Signal Processing}{}
-% \begin{IEEEkeywords}
-%   Anomaly detection, Attributed Random Graphs, Random Dot
-%   Product Graphs.
-% \end{IEEEkeywords}}
-
+\markboth{IEEE Transactions on Signal Processing}{}
 \maketitle
 \begin{abstract}
   Hypothesis testing on time series of attributed graphs has
@@ -88,9 +84,11 @@
   conclude that approximation model investigations have some bearing
   on real data applications.
 \end{abstract}
-\ifCLASSOPTIONpeerreview
-\begin{center} \bfseries EDICS Category: SSP-SSAN, SSP-DETC \end{center}
-\fi
+ \begin{IEEEkeywords}
+   Anomaly detection, Attributed Random Graphs, Random Dot
+   Product Graphs.
+ \end{IEEEkeywords}
+%\begin{center} \bfseries EDICS Category: SSP-SSAN, SSP-DETC \end{center}
 %\pagebreak
 \section{Introduction}
 \label{sec:introduction}
@@ -104,7 +102,7 @@ organizations), neuroscience (wherein vertices are neurons or brain
 regions), and text processing (wherein vertices represent authors or
 documents). Furthermore, in many of these application domains, the
 edges between the vertices, in addition to representing the presence
-of a relationship, can also be use to identify the attributes
+of a relationship, can also be used to identify the attributes
 associated with that relationship. For example, in social network
 graphs where edges represent email communications, the attributes
 signify the context of the email messages. Finally, in many of these
@@ -114,49 +112,80 @@ natural. The analysis of time-series of (attributed) graphs thus
 presents a natural and challenging extension to the signal processing
 community. 
 
-We mention here some related work. The notion of signal
-processing for graphs appears to be in an emerging
-state, with significant research activity in constructing wavelet
-representations for graphs, e.g., 
-\cite{hammond10:_wavel,r.coifman06:_diffus,crovella03:_graph,narangss:_perfec}. 
-The formulation of graph analysis problems in a signal processing framework
-is also of potential interest, e.g, \cite{miller10:_towar_euclid}. 
-
 One of the main exploitation tasks in time-series analysis is the
 problem of anomaly/change-point detection, where anomaly is broadly
 interpreted to mean deviation from some ``normal'' pattern and
 change-point is the time window at which the anomalous deviation
 occurs. In the context of a time-series of graphs, an anomaly can be
-for example the presence of a specific subgraph, or frequent occurence
+for example the presence of a specific subgraph, or frequent occurrences
 of some subgraphs, or other more vague notions such as existence of a
 community structure.
+
+The notion of signal processing for graphs appears to be in an
+emerging state, with significant research activity in constructing
+wavelet representations for graphs, e.g.,
+\cite{hammond10:_wavel,r.coifman06:_diffus,crovella03:_graph,narangss:_perfec}.
+The formulation of graph analysis problems in a signal processing
+framework is also of potential interest, e.g,
+\cite{miller10:_towar_euclid}, wherein a subgraph detection problem is
+presented, test statistics are defined, noise and signal models are
+introduced, and ROC analysis is performed. The construction of
+wavelets representations on graphs is analogous to the classical
+wavelets constructions, but adapted to use the topology of the graphs
+instead of the usual Euclidean space topology. For example, the
+wavelet representations of \cite{hammond10:_wavel} and
+\cite{r.coifman06:_diffus} are constructed using the combinatorial and
+normalized Laplacian matrices of the graphs, respectively, while
+\cite{crovella03:_graph} defined wavelets via the $n$-hop
+neighborhoods. The wavelet construction in \cite{crovella03:_graph}
+and its use in {\em spatial} traffic analysis (emphasis in 
+\cite{crovella03:_graph}) is similar to the use of locality/scan
+statistics for anomaly detection in
+\cite{priebe05:_scan_statis_enron_graph} and the current
+paper. Indeed, the locality statistic at a vertex $v$ is the size of an
+$n$-hop neighborhood starting at $v$ defined via shortest path
+distance and the scan statistic is the maximum of the locality
+statistics over all the $n$-hop neighborhoods. Traffic analysis by
+tracking the coefficients of the wavelet representations is similar to
+anomaly detection by tracking the values of the scan statistics.
 
 In this paper, we investigate the anomaly/change-point detection
 problem for time-series of attributed graphs. In the spirit of
 time-series analysis, we approach this problem via test statistics
 based on the moving average of some graph invariants. We derive
 limiting distributions for these test statistics under a generative
-model for the attributed graphs. The experimental evidence indicate that these
+model for the attributed graphs. The experimental evidences indicate that these
 test statistics have sufficient power against the null hypothesis for
 a general class of change-point problem but that many interesting
 questions remain to ponder.
 
-Our paper is structured as follows. We present an overview of the
+The current paper builds upon ideas previously presented in
+\cite{lee11} and \cite{priebe11:_attrib}, among others. The generative
+model for time-series of attributed graphs used in this paper is from
+\cite{lee11}. Hypothesis testing for time-series of graphs and
+attribute fusion using a linear fusion parameter $\lambda$ were
+considered in \cite{lee11,priebe11:_attrib}; limiting distribution for
+the size graph invariant was given in \cite{lee11}. A version of the
+experimental results for simulated data included in this paper was first
+presented in \cite{priebe11:_attrib}.
+
+The paper is structured as follows. We present an overview of the
 generative model for time-series of attributed graphs \cite{lee11} in
-\S\ref{sec:latent-process-model}. The change-point detection problem
-along with the relevant test statistics are described in
-\S\ref{sec:change-point-detect}. The distributions of the test
+\S~\ref{sec:latent-process-model}. A change-point detection problem
+along with some relevant test statistics are described in
+\S~\ref{sec:change-point-detect}. The distributions of these test
 statistics and the power estimates for hypothesis testing using
-these test statistics are given in \S\ref{sec:power-estimates}. 
-\S\ref{sec:inference-examples} presents a
+these test statistics are given in \S~\ref{sec:power-estimates}. 
+\S~\ref{sec:inference-examples} presents a
 synthetic data example and an example using the Enron email corpus to
-illustrate our methodology.
+illustrate our methodology. 
+
 \section{Latent Process Model}
 \label{sec:latent-process-model}
 The abundance of graph representations in diverse application domains
 leads to a proliferation of random graph models to model the
 association among the entities. In addition to the classical
-Erd\"{o}s-R\'{e}nyi model \cite{Erdos1959}, there is, the exponential
+Erd\"{o}s-R\'{e}nyi model \cite{Erdos1959}, there is the exponential
 graph models \cite{holland81}, the stochastic block model
 \cite{Holland1983,Wang1987}, the latent position model
 \cite{hoff02:_laten}, the dot product model for unattributed graphs
@@ -170,7 +199,7 @@ key role in our setup of the anomaly detection problem in
 \S~\ref{sec:change-point-detect}.
 
 The latent space model is one where each vertex is associated with a
-latent random vector. There may also be additional covariate
+latent random vector. There may also be additional covariates
 information but those are not relevant to the current exposition. The
 vectors are independent and identically distributed and the
 probability of an edge between two nodes depends only on their latent
@@ -183,7 +212,7 @@ Another example of a latent space model is the random dot product
 graph model \cite{young07:_random}. Under the random dot product graph
 model, the probability of an edge between two vertices is given
 by the dot product of their respective latent vectors, i.e., $p_{uv} =
-\langle z_u, z_v \rangle$. Parts of the motivation of the random dot
+\langle z_u, z_v \rangle$. A motivation behind the random dot
 product graph model is that, in a social network with edges
 indicating friendships, the components of the vector may be
 interpreted as the relative interest of the individual in various
@@ -191,7 +220,7 @@ topics. The magnitude of the vector can be interpreted as how
 talkative the individual is, with more talkative individuals more
 likely to form relationships. Talkative individuals interested in the
 same topics are most likely to form relationships while individuals
-who do not share interests are unlikely to form relationships.
+who do not share interest are unlikely to form relationships.
 
 The latent process model for time-series of attributed graphs was
 presented in \cite{lee11}. The main ideas underlying the model is as
@@ -207,20 +236,22 @@ and $X_v$ a la the dot product model of \cite{young07:_random}, with a
 slight modification to account for the presence of attributes on the
 edges.
 
-We now give the necessary details to make the above ideas precise. Let $G =
-(V,E)$ be an undirected graph, equipped with an edge-attribution
-function $\phi \colon \tbinom{V}{2} \mapsto [K+1] = \{1,2,\dots, K+1\}$ for
-some $K$ such that $\phi(e) \leq K$ for $e \in E$ and $\phi(e) \equiv
-K+1$ for $e \not \in E$. We refer to $\phi(e)$ as the attribute of
-edge $e \in E$, and the pair $(G,\phi)$ as an attributed graph. Let
-$\mathscr{S}$ be the unit simplex in $\mathbb{R}^{K}$, i.e.,
+We now give the necessary details to make the above ideas precise. For
+any positive integer $n$, we shall denote by $[n]$ the set of numbers
+$\{1,2,\dots,n\}$. Let $G = (V,E)$ be an undirected graph, equipped
+with an edge-attribution function $\phi \colon \tbinom{V}{2} \mapsto
+[K+1]$ for some positive integer $K$. We shall require that $\phi$
+satisfies $\phi(e) \leq K$ for $e \in E$ and $\phi(e) \equiv K+1$ for
+$e \not \in E$. We refer to $\phi(e)$ as the attribute of edge $e \in
+E$, and the pair $(G,\phi)$ as an attributed graph. Let $\mathscr{S}$
+be the unit simplex in $\mathbb{R}^{K}$, i.e.,
 \begin{equation}
   \mathscr{S} = \{ \xi \in [0,1]^{K}
   \colon \sum_{k = 1}^{K} \xi_k \leq 1 \}.
 \end{equation}
+
 A {\em random dot product space} for attributed graphs with vertices
-in $[n]$ ($[n] = \{1,2,\dots,n\}$) and edge attributes $[K]$ ($[K] =
-\{1,2,\dots,K\}$) is a pair $(\mathbf{X},G)$ of
+in $[n]$ and edge attributes $[K]$ is a pair $(\mathbf{X},G)$ of
 random elements such that
 \begin{enumerate}
 \item $\mathbf{X} = \{X_v\}_{v = 1}^{n}$ is a collection of
@@ -231,7 +262,7 @@ random elements such that
   \begin{equation}
     \label{eq:1}
     \mathbb{P}(u \sim v \,|\, \mathbf{X}) = \mathbb{P}(u \sim v \, |
-    \, X_u,X_v) = \langle x_u, x_v \rangle.
+    \, X_u,X_v) = \langle X_u, X_v \rangle.
   \end{equation}
  Furthermore, we also have 
   \begin{equation}
@@ -239,7 +270,7 @@ random elements such that
     \mathbb{P}(\phi(\{u,v\}) = k \, | \, u \sim
     v) = \frac{X_{u,k} X_{v,k}}{\langle X_u, X_v \rangle}
   \end{equation}
-  i.e., the pair $\{u,v\}$ is an edge in $G$ with attribute $k$ with
+  i.e., the pair $\{u,v\}$ is an edge in $G$ having attribute $k$ with
   probability $X_{u,k} X_{v,k}$.  
 \end{enumerate}
 We say that a c\'{a}dl\'{a}g (right continuous with left limit)
@@ -310,19 +341,19 @@ possessing the following properties:
   \end{enumerate}
 \end{enumerate}
 The above properties characterize a random dot process model with a
-change-point phenomena for $(X(t),G(t))$ at time $t = t^{*}$. We chose
+change-point phenomenon for $(X(t),G(t))$ at time $t = t^{*}$. We chose
 $\{1,2,\dots,m\}$ as the set of vertices with a change in the
 stationary distribution and intensity matrix at time $t = t^{*} - 1$
-for ease of discussion. Permutation of the vertex labels does not
+for ease of discussion. Permutations of the vertex labels do not
 affect our subsequent analysis. We will refer to $(t^{*}, m, \pi_0,
-\pi_1, \mathbf{Q}_0, \mathbf{Q}_1)$ as the change parameters.  Because
-$W$ is completely determined by the change parameters, we often choose
+\pi_1, \mathbf{Q}_0, \mathbf{Q}_1)$ as the change-parameters.  Because
+$W$ is completely determined by the change-parameters, we often choose
 to omit $W$ and only mention $\mathscr{V}$ when referring to random
-dot process models with change-point phenomena. For a random dot
+dot process models with change-point phenomenon. For a random dot
 process model
-$\mathscr{V}$ with change parameters $(t^{*}, m, \pi_0, \pi_1,
+$\mathscr{V}$ with change-parameters $(t^{*}, m, \pi_0, \pi_1,
 \mathbf{Q}_0, \mathbf{Q}_1)$, we can construct several approximations
-to $\mathscr{V}$. Of particular interests are the following two
+to $\mathscr{V}$. Of particular interest are the following two
 approximations.
 \begin{definition}
   \label{def:1}
@@ -352,8 +383,8 @@ with independent edges. For $t \leq t^{*} - 1$, $G(t)$ is an
 attributed instance of the Erd\"{o}s-Renyi random graphs. For $t \geq
 t^{*}$, $G(t)$ is an attributed instance of the kidney-egg model
 \cite{rukhin11} (see \figurename~\ref{fig:kidney-egg}), which in
-itself is a special instance of the mixed membership stochastic
-blockmodel \cite{airoldi08:_mixed}. The unattributed kidney-egg model
+itself is a special instance of the stochastic
+block model \cite{Holland1983}. The unattributed kidney-egg model
 can be denoted as $\kappa(n,m,p,q,s)$ with the quantities $p$, $q$,
 and $s$ representing
 \begin{gather*}
@@ -377,7 +408,7 @@ p = \mathbb{P}(u \sim v \, | \, u \leq m, v \leq m) = \langle
 \end{figure}
  \begin{definition}
   \label{def:2}
-  Let $\mathscr{V}$ be a rdpm with change parameters $(t^{*}, m,
+  Let $\mathscr{V}$ be a rdpm with change-parameters $(t^{*}, m,
   \pi_0, \pi_1, \mathbf{Q}_0, \mathbf{Q}_1)$. Define
   $\mathbf{Z}_0$ and $\mathbf{Z}_1$ by
   \begin{gather}
@@ -433,7 +464,7 @@ position graphs
 
 Suppose that we have a sequence $\{\mathscr{V}^{r} \colon r > 0 \}$ of
 rdpm with vertices $[n]$ and attributes $[K]$ where for each $r > 0$,
-$\mathscr{V}^{r}$ has change parameters $(t^{*}, m, \pi_0, \pi_1, r
+$\mathscr{V}^{r}$ has change-parameters $(t^{*}, m, \pi_0, \pi_1, r
 \mathbf{Q}_0, r \mathbf{Q}_1)$. The parameter $r$ can be thought of as
 the vertex process rate, i.e., the waiting time decreases
 exponentially as $r$ increases. Let us now consider the sequence of
@@ -468,13 +499,13 @@ lies not in the exact generative model but in its first and
 second-order approximation. We will not be concerned with the
 estimation of the latent position vectors for the first and
 second-order approximation in this paper, but we note that they can be
-done via spectral embedding technique a la \cite{STFP-2011}. We also
+done via spectral embedding techniques a la \cite{STFP-2011}. We also
 note that more refined models, where the messaging events between each pairs of
-vertices is modeled as point process,
+vertices are modeled as point process,
 e.g. \cite{Heard2010,PerryWolfe2010}, can also be formulated. The
 snapshot of the graphs is then a binning of these point processes and
-the issue of parameters estimation is fundamental but feasible for
-these point processes approaches.
+parameter estimation is fundamental to
+these approaches.
 \section{Change-point detection}
 \label{sec:change-point-detect}
 \begin{figure}[htbp]
@@ -484,7 +515,7 @@ these point processes approaches.
     in a time-series of graphs}
   \label{fig:notional_change_point}
 \end{figure}
-Let $\mathscr{V}$ be a random dot process model with change parameters
+Let $\mathscr{V}$ be a random dot process model with change-parameters
 $(t^{*}, m, \pi_0, \pi_1, \mathbf{Q}_0, \mathbf{Q}_1)$. The
 change-parameters encapsulate a notion of chatter anomalies, i.e., a
 subset of vertices of $\mathscr{V}$ with altered communication
@@ -497,21 +528,24 @@ change-point of $\mathscr{V}$, namely
   \mathscr{H}_A \colon t^{*} = t
 \end{gather*}
 This will be done using the notion of fusion of attributed graph
-invariants. The particular invariants of interests are the size
+invariants. The particular invariants of interest are the size
 $\mathcal{E}$, number of triangles $\tau$, scan $\Psi$, and max degree
 $\Delta$. The scan statistics $\Psi$ are introduced and applied to the
 problem of detecting chatter anomalies in
-\cite{priebe05:_scan_statis_enron_graph}. The use of various graph
-invariants as test statistics was considered in
+\cite{priebe05:_scan_statis_enron_graph}. The number of triangles is
+the simplest graph invariant based on clique counts and one can define
+other test statistics for $k$-clique counts with $k \geq 4$.  The use
+of various graph invariants as test statistics was considered in
 \cite{pao11:_statis_infer_random_graph} and it was shown there, via
 Monte Carlo analysis, that no single invariant is uniformly most
 powerful.
 
-Let $(G,\phi)$ be an attributed graph. For a given $\{u,v\}
-\in \tbinom{V}{2}$, we define a $\Gamma_{uv} \in \mathbb{R}^{K}$ by
-$\Gamma_{uv}(k) = \mathbb{I}\{\phi(\{u,v\}) = k\}$. Thus $\Gamma_{uv}
-= \bm{0}$ unless $\{u,v\} \in E$. Under the independent edges
-assumption, the $\Gamma_{uv}$ are independent. We consider linear
+Let $(G,\phi)$ be an attributed graph. For a given $\{u,v\} \in
+\tbinom{V}{2}$, we define a $\Gamma_{uv} \in \mathbb{R}^{K}$ by
+$\Gamma_{uv}(k) = \mathbb{I}\{\phi(\{u,v\}) = k\}$ where $\mathbb{I}\{
+\cdot \}$ is the indicator function. Thus $\Gamma_{uv} = \bm{0} =
+(0,0,\dots,0)$ unless $\{u,v\} \in E$. Under the independent edges
+assumption, the $\{\Gamma_{uv}\}$ are independent. We consider linear
 attribute fusion of graph invariants with parameter $\lambda \in
 \mathbb{R}^{K}$ via
 %\begin{gather}
@@ -527,7 +561,6 @@ attribute fusion of graph invariants with parameter $\lambda \in
 %  \Psi_{\lambda}(G) = \max_{v \in V} \sum_{k = 1}^{K}
 %  \lambda_k \!\!\sum_{u,w \in N(v)}\!\!\! \mathbb{I}\{\phi(\{u,w\}) = k\} 
 %  \end{gather}
-
 \begin{align}
   \label{eq:6}
   \mathcal{E}_{\lambda}(G) &= \sum_{\mathclap{\{u,v\} \in
@@ -554,7 +587,7 @@ attribute fusion of graph invariants with parameter $\lambda \in
   \label{eq:4}
  \bar{J}^{l}_{\lambda}(t) = \frac{1}{l}\sum_{s = 1}^{l} J_{\lambda}(t - s) 
 \end{equation}
-where $l \in \mathbb{N}$ specified the width of the running-average
+where $l \in \mathbb{N}$ specifies the width of the running-average
 window. Our main interest is in the normalized fusion statistic
 $T_{\lambda}^{l}(t)$ as depicted in Fig.~\ref{fig:temporal}, namely
 \begin{equation}
@@ -567,22 +600,61 @@ $T_{\lambda}^{l}(t)$ as depicted in Fig.~\ref{fig:temporal}, namely
 %   & \text{if $m \geq 2$}
  %  \end{cases}
 \end{equation}
-for $l \geq 2$, i.e., we want to find a parameter $\lambda$ such that
-the power of the test using $T_{\lambda}^{l}$ is maximized. We note that
+for $l \geq 2$. The choice of values for $l$ depends on the
+practitioner, in that small values of $l$ can
+induce large fluctuations in the temporal standardization statistics,
+which may lead to a higher false positive rate while large values of $l$,
+can induce over-smoothing, leading to a higher
+false negative rate. 
+
+We are interested in finding the optimal fusion parameter $\lambda$,
+i.e., we want to find a $\lambda$ such that
+the power of the test using $T_{\lambda}^{l}$ is maximized. The
+theoretical results in \S~\ref{sec:power-estimates} will be useful for
+this purpose. We note that
 $T_{\lambda}^{l}$ is scale invariant in $\lambda$ for all of our graph
 invariants. It was noted in \cite{lee11} that the maximum of the power
 for scale invariant test statistics is attainable in the set $\{ \lambda \colon \|
 \lambda \| = 1 \}$. 
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=8cm]{graphics/Fig4-SSP2011.pdf}
+  \caption{Temporal standardization: when testing for change at time
+    $t$, the recent past (graphs $G(t - l), \dots, G(t-1))$ is used to
+    standardize the invariants}
+  \label{fig:temporal}
+\end{figure}
+\section{Power estimates}
+\label{sec:power-estimates}
+\S~\ref{sec:change-point-detect} described the framework of hypothesis
+testing for anomaly/change-point detection in a time-series of
+graphs. In particular, it was assumed that the graphs were generated
+according to a random dot process model with change-parameters
+$(t^{*}, m, \pi_0, \pi_1, \mathbf{Q}_0, \mathbf{Q}_1)$ and the test 
+statistics were temporal standardization of several graph invariants, 
+namely size, max degree, scan, and number of triangles. 
 
-As we have mentioned earlier, we will assume that the number of
-vertices $n$ is large and that the use of the first order
-approximation $\bar{\mathscr{V}}$ of $\mathscr{V}$ is appropriate in
-our study of the asymptotic theory for these graphs invariants. We
-strive to obtain approximations for the power in testing $t^{*} > t$
+We derive the limiting distributions for the above-mentioned test
+statistics in this section. As we 
+mentioned earlier, we will assume that the number of
+vertices $n$ is large so that the use of the first order
+approximation $\bar{\mathscr{V}}$ of $\mathscr{V}$ is appropriate for
+studying the asymptotic theory for the above-mentioned graphs
+invariants. We strive to obtain approximations for the power 
+in testing $t^{*} > t$
 against $t^{*} = t$ using $T_{\lambda}^{l}(t)$ and from these
-approximations, find the $\lambda$ that maximize the power. We now
-introduce additional notation that will be used later on in the
-paper. First, let $\pi_{00}, \pi_{01}$, and $\pi_{11}$ be
+approximations, find the $\lambda$ that maximize the power. 
+The limiting distributions for graph
+invariants in the {\em unattributed} setting are well-known, see 
+e.g., \cite{bollobas85:_random_graph} for max-degree,
+\cite{nowicki88:_subgr_u_statis_method} 
+for subgraph counts, and \cite{rukhin12} for scan. The results
+for the attributed and temporal standardization settings are thus 
+straightforward extensions of
+their counterparts in the unattributed settings.
+ 
+We now introduce additional notation that will be used later on in the
+paper. Let $\pi_{00}, \pi_{01}$, and $\pi_{11}$ be
 sub-probability vectors whose components are given by
 \begin{gather*}
   \pi_{00}(k) = \pi_{0}(k) \pi_{0}(k) \\
@@ -596,22 +668,7 @@ $\eta_{11}$ be matrices of size $K \times K$ defined by
   \eta_{01} = \mathrm{diag}(\pi_{01}) - \pi_{01} \pi_{01}^{T} \\
   \eta_{11} = \mathrm{diag}(\pi_{11}) - \pi_{11} \pi_{11}^{T}.
 \end{gather*}
-% The structure of the remaining sections of the paper is as follows. We
-% discussed the power estimates for $\mathcal{E}_{\lambda},
-% \tau_{\lambda}, \Delta_{\lambda}$ and $\Psi_{\lambda}$ in
-% \S~\ref{sec:power-estim-mathc}
-%  through \S~\ref{sec:power-estim-psi_l}. We illustrate our analysis with some
-% simulation experiments in \S~\ref{sec:experimental-results}  
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=8cm]{graphics/Fig4-SSP2011.pdf}
-  \caption{Temporal standardization: when testing for change at time
-    $t$, the recent past (graphs $G(t - l), \dots, G(t-1))$ is used to
-    standardize the invariants}
-  \label{fig:temporal}
-\end{figure}
-\section{Power estimates}
-\label{sec:power-estimates}
+
 \subsection{Power estimates for $\mathcal{E}_\lambda$}
 \label{sec:power-estim-mathc}
 It was shown in \cite{lee11} that if $J_\lambda(t) =
@@ -629,6 +686,7 @@ limit. Specifically, we have the following results
           \tbinom{m}{2}(\eta_{11} - \eta_{00}) + (n-m)m(\eta_{01} -
           \eta_{00}).
   \end{gather*}
+  Suppose that $\xi$ is positive definite.
   Define the random variable $\psi^{l}_{\lambda}(t)$ by
   \begin{equation}
     \label{eq:10}
@@ -835,7 +893,7 @@ $T_{\lambda}^{l}(t)$ based on the Gumbel distributed
 $\Delta_{\lambda}(t)$, in contrast to $T_{\lambda}^{l}(t)$ based on
 the normally distributed $\mathcal{E}_{\lambda}$ and
 $\tau_{\lambda}(t)$, does not have a simple distribution for small or
-moderate values of $l$. The following result give the limiting
+moderate values of $l$. The following result gives the limiting
 distribution for $T_{\lambda}^{l}(t)$ under the assumption that $l$ is
 sufficiently large. 
 \begin{theorem}
@@ -847,14 +905,14 @@ sufficiently large.
 \begin{align}
   \label{eq:13}
   \rho_{\lambda} &= \begin{cases}
-      - \frac{ \sqrt{\pi}}{6} \gamma & \text{if $t < t^{*}$} \\
-    \frac{\sqrt{\pi}}{6} \frac{\mu_A - \mu_0 + a_m\sigma_A - (a_n + b_n
+      - \frac{ \sqrt{6}}{\pi} \gamma & \text{if $t < t^{*}$} \\
+    \frac{\sqrt{6}}{\pi} \frac{\mu_A - \mu_0 + a_m\sigma_A - (a_n + b_n
       \gamma)\sigma_0}{b_n \sigma_0} & \text{if $t =
         t^{*}$} 
   \end{cases}\\
   \varsigma_{\lambda} &= \begin{cases}
-    \frac{\sqrt{\pi}}{6} & \text{if $t < t^{*}$} \\
-    \frac{\sqrt{\pi} b_m \sigma_A}{6 b_n \sigma_0} & \text{if $t =
+    \frac{\sqrt{6}}{\pi} & \text{if $t < t^{*}$} \\
+    \frac{\sqrt{6}}{\pi}\frac{b_m \sigma_A}{ b_n \sigma_0} & \text{if $t =
       t^{*}$} \\
     \end{cases}
 \end{align}
@@ -963,13 +1021,13 @@ $l$.
   \begin{align}
     \label{eq:52}
     \rho_{\lambda} &= \begin{cases}
-      - \tfrac{\sqrt{\pi}}{6} \gamma & \text{if $t < t^{*}$} \\
-      \tfrac{\sqrt{\pi}}{6} \tfrac{a_{n,m} - a_n - b_n \gamma}{b_n} & \text{if
+      - \tfrac{\sqrt{6}}{\pi} \gamma & \text{if $t < t^{*}$} \\
+      \tfrac{\sqrt{6}}{\pi} \tfrac{a_{n,m} - a_n - b_n \gamma}{b_n} & \text{if
         $t = t^{*}$} 
     \end{cases} \\
       \varsigma_{\lambda} &= \begin{cases}
-        \tfrac{\sqrt{\pi}}{6} & \text{if $t < t^{*}$} \\
-        \tfrac{\sqrt{\pi} b_{n,m}}{6 b_n} & \text{if $t = t^{*}$}. \\
+        \tfrac{\sqrt{6}}{\pi} & \text{if $t < t^{*}$} \\
+        \tfrac{\sqrt{6}}{\pi} \tfrac{b_{n,m}}{6 b_n} & \text{if $t = t^{*}$}. \\
       \end{cases}
   \end{align}
 \end{theorem}
@@ -1044,10 +1102,67 @@ estimates. \figurename~\ref{fig:power-scale} shows power as a function
 of the vertex process parameter $r$ at a specific point, namely at
 $\lambda^{*} = \argmax_{\lambda} \beta(\lambda)$.
 \figurename~\ref{fig:power-estimate} shows power as a function of
-angle $\theta$, where $\lambda = (cos(\theta), sin(\theta))$.
+angle $\theta$, where $\lambda = (cos(\theta), sin(\theta))$. 
+Finally, \figurename~\ref{fig:qqplot-maxd} presents Q-Q plots
+illustrating convergence of the temporal standardization statistics to
+the limiting distributions given in \S~\ref{sec:power-estimates}. 
+
+A comment should be made regarding the application of the
+theoretical results in \S~\ref{sec:power-estimates} to this simulation
+example. The results in \S~\ref{sec:power-estimates} on the limiting
+distributions of the temporal standardization statistics specified both
+the type of distribution, i.e., Gumbel or Student's t-distribution,
+along with the associated parameters, i.e., location and scale for the Gumbel
+distribution and degrees of freedom and non-centrality parameter for
+the Student's t-distribution. 
+Empirical investigations demonstrate that, for the temporal standardization
+statistics based on max degree, number of triangles, and scan, the limiting distributions
+with the parameters as specified in Theorem~\ref{thm:5},
+Theorem~\ref{thm:8} and Theorem~\ref{thm:6} are accurate large-sample
+approximations for these statistics provided that the graphs have $n \geq 1000$ and $m \geq 50$.
+The variance parameters as specified by the theoretical result
+require correction for small $n$, as used in our experiment ($n = 100$).
+For example, $\mathrm{Var}[\tau_{\lambda}^{*}(G(t))]$ in Lemma~\ref{lem:3} is a
+good approximation of the variance term in the normal approximation
+only if the ratio of $\mathrm{Var}[\tau_{\lambda}^{*}(G(t))] -
+\mathrm{Var}[\tau_{\lambda}(G(t))]$, the difference in the variance
+between the Hajek's projection and the true variance, to
+$\mathrm{Var}[\tau_{\lambda}(G(t))]$ is small; this does not hold
+for $n = 100$. Thus, the results for the limiting distributions for the above experiment are obtained by
+correcting for the variance. In particular, we used the sample variance of the
+graph invariants under the first-order approximation as the variance
+for the limiting distribution. 
+
+% A comment should be made regarding the application of the
+% theoretical results in \S~\ref{sec:power-estimates} to this simulation
+% example. The results in \S~\ref{sec:power-estimates} on the limiting
+% distribution of the temporal standardization statistics specified both
+% the type of distribution, i.e., Gumbel or Student's t-distribution,
+% along with the associated parameters, i.e., location and scale for the Gumbel
+% distribution and degree of freedom and non-centrality parameter for
+% the Student's t-distribution. According to empirical evaluations that
+% are not reported in this paper, for the temporal standardization
+% statistics based on max degree, number of triangles, and scan, the limiting distributions
+% with the parameters as specified in Theorem~\ref{thm:5},
+% Theorem~\ref{thm:8} and Theorem~\ref{thm:6} are accurate large-sample
+% approximations for these statistics provided that the graphs have $n
+% \geq 1000$ and $m \geq 50$ and not for $n = 100$ as used in the above
+% experiment. This is due mostly to the fact that the variance parameters as
+% specified by the theoretical result is
+% inaccurate for these small values of $n$. For example,
+% $\mathrm{Var}[\tau_{\lambda}^{*}(G(t))]$ in Lemma~\ref{lem:3} is a
+% good approximation of the variance term in the normal approximation
+% only if the ratio of $\mathrm{Var}[\tau_{\lambda}^{*}(G(t))] -
+% \mathrm{Var}[\tau_{\lambda}(G(t))]$, the difference in the variance
+% between the Hajek's projection and the true variance, to
+% $\mathrm{Var}[\tau_{\lambda}(G(t))]$ is small and this does not hold
+% for $n = 100$. Thus, the results for the limiting distributions for the above experiment are obtained by
+% correcting (and only correcting) for the variance. In particular, we used the sample variance of the
+% graph invariants under the first-order approximation as the variance
+% for the limiting distribution. 
 
 The main implication that can
-be inferred from \figurename~\ref{fig:power-scale} and
+be inferred from \figurename~\ref{fig:power-scale}, \figurename~\ref{fig:qqplot-maxd} and
 \figurename~\ref{fig:power-estimate}
 is that inferential performance in the
 mathematically tractable first-order and second-order approximation
@@ -1085,6 +1200,55 @@ data applications.
     first-order approximation results.  }
   \label{fig:power-scale}
 \end{figure*}
+
+\begin{figure*}[!t]
+  \centering
+  \subfloat[$T_{\Delta}$ under $H_0$]{
+  \includegraphics[width=5cm]{graphics/maxd_null.pdf}
+  }
+  \hfil
+  \subfloat[$T_{\tau}$ under $H_0$]{
+  \includegraphics[width=5cm]{graphics/numtri_null.pdf}
+  }
+  \hfil
+  \subfloat[$T_{\psi}$ under $H_0$]{
+  \includegraphics[width=5cm]{graphics/scan_null.pdf}
+  }
+  \hfil
+  \subfloat[$T_{\Delta}$ under $H_A$]{
+  \includegraphics[width=5cm]{graphics/maxd_alt.pdf}
+  }
+  \hfil
+  \subfloat[$T_{\tau}$ under $H_A$]{
+  \includegraphics[width=5cm]{graphics/numtri_alt.pdf}
+  }
+  \hfil
+  \subfloat[$T_{\psi}$ under $H_A$]{
+  \includegraphics[width=5cm]{graphics/scan_alt.pdf}
+  }
+  \caption{Q-Q plots of the temporal standardization statistics
+    $T_{\Delta}$, $T_{\tau}$ and $T_{\Psi}$ against the corresponding
+    limiting distributions as given in Theorem~\ref{thm:5},
+    Theorem~\ref{thm:8} and Theorem~\ref{thm:6}, respectively. The
+    sample quantile for the temporal standardization statistics are
+    based on 10000 Monte Carlo replicates of the time-series of
+    graphs. The graphs are generated according to the second-order
+    approximation with $r = 1024$. Refer to the text at the beginning
+    of \S~\ref{sec:inference-examples} for details on the parameters
+    of the random graph model. The fusion parameter $\lambda =
+    (cos(\theta), sin(\theta))$ for each temporal standardization
+    statistics correspond to the $\theta^{*}$ that maximizes the power
+    as depicted in \figurename~\ref{fig:power-estimate}, i.e.,
+    $\theta^{*}_{\Delta} \approx 0.32$, $\theta^{*}_{\tau} \approx 0.3$,
+    $\theta^{*}_{\psi} \approx 0.14$.  For each plot, a linear regression
+    between the sample quantile and the theoretical quantile was
+    performed and the resulting best linear fit is plotted. The $R^2$
+    statistics for the linear regressions exceed $0.995$ in all
+    cases. }
+  \label{fig:qqplot-maxd}
+\end{figure*}
+
+
 \begin{figure*}[!t]
   \centering
   \subfloat[$\mathcal{E}_{\lambda}$]{
@@ -1092,16 +1256,16 @@ data applications.
   }
   \hfil
   \subfloat[$\Delta_{\lambda}$]{
-    \includegraphics[width=7cm]{graphics/pwr-maxd.pdf}
+    \includegraphics[width=7cm]{graphics/pwr-maxd-new.pdf}
   }
   \hfil
   \subfloat[$\Psi_{\lambda}$]{
-    \includegraphics[width=7cm]{graphics/pwr-scan.pdf}
+    \includegraphics[width=7cm]{graphics/pwr-scan-new.pdf}
     \label{fig5:subfig_scan}
   }
   \hfil
   \subfloat[$\tau_{\lambda}$]{
-    \includegraphics[width=7cm]{graphics/pwr-ntri.pdf}
+    \includegraphics[width=7cm]{graphics/pwr-ntri-new.pdf}
   }
   \caption{Power $\beta$ as a function of angle $\theta$ for $\lambda
     = (cos(\theta),sin(\theta))$. The plot shows analytic asymptotic
@@ -1109,7 +1273,7 @@ data applications.
     approximation (green), and exact model (blue) estimates for the
     various invariants via Monte Carlo. The multiple green and blue
     lines correspond to different values of the vertex process rate
-    $r$ (here $r \in \{1,2,4,8,16,32,64,128,256,512,1024\}$). 
+    $r$ (here $r \in \{2^{0}, 2^{1}, \dots, 2^{10}\}$). 
     The 10000 Monte Carlo
     replicates yields standard deviations not exceeding $0.005$ for
     the power estimates. The four vertical lines in each plot
@@ -1127,7 +1291,7 @@ data applications.
 \end{figure*}
 
 Our second example uses the Enron data set which consists of email
-messages between 184 executives of the Enron corporation during a time
+messages among 184 executives of the Enron corporation during a time
 period from 1998 to 2002. The Enron email messages for most of the
 2001 calendar year have been annotated into 32 different topics 
 \cite{berry01:_topic_annot_enron_email_data_set} and thus form the
@@ -1164,16 +1328,16 @@ above.
  \includegraphics[width=8cm]{graphics/Tstat_thetastar.pdf} 
  \caption{The fluctuations of $T_{\lambda}^{l}(t)$ over time for the
    four graph invariants. The value of $\lambda = (\cos(\theta),
-   sin(\theta))$ for each graph invariants correspond to the optimal
-   fusion parameters for the detection as illustrated in
+   sin(\theta))$ for each graph invariant correspond to the optimal
+   fusion parameter for the detection as illustrated in
    \figurename~\ref{fig:enron} and they are
    $\theta^{*}_{\mathcal{E}_{\lambda}} \approx
    \theta^{*}_{\Delta_{\lambda}} \approx 0.96$,
    $\theta^{*}_{\Psi_{\lambda}} \approx 1.06$ and
    $\theta^{*}_{\tau_{\lambda}} \approx 0.83$. The fluctuations
    indicate that there are possible anomalies around the weeks 120,
-   132, and 146, which were also reported and analyzed in 
-   \cite{priebe05:_scan_statis_enron_graph}.}
+   132, and 152, which were also reported and analyzed in 
+   \cite{priebe05:_scan_statis_enron_graph}. }
 \label{fig:enron_time}
 \end{figure}
 The detection of a chatter anomaly in the Enron data set during the
@@ -1184,17 +1348,48 @@ of attribute fusion for that same week in our inference example.
 \figurename~\ref{fig:enron} presents a plot of the normalized
 statistic $T_{\lambda}^{l}(t)$ at $t = 152$ with $l = 20$ for the four graph
 invariants against the fusion parameter $\lambda = (cos(\theta),
-sin(\theta))$. \figurename~\ref{fig:enron_time} presents a plot of the
+sin(\theta))$. By using the limiting results of
+\S~\ref{sec:power-estimates}, approximate p-values for hypothesis testing using these
+$T_{\lambda}^{l}$ statistics can also be obtained. Under
+the null hypothesis of homogeneity or no chatter groups, the
+large-sample results of \S~\ref{sec:power-estimates} suggest that
+$T_{\lambda}^{l}$ based on size and number of triangle graph
+invariants follows a Student's t-distribution with $l - 1$ degrees of
+freedom, while $T_{\lambda}^{l}$ based on max degree and scan graph
+invariants follows a Gumbel distribution with location parameter
+$-\tfrac{\sqrt{6}}{\pi} \gamma$ and scale parameter
+$\tfrac{\sqrt{6}}{\pi}$. Thus we obtain p-values of
+$0.01$, $0.002$, $0.003$, and $0.01$ for
+$T_{\lambda}^{l}$ based on size, max degree, number of triangles and
+scan, at $\theta^{*}_{\mathcal{E}_{\lambda}},
+\theta^{*}_{\Delta_{\lambda}}, \theta^{*}_{\tau_{\lambda}},
+\theta^{*}_{\Psi_{\lambda}}$, respectively. Ignoring the attributes on
+the edges gave p-values of $0.13$, $0.02$, $0.51$ and $0.04$ for
+$T_{\lambda}^{l}$ based on size, max degree, number of triangles, and
+scan respectively. Finally, ignoring the edges with edge attribute 1
+gave $p$-values of $0.02$, $0.004$, $0.005$, and $0.01$. Thus, in
+general, attribute fusion provides superior detection as 
+exemplified by the fact that the maximum for each of the normalized
+statistics $T_{\lambda}$, and hence the minimum of the p-values, 
+occurs for $\theta \not \in \{0,\pi/2\}$. Furthermore, the optimal 
+fusion parameters are dependent on the specific graph invariants.
+
+\figurename~\ref{fig:enron_time} presents a plot of the
 normalized statistics $T_{\lambda}^{l}(t)$ with $l = 20$ for the four
 graph invariants over the time interval corresponding to the
-weeks $t = 96$ through $t = 168$. The value of $\lambda$ used
-for each graph invariants is the $\lambda$ that maximizes
-$T_{\lambda}^{l}(152)$. \figurename~\ref{fig:enron}
-indicates that the fusing of attributes leads to better detection
-as exemplified by the fact that the maximum for each of the normalized
-statistics $T_{\lambda}$ occurs for $\theta \not \in
-\{0,\pi/2\}$. Furthermore, the optimal fusion parameters are dependent
-on the specific graph invariants.
+weeks $t = 115$ through $t = 187$. The value of $\lambda$ used
+for each graph invariant is the $\lambda$ that maximizes
+$T_{\lambda}^{l}(152)$. The fluctuations
+indicate that there are possible anomalies around the weeks 120,
+132, and 152, which were also reported and analyzed in 
+\cite{priebe05:_scan_statis_enron_graph}.  Approximate p-values for
+hypothesis testing using these $T_{\lambda}^{l}$ are
+also available. For example, at week $t = 129$, the p-values are
+$\approx 7 \times 10^{-4}, 4 \times 10^{-5}, 4 \times 10^{-5}, 2
+\times 10^{-6}$ for $T_{\lambda}^{l}$ based on the size, max degree, number of
+triangles, and scan statistic, respectively. At week $t = 125$, the
+approximate p-values are $1 \times 10^{-5}, 9 \times 10^{-3}, 1
+\times 10^{-6}$, and $8 \times10^{-4}$.
 \section{Conclusions}
 We have presented an analysis of change-point detection for time
 series of attributed graphs through the use of test statistics which
@@ -1205,7 +1400,7 @@ large and $r$, the process parameter rate, is also sufficiently
 large. The limiting distribution for these test statistics are then
 used to derive estimates for the power of the tests. 
 
-The simulation experiment in \S \ref{eq:55} indicates that the power estimates
+The simulation experiment in \S~\ref{eq:55} indicates that the power estimates
 are accurate, even for the moderate value of $n = 100$. Furthermore,
 it was also indicated that the optimal linear fusion parameter depends
 on the graph invariant considered. In particular, the results depicted
@@ -1221,6 +1416,11 @@ linear attribute fusion theory requires significant additional
 development. Toward this end, the approximation models from
 \cite{lee11} promise to be of assistance. 
 
+The principal utility of the large-approximation
+results of \S~\ref{sec:power-estimates} is to the specification of
+approximate p-values and the investigation on the Enron
+corpus data set illustrates this succinctly. 
+
 % The exact generative model for time-series
 % of attributed graphs as presented in \S~\ref{sec:power-estimates}
 % contains assumptions that are not readily verified. However, as our
@@ -1233,10 +1433,104 @@ inference (wherein vertices are neurons or brain regions) and text
 processing (wherein vertices represent authors or documents). These
 and many other applications may benefit from generalizations of our
 results and the model in \cite{lee11} to directed, multi, and weighted
-graphs, as well as the consideration of inference with errorful edge
-attributes through an attribute confusion matrix.
+graphs, to other class of graph invariants, and to 
+consideration of inference with errorful edge
+attributes through an attribute confusion matrix. For example, the
+paper considered a test statistic based on the number of triangles
+which is the simplest clique counts statistic. One can define
+attribute fusion for $k$-clique counts for $k \geq 4$. Using the
+theory of $U$-statistics for subgraphs counts
+(cf. \cite{nowicki88:_subgr_u_statis_method}), the limiting
+distribution for the temporal standardization statistics based on 
+these $k$-clique counts can be derived in an analogous manner to the 
+case for $k = 3$ in this paper.
 
+Finally, we remark that applicability of the statistics
+described in \S~\ref{sec:change-point-detect} extends beyond the
+statistical inference perspective. Indeed, temporal standardization of
+graph invariants can be computed irrespective of any underlying model
+on the graphs. As such, these statistics can
+serve as the basis for simple and robust inference procedures on
+time-series of (attributed) graphs. 
+\section*{Acknowledgements}
+The authors thank the anonymous reviewers for their comments which
+have improved the presentation and quality of the paper. This work was 
+partially supported by National Security Science and Engineering
+Faculty Fellowship (NSSEFF) and by Johns Hopkins University Human
+Language Technology Center of Excellence (JHU HLT COE).
 \bibliography{ssp2011}
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{./minh.jpg}}]{Minh Tang}
+  received the BS degree from Assumption University,
+  Thailand in 2001, the MS degree from the University of
+  Wisconsin-Milwaukee in 2004 and the Ph.D degree from Indiana
+  University Bloomington in 2010. He is currently a postdoctoral
+  fellow in the Department of Applied Mathematics and Statistics at
+  Johns Hopkins University. His research interests include statistical
+  pattern recognition, dimensionality reduction, and high-dimensional
+  data analysis.
+  \end{IEEEbiography}
+
+  \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{./youngser.jpg}}]{Youngser Park}
+    received the B.E. degree in electrical engineering from Inha
+    University in Seoul, Korea in 1985, the M.S. and Ph.D. degrees in
+    computer science from The George Washington University in 1991 and
+    2011 respectively. From 1998 to 2000 he worked at the Johns
+    Hopkins Medical Institutes as a senior research engineer. From
+    2003 until 2011 he worked as a senior research analyst, and has
+    been an associated research scientist since 2011 in the Center for
+    Imaging Science at the Johns Hopkins University. At Johns Hopkins,
+    he holds joint appointments in the Department of Applied
+    Mathematics and Statistics and the Human Language Technology
+    Center of Excellence. He has reviewed papers for ACM Transactions
+    on Knowledge Discovery in Data, Statistical Analysis and Data
+    Mining, and WIREs Computational Statistics. His current research
+    interests are clustering algorithm, pattern classification, and
+    data mining for high-dimensional and graph data.
+\end{IEEEbiography}
+
+  \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{./nam.jpg}}]{Nam H. Lee}
+    Nam Lee received the Ph.D degree in 2008 from University of California ,
+San Diego, from which he also received the MS degree in 2004 and the
+BA degree in 2002. He is currently a faculty member of Department of Applied Mathematics
+and Statistics at Johns Hopkins University.  His research interests
+include stochastic processes and their applications to statistical pattern
+recognition and optimal control.
+\end{IEEEbiography}
+
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{./cep.jpg}}]{Carey E. Priebe}
+  received the B.S. degree in
+  mathematics from Purdue University in 1984, the M.S. degree in
+  computer science from San Diego State University in 1988, and the
+  Ph.D. degree in information technology (computational statistics)
+  from George Mason University in 1993. From 1985 to 1994 he worked as
+  a mathematician and scientist in the US Navy research and
+  development laboratory system. Since 1994 he has been a professor in
+  the Department of Applied Mathematics and Statistics, Whiting School
+  of Engineering, Johns Hopkins University, Baltimore, Mary- land. At
+  Johns Hopkins, he holds joint appointments in the Department of
+  Computer Science, the Department of Electrical and Computer
+  Engineering, the Center for Imaging Science, the Human Language
+  Technology Center of Excellence, and the Whitaker Biomedical
+  Engineering Institute. He is a past President of the Interface
+  Foundation of North America - Computing Science \& Statistics, a past
+  Chair of the American Statistical Association Section on Statistical
+  Computing, a past Vice President of the International Association
+  for Statistical Computing, and on the editorial boards of Journal of
+  Computational and Graphical Statistics, Computational Statistics and
+  Data Analysis, and Computational Statistics. His research interests
+  include computational statistics, kernel and mixture estimates,
+  statistical pattern recognition, statistical image analysis,
+  dimensionality reduction, model selection, and statistical inference
+  for high-dimensional and graph data.  He is a Senior Member of the
+  IEEE, a Lifetime Member of the Institute of Mathematical Statistics,
+  an Elected Member of the International Statistical Institute, and a
+  Fellow of the American Statistical Association.
+
+\end{IEEEbiography}
+
+
+
+
 \end{document}
 %%% Local Variables: 
 %%% mode: latex

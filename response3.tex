@@ -1,0 +1,103 @@
+\documentclass{article}
+\pdfminorversion=4
+\usepackage{parskip}
+\usepackage{fontenc}
+\begin{document}
+\title{Response to reviewers}
+\maketitle
+\date{} Thank you for the careful re-reading of our manuscript and the
+referee report and we deeply appreciate your comments and critiques on
+the manuscript. The specific comments and suggestions for review have
+been followed. The
+comments on the lack of p-values are particularly relevant and we thank
+the referees for pointing it out once again. We went back to the 
+experiments on the Enron email corpus to obtain p-values for using
+$T_{\lambda}^{l}$ as a statistic for hypothesis testing. The results
+are detailed in Section 5 (on pages 9 \& 10 of the double column
+version of the manuscript). Below we
+give specific responses to the comments of the reviewers (the
+reviewers comments are in italic). 
+\section{Comments from Reviewer 1}
+Recommendation: RQ - Review Again After Major Changes
+
+Comments: 
+{\em (1) The revision is much improved. The authors have included
+better motivation of their approach, related the approach to signal
+processing applications, included results on convergence analysis, and
+reported diagnostic goodness of fit tests validating some of the
+theoretical predictions.
+
+This reviewer especially appreciates the inclusion of a review of the
+weak convergence results that can be applied to specify asymptotic
+distributions of the proposed test statistics.  These results are used
+to compute power approximations that are in turn used to select
+optimal parameters, e.g. lambda.  However, especially for a paper
+emphasizing testing and anomaly detection, the principal utility of
+these results are to specification of approximate p-values. Yet, the
+authors do not take advantage of the stated theory on asymptotic
+distributions to provide such p-values to quantify Type I error
+control on statements that are made about possible anomalies- e.g. in
+Figs. 7 and 8. Given the asymptotic results provided, this does not
+seem difficult to do and the reviewer is somewhat puzzled that the
+authors did not do it. Without such illustration of the theory, the
+utility of the convergence analysis will likely be lost on the reader
+and the author's final sentence "...these statistics can serve as the
+basis for simple and robust inference procedures on time-series of
+(attributed) graphs." suffers loss in credibility. Thus the authors
+need to address this point in a next round of review.
+}
+
+*** Response: The p-values for the Enron email corpus were something we
+should have done in earlier versions of the manuscript and we agree
+with the referee that the principal utility of the theoretical results
+in Section IV is to the specification of these approximate
+p-values. We believe that the discussion on p-values in this new
+version is a succinct example of the utility of the theoretical results. 
+
+{\em (2): This reviewer still found some typographical and stylistic errors in
+the revision. I suggest the last author give the paper a thorough
+proofread next time to improve the english syntax.  Here are some that
+I found:
+
+Page 2 of manuscript: 
+Line 10: "...can also be use to identify..." ->
+"...can also be used to identify..."  
+Line 46: "...(emphasis from
+[4])..." -> "...(emphasis in [4])..."
+
+Page 5 of manuscript: 
+Line 13: "...an edge in G with attribute k with
+probability..." -> "...an edge in G having attribute k with
+probability..."
+
+Page 9 of manuscript:
+Line 7: "...done via spectral embedding technique..." ->  
+"...done via spectral embedding techniques..."
+Line 12: "....the issue of parameter estimation is fundamental but
+feasible..." -> "....parameter estimation is  feasible..."
+
+Caption of Fig. 8: "each graph invariants" -> "each graph invariant"
+}
+
+*** Response*** 
+We have gone through the manuscript to check for errors in grammatical usage.
+
+\section{Comments from Reviewer 2}
+Recommendation: A - Publish Unaltered
+
+Comments: 
+{\em The authors improve their previous version of the manuscript
+by introducing incremental changes including the following:
+
+Very minor typos: i) the size of a n-hop neighborhood -> the size of
+an n-hop neighborhood (page 2, line 48) ii) all the n-hop neighborhood
+-> all n-hop neighborhoods (page 2, line 52)}
+
+*** Response ***
+We have fixed these and other typos noted by the first referee in the text.
+\end{document}
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% End: 
